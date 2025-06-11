@@ -1,5 +1,94 @@
 
 
+## [6.14.1](https://github.com/TheWidlarzGroup/react-native-video/compare/v6.14.0...v6.14.1) (2025-05-28)
+
+
+### Features
+
+* **android:** allow plugins to override drm session manager ([#4558](https://github.com/TheWidlarzGroup/react-native-video/issues/4558)) ([9449eb3](https://github.com/TheWidlarzGroup/react-native-video/commit/9449eb34f3ebcf7ac08bde1ee55e5cc26a142217))
+
+# [6.14.0](https://github.com/TheWidlarzGroup/react-native-video/compare/v6.13.0...v6.14.0) (2025-05-10)
+
+
+### Bug Fixes
+
+* **ios:** default cropStart fallback ([#4540](https://github.com/TheWidlarzGroup/react-native-video/issues/4540)) ([ecfe12a](https://github.com/TheWidlarzGroup/react-native-video/commit/ecfe12aa816a3126e023d0c14896681d92fe8926))
+* **ios:** set `_isBuffering = true` only if newValue is also true ([#4532](https://github.com/TheWidlarzGroup/react-native-video/issues/4532)) ([089e938](https://github.com/TheWidlarzGroup/react-native-video/commit/089e938aebc222378f4d16006f585f20a8b0eed1))
+* **ios:** swfit modular headers ([#4527](https://github.com/TheWidlarzGroup/react-native-video/issues/4527)) ([987be4b](https://github.com/TheWidlarzGroup/react-native-video/commit/987be4b293dc21a40b0b183433707bc9a733b715))
+
+
+### Features
+
+* **web:** allow `style` prop overrides ([#4528](https://github.com/TheWidlarzGroup/react-native-video/issues/4528)) ([fc1e3f4](https://github.com/TheWidlarzGroup/react-native-video/commit/fc1e3f4fd17faf1503b6b3d7cc604dbe1bc659c1))
+
+# [6.13.0](https://github.com/TheWidlarzGroup/react-native-video/compare/v6.12.0...v6.13.0) (2025-04-18)
+
+
+### Bug Fixes
+
+* **macCatalyst:** allowsVideoFrameAnalysis not available in catalyst until 18.0 ([#4515](https://github.com/TheWidlarzGroup/react-native-video/issues/4515)) ([b17c319](https://github.com/TheWidlarzGroup/react-native-video/commit/b17c319c32ad8080ad911ec4be7fa02bc4a6d6ee))
+* **tvos:** build ([#4511](https://github.com/TheWidlarzGroup/react-native-video/issues/4511)) ([4034046](https://github.com/TheWidlarzGroup/react-native-video/commit/40340467d7df2ad606f25606041630c489c385f6))
+
+
+### Features
+
+* **ios:** add `overridePlayerAsset` to `AVPlayerPlugin` ([#4522](https://github.com/TheWidlarzGroup/react-native-video/issues/4522)) ([b1b3db3](https://github.com/TheWidlarzGroup/react-native-video/commit/b1b3db301097e82c8d449c08f7d334a2eaeac0ea))
+
+# [6.12.0](https://github.com/TheWidlarzGroup/react-native-video/compare/v6.11.0...v6.12.0) (2025-04-06)
+
+
+### Bug Fixes
+
+* add extra checks to determine if a file is local ([#4503](https://github.com/TheWidlarzGroup/react-native-video/issues/4503)) ([a849cc1](https://github.com/TheWidlarzGroup/react-native-video/commit/a849cc19e8dafe0cc8147aeb8a226fc1373bb84d))
+* **ios:** don't try to modify react view after unmount ([#4474](https://github.com/TheWidlarzGroup/react-native-video/issues/4474)) ([229a576](https://github.com/TheWidlarzGroup/react-native-video/commit/229a5764ea45ea74e5d469aaac30057c201bd228))
+
+
+### Features
+
+* **android:** add asset management functions to plugin ([#4494](https://github.com/TheWidlarzGroup/react-native-video/issues/4494)) ([697afd5](https://github.com/TheWidlarzGroup/react-native-video/commit/697afd52f60cbd52660843b8d29228a2ff7d0060))
+* **android:** initial bitrate ([#4480](https://github.com/TheWidlarzGroup/react-native-video/issues/4480)) ([41ddc5c](https://github.com/TheWidlarzGroup/react-native-video/commit/41ddc5c27a9c180a6d0364b3f3286211f7a10e68))
+* **ios:** allow to disable audio sessions management ([#4492](https://github.com/TheWidlarzGroup/react-native-video/issues/4492)) ([8836362](https://github.com/TheWidlarzGroup/react-native-video/commit/8836362609d226f795b01e1c65a70b9c4ecde1e5))
+* **ios:** set playback speed controls to initial playback rate ([#4495](https://github.com/TheWidlarzGroup/react-native-video/issues/4495)) ([d2e5d9c](https://github.com/TheWidlarzGroup/react-native-video/commit/d2e5d9c64eeb80143c39ca39fcdc8ba65f40a400))
+
+# [6.11.0](https://github.com/TheWidlarzGroup/react-native-video/compare/v6.10.2...v6.11.0) (2025-03-16)
+
+
+### Bug Fixes
+
+* **android:** call `startForeground()` immediately to prevent `ForegroundServiceDidNotStartInTimeException` ([#4453](https://github.com/TheWidlarzGroup/react-native-video/issues/4453)) ([b510374](https://github.com/TheWidlarzGroup/react-native-video/commit/b5103743e87a6ef24c69a07a8368415ff0fc7886))
+* **android:** fix bugs related Android PIP listeners ([#4441](https://github.com/TheWidlarzGroup/react-native-video/issues/4441)) ([82f5f3d](https://github.com/TheWidlarzGroup/react-native-video/commit/82f5f3d21c2f29282c024bfa3a8f9562a4ed8e0f))
+* **android:** prevent ratio calculations before loading video ([#4442](https://github.com/TheWidlarzGroup/react-native-video/issues/4442)) ([235c281](https://github.com/TheWidlarzGroup/react-native-video/commit/235c28121903e20f58d4d830fea5929d2e6e0b56))
+* **ios:** invalid metadata handling ([#4422](https://github.com/TheWidlarzGroup/react-native-video/issues/4422)) ([bc533e5](https://github.com/TheWidlarzGroup/react-native-video/commit/bc533e53b0b4c6906f6e72eac7e3f228da3e4bbd))
+* **tvOS:** handle allowsPictureInPicturePlayback for tvOS ([#4448](https://github.com/TheWidlarzGroup/react-native-video/issues/4448)) ([057c287](https://github.com/TheWidlarzGroup/react-native-video/commit/057c287f127b9f796e592ae538478386f42a447c))
+* **windows:** event name not matches with SPEC ([#4455](https://github.com/TheWidlarzGroup/react-native-video/issues/4455)) ([fa20223](https://github.com/TheWidlarzGroup/react-native-video/commit/fa20223c4498e72bd13b87b05c0297b544c4724b))
+
+
+### Features
+
+* enhance react-native-video plugins [Plugins API Breaking] ([#4366](https://github.com/TheWidlarzGroup/react-native-video/issues/4366)) ([6e6f915](https://github.com/TheWidlarzGroup/react-native-video/commit/6e6f91517c492cdc7d2140ae8564712e9a98450a))
+* **windows:** add topSeek parms mentioned in docs ([#4456](https://github.com/TheWidlarzGroup/react-native-video/issues/4456)) ([d902c1b](https://github.com/TheWidlarzGroup/react-native-video/commit/d902c1bf4390a5503eb0ff924ec7cafb2b08a428))
+
+## [6.10.2](https://github.com/TheWidlarzGroup/react-native-video/compare/v6.10.1...v6.10.2) (2025-02-22)
+
+
+### Bug Fixes
+
+* **android:** fix gradle exception text related to AndroidX version ([#4420](https://github.com/TheWidlarzGroup/react-native-video/issues/4420)) ([6697cbf](https://github.com/TheWidlarzGroup/react-native-video/commit/6697cbf5d07ce5cc882637acc1249192f6189e53))
+* **tvOS:** fix tvos compile error for rotation handler ([#4417](https://github.com/TheWidlarzGroup/react-native-video/issues/4417)) ([04eec42](https://github.com/TheWidlarzGroup/react-native-video/commit/04eec42f1e0f8b8f25dc1c50e1e57e62ca8c3356))
+
+## [6.10.1](https://github.com/TheWidlarzGroup/react-native-video/compare/v6.10.0...v6.10.1) (2025-02-15)
+
+
+### Bug Fixes
+
+* **android:** check androidX version at early build process before really launching build ([#4388](https://github.com/TheWidlarzGroup/react-native-video/issues/4388)) ([638f454](https://github.com/TheWidlarzGroup/react-native-video/commit/638f454a2118873de23a14f673848f14eeb10122))
+* **android:** check for valid width and height on video format data ([#4394](https://github.com/TheWidlarzGroup/react-native-video/issues/4394)) ([ad52668](https://github.com/TheWidlarzGroup/react-native-video/commit/ad52668d0541a2d29b1ee8087f9d25cc6a5e8ab2))
+* **android:** remove transparent black overlay on android default controls ([#4392](https://github.com/TheWidlarzGroup/react-native-video/issues/4392)) ([74b1d5b](https://github.com/TheWidlarzGroup/react-native-video/commit/74b1d5b540a062371689f619f1843807ab7ca0e5))
+* **infra:** kotlin linter github action ([#4408](https://github.com/TheWidlarzGroup/react-native-video/issues/4408)) ([2905b61](https://github.com/TheWidlarzGroup/react-native-video/commit/2905b61a0d993715cdf94d9f85f949c9e64d098b))
+* **ios:** fix constraints when controls are enabled and video is inside a ScrollView ([#4383](https://github.com/TheWidlarzGroup/react-native-video/issues/4383)) ([a8ca97f](https://github.com/TheWidlarzGroup/react-native-video/commit/a8ca97f05fd52ec331fd8fe0e7c2375956a76c2c))
+* **ios:** the video has no audio by default ([#4409](https://github.com/TheWidlarzGroup/react-native-video/issues/4409)) ([c8b800a](https://github.com/TheWidlarzGroup/react-native-video/commit/c8b800a508f51a4488b7b260a6bf573b5b6d44d9)), closes [#4400](https://github.com/TheWidlarzGroup/react-native-video/issues/4400)
+* **sample:** remove duplicate code in sample ([#4391](https://github.com/TheWidlarzGroup/react-native-video/issues/4391)) ([faac5ad](https://github.com/TheWidlarzGroup/react-native-video/commit/faac5ad45689a605045dae57061d6648244c7dad))
+
 # [6.10.0](https://github.com/TheWidlarzGroup/react-native-video/compare/v6.9.1...v6.10.0) (2025-01-22)
 
 
