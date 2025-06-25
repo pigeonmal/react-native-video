@@ -864,11 +864,10 @@ public class ReactExoplayerView extends FrameLayout implements
             this.bandwidthMeter = config.getBandwidthMeter();
         }
 
-        renderersFactory =
-                new MyRenderersFactory(getContext(), textTrackDelay)
-                        .setExtensionRendererMode(MyRenderersFactory.EXTENSION_RENDERER_MODE_ON)
-                        .setEnableDecoderFallback(true)
-                        .forceEnableMediaCodecAsynchronousQueueing();
+        renderersFactory = new MyRenderersFactory(getContext(), textTrackDelay);
+        renderersFactory.setExtensionRendererMode(MyRenderersFactory.EXTENSION_RENDERER_MODE_ON);
+        renderersFactory.setEnableDecoderFallback(true);
+        renderersFactory.forceEnableMediaCodecAsynchronousQueueing();
 
         DefaultMediaSourceFactory mediaSourceFactory = new DefaultMediaSourceFactory(mediaDataSourceFactory);
         if (useCache && !disableCache) {

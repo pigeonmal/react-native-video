@@ -51,7 +51,7 @@ import java.util.Objects;
  * delegated to a {@link TextOutput}.
  */
 @UnstableApi
-public final class NonFinalTextRenderer extends BaseRenderer implements Callback {
+public class NonFinalTextRenderer extends BaseRenderer implements Callback {
 
   private static final String TAG = "NonFinalTextRenderer";
 
