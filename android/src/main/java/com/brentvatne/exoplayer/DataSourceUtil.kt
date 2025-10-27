@@ -15,38 +15,17 @@ import com.facebook.react.modules.network.ForwardingCookieHandler
 import com.facebook.react.modules.network.OkHttpClientProvider
 import okhttp3.Call
 import okhttp3.JavaNetCookieJar
-import okhttp3.OkHttpClient
-import okhttp3.dnsoverhttps.DnsOverHttps
-import okhttp3.HttpUrl.Companion.toHttpUrl
-import java.net.InetAddress
 
 object DataSourceUtil {
     private var defaultDataSourceFactory: DataSource.Factory? = null
     private var defaultHttpDataSourceFactory: HttpDataSource.Factory? = null
     private var userAgent: String? = null
-    private var dnsOverHttps: DnsOverHttps? = null
 
     private fun getUserAgent(context: ReactContext): String {
         if (userAgent == null) {
             userAgent = Util.getUserAgent(context, context.packageName)
         }
         return userAgent as String
-    }
-
-    private fun buildCloudflareDoH(client: OkHttpClient): DnsOverHttps {
-        if (dnsOverHttps == null) {
-            dnsOverHttps = DnsOverHttps.Builder()
-                .client(client)
-                .url("https://cloudflare-dns.com/dns-query".toHttpUrl())
-                .bootstrapDnsHosts(
-                    InetAddress.getByName("1.1.1.1"),
-                    InetAddress.getByName("1.0.0.1"),
-                    InetAddress.getByName("2606:4700:4700::1111"),
-                    InetAddress.getByName("2606:4700:4700::1001")
-                )
-                .build()
-        }
-        return dnsOverHttps as DnsOverHttps
     }
 
     @JvmStatic
@@ -80,17 +59,11 @@ object DataSourceUtil {
         bandwidthMeter: DefaultBandwidthMeter?,
         requestHeaders: Map<String, String>?
     ): HttpDataSource.Factory {
-        val baseClient = OkHttpClientProvider.getOkHttpClient()
-        
-        val clientWithDoH = baseClient.newBuilder()
-            .dns(buildCloudflareDoH(baseClient))
-            .build()
-        
-        val container = clientWithDoH.cookieJar as CookieJarContainer
+        val client = OkHttpClientProvider.getOkHttpClient()
+        val container = client.cookieJar as CookieJarContainer
         val handler = ForwardingCookieHandler(context)
         container.setCookieJar(JavaNetCookieJar(handler))
-        
-        val okHttpDataSourceFactory = OkHttpDataSource.Factory(clientWithDoH as Call.Factory)
+        val okHttpDataSourceFactory = OkHttpDataSource.Factory(client as Call.Factory)
             .setTransferListener(bandwidthMeter)
 
         if (requestHeaders != null) {
