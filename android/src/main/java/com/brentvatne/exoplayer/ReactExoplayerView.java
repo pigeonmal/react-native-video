@@ -123,13 +123,13 @@ import com.brentvatne.react.BuildConfig;
 import com.brentvatne.react.R;
 import com.brentvatne.react.ReactNativeVideoManager;
 import com.brentvatne.receiver.AudioBecomingNoisyReceiver;
+import com.brentvatne.exoplayer.custom.MyRenderersFactory;
 import com.brentvatne.receiver.BecomingNoisyListener;
 import com.brentvatne.receiver.PictureInPictureReceiver;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.uimanager.ThemedReactContext;
-import com.brentvatne.exoplayer.custom.MyRenderersFactory;
 import com.google.ads.interactivemedia.v3.api.AdError;
 import com.google.ads.interactivemedia.v3.api.AdErrorEvent;
 import com.google.ads.interactivemedia.v3.api.AdEvent;
@@ -848,26 +848,57 @@ public class ReactExoplayerView extends FrameLayout implements
                 drmSessionManager,
                 runningSource.getCropStartMs(),
                 runningSource.getCropEndMs());
+
+        if (runningSource.getSideLoadedAudioTracks() != null &&
+            !runningSource.getSideLoadedAudioTracks().getTracks().isEmpty()) {
+
+            List<SideLoadedAudioTrack> audioTracks = runningSource.getSideLoadedAudioTracks().getTracks();
+            List<MediaSource> sourcesToMerge = new ArrayList<>();
+            sourcesToMerge.add(videoSource); // first is always main video
+
+            int audioIndex = 0;
+            for (SideLoadedAudioTrack track : audioTracks) {
+                try {
+                    if (track.getUri() == null) {
+                        continue;
+                    }
+
+                    String trackId = "external-audio-" + audioIndex;
+                    String label = (track.getTitle() != null && !track.getTitle().isEmpty())
+                            ? track.getTitle()
+                            : "External Audio " + (audioIndex + 1);
+
+                    MediaMetadata metadata = new MediaMetadata.Builder()
+                            .setTitle(label)
+                            .setLanguage(track.getLanguage())
+                            .build();
+
+                    MediaItem audioItem = new MediaItem.Builder()
+                            .setUri(track.getUri())
+                            .setMediaId(trackId)
+                            .setMimeType(track.getSampleMimeType())
+                            .setMediaMetadata(metadata)
+                            .build();
+
+                    MediaSource audioSource = new ProgressiveMediaSource.Factory(mediaDataSourceFactory)
+                            .createMediaSource(audioItem);
+
+                    sourcesToMerge.add(audioSource);
+
+                    audioIndex++;
+
+                } catch (Exception e) {
+                    DebugLog.e(TAG, "Error adding sideloaded audio track: " + e.getMessage());
+                }
+            }
+
+            if (sourcesToMerge.size() > 1) {
+                videoSource = new MergingMediaSource(sourcesToMerge.toArray(new MediaSource[0]));
+            }
+        }
+
         MediaSource mediaSourceWithAds = initializeAds(videoSource, runningSource);
         MediaSource mediaSource = Objects.requireNonNullElse(mediaSourceWithAds, videoSource);
-
-        MediaSource subtitlesSource = buildTextSource();
-        List<MediaSource> mediaSourceList = new ArrayList<>();
-        mediaSourceList.add(mediaSource);
-
-        if (subtitlesSource != null) {
-           mediaSourceList.add(subtitlesSource);
-        }
-
-        // Add additional audio sources
-        List<MediaSource> audioSources = buildAudioSource();
-        if (audioSources != null) {
-           mediaSourceList.addAll(audioSources);
-        }
-
-        // Combine all sources
-        MediaSource[] mediaSourcesArray = mediaSourceList.toArray(new MediaSource[0]);
-        mediaSource = new MergingMediaSource(mediaSourcesArray);
 
         // wait for player to be set
         while (player == null) {
@@ -1219,28 +1250,6 @@ public class ReactExoplayerView extends FrameLayout implements
 
         return subtitleConfigurations.isEmpty() ? null : subtitleConfigurations;
     }
-
-        @Nullable
-        private List<MediaSource> buildAudioSource() {
-            if (source.getSideLoadedAudioTracks() == null || source.getSideLoadedAudioTracks().getTracks().isEmpty()) {
-                return null;
-            }
-
-            List<MediaSource> audioSources = new ArrayList<>();
-            for (SideLoadedAudioTrack track : source.getSideLoadedAudioTracks().getTracks()) {
-            MediaItem audioItem = new MediaItem.Builder()
-                            .setUri(track.getUrl())
-                            .setMimeType(track.getSampleMimeType())
-                            .build();
-                MediaSource audioMediaSource = new DefaultMediaSourceFactory(mediaDataSourceFactory)
-                            .createMediaSource(audioItem);
-                audioSources.add(audioMediaSource);
-            }
-
-            return audioSources;
-        }
-
-
 
     private void releasePlayer() {
         if (player != null) {
