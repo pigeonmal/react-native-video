@@ -856,37 +856,21 @@ public class ReactExoplayerView extends FrameLayout implements
             List<MediaSource> sourcesToMerge = new ArrayList<>();
             sourcesToMerge.add(videoSource); // first is always main video
 
-            int audioIndex = 0;
             for (SideLoadedAudioTrack track : audioTracks) {
                 try {
-                    if (track.getUri() == null) {
+                    if (track.getUrl() == null) {
                         continue;
                     }
 
-                    String trackId = "external-audio-" + audioIndex;
-                    String label = (track.getTitle() != null && !track.getTitle().isEmpty())
-                            ? track.getTitle()
-                            : "External Audio " + (audioIndex + 1);
-
-                    MediaMetadata metadata = new MediaMetadata.Builder()
-                            .setTitle(label)
-                            .setLanguage(track.getLanguage())
-                            .build();
-
                     MediaItem audioItem = new MediaItem.Builder()
-                            .setUri(track.getUri())
-                            .setMediaId(trackId)
+                            .setUri(track.getUrl())
                             .setMimeType(track.getSampleMimeType())
-                            .setMediaMetadata(metadata)
                             .build();
 
                     MediaSource audioSource = new ProgressiveMediaSource.Factory(mediaDataSourceFactory)
                             .createMediaSource(audioItem);
 
                     sourcesToMerge.add(audioSource);
-
-                    audioIndex++;
-
                 } catch (Exception e) {
                     DebugLog.e(TAG, "Error adding sideloaded audio track: " + e.getMessage());
                 }
