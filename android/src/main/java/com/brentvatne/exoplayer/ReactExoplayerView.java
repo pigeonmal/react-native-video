@@ -850,41 +850,27 @@ public class ReactExoplayerView extends FrameLayout implements
                 runningSource.getCropStartMs(),
                 runningSource.getCropEndMs());
 
-        if (runningSource.getSideLoadedAudioTracks() != null &&
-            !runningSource.getSideLoadedAudioTracks().getTracks().isEmpty()) {
-
-            List<SideLoadedAudioTrack> audioTracks = runningSource.getSideLoadedAudioTracks().getTracks();
-            List<MediaSource> sourcesToMerge = new ArrayList<>();
-            sourcesToMerge.add(videoSource); // first is always main video
-
-            for (SideLoadedAudioTrack track : audioTracks) {
-                try {
-                    if (track.getUrl() == null) {
-                        continue;
-                    }
-
-                    MediaItem audioItem = new MediaItem.Builder()
-                            .setUri(track.getUrl())
-                            .setMimeType(track.getSampleMimeType())
-                            .build();
-
-                    MediaSource audioSource = new ProgressiveMediaSource.Factory(mediaDataSourceFactory)
-                            .createMediaSource(audioItem);
-
-                    sourcesToMerge.add(audioSource);
-                } catch (Exception e) {
-                    DebugLog.e(TAG, "Error adding sideloaded audio track: " + e.getMessage());
-                }
-            }
-
-            if (sourcesToMerge.size() > 1) {
-                videoSource = new MergingMediaSource(sourcesToMerge.toArray(new MediaSource[0]));
-            }
-        }
 
         MediaSource mediaSourceWithAds = initializeAds(videoSource, runningSource);
         MediaSource mediaSource = Objects.requireNonNullElse(mediaSourceWithAds, videoSource);
 
+        MediaSource subtitlesSource = buildSubtitleConfigurations();
+        List<MediaSource> mediaSourceList = new ArrayList<>();
+        mediaSourceList.add(mediaSource);
+
+        if (subtitlesSource != null) {
+           mediaSourceList.add(subtitlesSource);
+        }
+
+        // Add additional audio sources
+        List<MediaSource> audioSources = buildAudioSources();
+        if (audioSources != null) {
+           mediaSourceList.addAll(audioSources);
+        }
+
+        // Combine all sources
+        mediaSource = new MergingMediaSource(mediaSourceList.toArray(new MediaSource[0]));
+       
         // wait for player to be set
         while (player == null) {
             try {
@@ -1041,12 +1027,6 @@ public class ReactExoplayerView extends FrameLayout implements
             mediaItemBuilder.setMediaMetadata(customMetadata);
         }
         
-        // Add external subtitles to MediaItem
-        List<MediaItem.SubtitleConfiguration> subtitleConfigurations = buildSubtitleConfigurations();
-        if (subtitleConfigurations != null) {
-            mediaItemBuilder.setSubtitleConfigurations(subtitleConfigurations);
-        }
-        
         if (source.getAdsProps() != null) {
             Uri adTagUrl = source.getAdsProps().getAdTagUrl();
             if (adTagUrl != null) {
@@ -1180,8 +1160,47 @@ public class ReactExoplayerView extends FrameLayout implements
         return mediaSource;
     }
 
+
     @Nullable
-    private List<MediaItem.SubtitleConfiguration> buildSubtitleConfigurations() {
+    private List<MediaSource> buildAudioSources() {
+          if (source.getSideLoadedAudioTracks() == null ||
+            !source.getSideLoadedAudioTracks().getTracks().isEmpty()) {
+                return null;
+            }
+
+            List<SideLoadedAudioTrack> audioTracks = source.getSideLoadedAudioTracks().getTracks();
+            List<MediaSource> sourcesToMerge = new ArrayList<>();
+
+            for (SideLoadedAudioTrack track : audioTracks) {
+                try {
+                    if (track.getUrl() == null) {
+                        continue;
+                    }
+
+                    MediaItem audioItem = new MediaItem.Builder()
+                        .setUri(track.getUrl())
+                        .setMimeType(track.getSampleMimeType())
+                        .build();
+
+                    MediaSource audioSource = new ProgressiveMediaSource.Factory(mediaDataSourceFactory)
+                        .createMediaSource(audioItem);
+
+                    sourcesToMerge.add(audioSource);
+            } catch (Exception e) {
+                DebugLog.e(TAG, "Error adding sideloaded audio track: " + e.getMessage());
+            }
+        }
+
+        if (sourcesToMerge.isEmpty()) {
+            return null;
+        }
+
+        return sourcesToMerge;           
+        
+    }
+
+    @Nullable
+    private MediaSource buildSubtitleConfigurations() {
         if (source.getSideLoadedTextTracks() == null || source.getSideLoadedTextTracks().getTracks().isEmpty()) {
             return null;
         }
@@ -1231,9 +1250,15 @@ public class ReactExoplayerView extends FrameLayout implements
 
         if (!subtitleConfigurations.isEmpty()) {
             DebugLog.d(TAG, "Built " + subtitleConfigurations.size() + " external subtitle configurations");
+        } else {
+            return null;
         }
 
-        return subtitleConfigurations.isEmpty() ? null : subtitleConfigurations;
+        MediaItem subtitlesMediaItem = new MediaItem.Builder()
+                .setUri(source.getUri())
+                .setSubtitleConfigurations(subtitleConfigurations).build();
+
+        return new DefaultMediaSourceFactory(mediaDataSourceFactory).createMediaSource(subtitlesMediaItem);
     }
 
     private void releasePlayer() {
@@ -1722,19 +1747,16 @@ public class ReactExoplayerView extends FrameLayout implements
         for (int groupIndex = 0; groupIndex < groups.length; ++groupIndex) {
             TrackGroup group = groups.get(groupIndex);
             for (int trackIndex = 0; trackIndex < group.length; trackIndex++) {
+                int realIndex = textTracks.size();
                 Format format = group.getFormat(trackIndex);
-                Track textTrack = exoplayerTrackToGenericTrack(format, trackIndex, selection, group);
-                
-                boolean isExternal = format.id != null && format.id.startsWith("external-subtitle-");
-                boolean isSelected = isTrackSelected(selection, group, trackIndex);
-                
-                textTrack.setIndex(textTracks.size());
-                
+                Track textTrack = exoplayerTrackToGenericTrack(format, realIndex, selection, group);
+                                
                 if (textTrack.getTitle() == null || textTrack.getTitle().isEmpty()) {
+                    boolean isExternal = format.id != null && format.id.startsWith("external-subtitle-");
                     if (isExternal) {
-                        textTrack.setTitle("External " + (trackIndex + 1));
+                        textTrack.setTitle("External " + (realIndex + 1));
                     } else {
-                        textTrack.setTitle("Track " + (textTracks.size() + 1));
+                        textTrack.setTitle("Track " + (realIndex + 1));
                     }
                 }
                 
@@ -1802,11 +1824,10 @@ public class ReactExoplayerView extends FrameLayout implements
                 if (format.sampleMimeType != null) textTrack.setMimeType(format.sampleMimeType);
                 if (format.language != null) textTrack.setLanguage(format.language);
                 
-                boolean isExternal = format.id != null && format.id.startsWith("external-subtitle-");
                 
                 if (format.label != null && !format.label.isEmpty()) {
                     textTrack.setTitle(format.label);
-                } else if (isExternal) {
+                } else if (format.id != null && format.id.startsWith("external-subtitle-")) {
                     textTrack.setTitle("External " + (trackIndex + 1));
                 } else {
                     textTrack.setTitle("Track " + (textTracks.size() + 1));
@@ -2159,7 +2180,7 @@ public class ReactExoplayerView extends FrameLayout implements
                 if (textRendererIndex != C.INDEX_UNSET) {
                     TrackGroupArray groups = info.getTrackGroups(textRendererIndex);
                     boolean trackFound = false;
-                    
+                    int realIndex = 0;
                     for (int groupIndex = 0; groupIndex < groups.length; groupIndex++) {
                         TrackGroup group = groups.get(groupIndex);
                         for (int trackIndex = 0; trackIndex < group.length; trackIndex++) {
@@ -2172,7 +2193,7 @@ public class ReactExoplayerView extends FrameLayout implements
                                 isMatch = true;
                             } else if ("index".equals(type)) {
                                 int targetIndex = ReactBridgeUtils.safeParseInt(value, -1);
-                                if (targetIndex == trackIndex) {
+                                if (targetIndex == realIndex) {
                                     isMatch = true;
                                 }
                             }
@@ -2186,6 +2207,7 @@ public class ReactExoplayerView extends FrameLayout implements
                             }
                         }
                         if (trackFound) break;
+                        realIndex++;
                     }
                     
                     if (!trackFound) {

@@ -13,6 +13,11 @@ class SideLoadedAudioTrack {
    var language: String? = null
    var sampleMimeType: String? = null
 
+    override fun equals(other: Any?): Boolean {
+        if (other == null || other !is SideLoadedAudioTrack) return false
+        return language == other.language && title == other.title && url == other.url && sampleMimeType == other.sampleMimeType
+    }
+
    companion object {
        val SIDELOAD_AUDIO_TRACK_URL = "url"
        val SIDELOAD_AUDIO_TRACK_TITLE = "title"
