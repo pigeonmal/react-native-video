@@ -573,14 +573,15 @@ class RCTVideo: UIView, RCTVideoPlayerViewControllerDelegate, RCTPlayerObserverH
             ReactNativeVideoManager.shared.onInstanceCreated(id: instanceId, player: _player as Any)
 
             _player!.replaceCurrentItem(with: playerItem)
-
-            if #available(iOS 15.0, *) {
-                if _playInBackground {
-                    _player!.audiovisualBackgroundPlaybackPolicy = .continuesIfPossible
-                } else {
-                    _player!.audiovisualBackgroundPlaybackPolicy = .automatic
+            #if !os(tvOS) && !os(visionOS)
+                if #available(iOS 15.0, *) {
+                    if _playInBackground {
+                        _player!.audiovisualBackgroundPlaybackPolicy = .continuesIfPossible
+                    } else {
+                        _player!.audiovisualBackgroundPlaybackPolicy = .automatic
+                    }
                 }
-            }
+            #endif
 
             if _showNotificationControls {
                 // We need to register player after we set current item and only for init
@@ -601,13 +602,15 @@ class RCTVideo: UIView, RCTVideoPlayerViewControllerDelegate, RCTPlayerObserverH
                 }
             #endif
 
-            if #available(iOS 15.0, *) {
-                if _playInBackground {
-                    _player!.audiovisualBackgroundPlaybackPolicy = .continuesIfPossible
-                } else {
-                    _player!.audiovisualBackgroundPlaybackPolicy = .automatic
+            #if !os(tvOS) && !os(visionOS)
+                if #available(iOS 15.0, *) {
+                    if _playInBackground {
+                        _player!.audiovisualBackgroundPlaybackPolicy = .continuesIfPossible
+                    } else {
+                        _player!.audiovisualBackgroundPlaybackPolicy = .automatic
+                    }
                 }
-            }
+            #endif
             // later we can just call "updateNowPlayingInfo:
             NowPlayingInfoCenterManager.shared.updateNowPlayingInfo()
         }
@@ -1092,7 +1095,9 @@ class RCTVideo: UIView, RCTVideoPlayerViewControllerDelegate, RCTPlayerObserverH
             // Find the nearest view controller
             var viewController: UIViewController! = RCTPresentedViewController() ?? RCTKeyWindow()?.rootViewController
             guard viewController != nil else { return }
-            while let presented = viewController.presentedViewController { viewController = presented }
+            while let presented = viewController.presentedViewController {
+                viewController = presented
+            }
             if viewController != nil {
                 _presentingViewController = viewController
 
