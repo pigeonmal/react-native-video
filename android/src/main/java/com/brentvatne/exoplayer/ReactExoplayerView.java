@@ -1163,8 +1163,7 @@ public class ReactExoplayerView extends FrameLayout implements
 
     @Nullable
     private List<MediaSource> buildAudioSources() {
-          if (source.getSideLoadedAudioTracks() == null ||
-            !source.getSideLoadedAudioTracks().getTracks().isEmpty()) {
+        if (source.getSideLoadedAudioTracks() == null || source.getSideLoadedAudioTracks().getTracks().isEmpty()) {
                 return null;
             }
 
