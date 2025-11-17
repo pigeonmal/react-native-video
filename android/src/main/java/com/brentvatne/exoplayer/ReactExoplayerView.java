@@ -729,7 +729,7 @@ public class ReactExoplayerView extends FrameLayout implements
         }
 
         renderersFactory = new MyRenderersFactory(getContext(), textTrackDelay);
-        renderersFactory.setExtensionRendererMode(MyRenderersFactory.EXTENSION_RENDERER_MODE_ON);
+        renderersFactory.setExtensionRendererMode(MyRenderersFactory.EXTENSION_RENDERER_MODE_OFF);
         renderersFactory.setEnableDecoderFallback(true);
         renderersFactory.forceEnableMediaCodecAsynchronousQueueing();
 
