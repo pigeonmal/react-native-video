@@ -84,6 +84,7 @@ import androidx.media3.exoplayer.source.ClippingMediaSource;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 import androidx.media3.exoplayer.source.MediaSource;
 import androidx.media3.exoplayer.source.MergingMediaSource;
+import androidx.media3.exoplayer.source.FilteringMediaSource;
 import androidx.media3.exoplayer.source.ProgressiveMediaSource;
 import androidx.media3.exoplayer.source.TrackGroupArray;
 import androidx.media3.exoplayer.source.ads.AdsMediaSource;
@@ -1181,10 +1182,12 @@ public class ReactExoplayerView extends FrameLayout implements
                         .setMimeType(track.getSampleMimeType())
                         .build();
 
-                    MediaSource audioSource = new ProgressiveMediaSource.Factory(mediaDataSourceFactory)
+                    MediaSource rawSource = new DefaultMediaSourceFactory(mediaDataSourceFactory)
                         .createMediaSource(audioItem);
 
-                    sourcesToMerge.add(audioSource);
+                    MediaSource audioOnlySource = new FilteringMediaSource(rawSource, C.TRACK_TYPE_AUDIO);
+
+                    sourcesToMerge.add(audioOnlySource);
             } catch (Exception e) {
                 DebugLog.e(TAG, "Error adding sideloaded audio track: " + e.getMessage());
             }
