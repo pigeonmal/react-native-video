@@ -1,17 +1,17 @@
-import type {ISO639_1} from './language';
-import type {ReactVideoEvents} from './events';
+import type { ReactNode } from 'react';
 import type {
   ImageProps,
+  ImageRequireSource,
+  ImageStyle,
+  ImageURISource,
   StyleProp,
   ViewProps,
   ViewStyle,
-  ImageRequireSource,
-  ImageURISource,
-  ImageStyle,
 } from 'react-native';
-import type {ReactNode} from 'react';
-import type VideoResizeMode from './ResizeMode';
+import type { ReactVideoEvents } from './events';
 import type FilterType from './FilterType';
+import type { ISO639_1 } from './language';
+import type VideoResizeMode from './ResizeMode';
 import type ViewType from './ViewType';
 
 export type Headers = Record<string, string>;
@@ -213,8 +213,7 @@ export type SelectedTextTrack = Readonly<{
 
 export type AudioTracks = {
   url: string;
-  title?: string;
-  language?: string;
+  headers?: Record<string, string>;
   sampleMimeType?: string;
 }[];
 

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import type {HostComponent, ViewProps} from 'react-native';
-import {requireNativeComponent} from 'react-native';
+import type { HostComponent, ViewProps } from 'react-native';
+import { requireNativeComponent } from 'react-native';
 import type {
   DirectEventHandler,
   Double,
@@ -96,8 +96,7 @@ type TextTracks = ReadonlyArray<
 type AudioTracks = ReadonlyArray<
   Readonly<{
     url: string;
-    title?: string;
-    language?: string;
+    headers?: Record<string, string>;
     sampleMimeType?: string;
   }>
 >;

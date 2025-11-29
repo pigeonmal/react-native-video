@@ -1170,6 +1170,7 @@ public class ReactExoplayerView extends FrameLayout implements
 
             List<SideLoadedAudioTrack> audioTracks = source.getSideLoadedAudioTracks().getTracks();
             List<MediaSource> sourcesToMerge = new ArrayList<>();
+            int trackIndex = 0;
 
             for (SideLoadedAudioTrack track : audioTracks) {
                 try {
@@ -1180,14 +1181,22 @@ public class ReactExoplayerView extends FrameLayout implements
                     MediaItem audioItem = new MediaItem.Builder()
                         .setUri(track.getUrl())
                         .setMimeType(track.getSampleMimeType())
+                        .setMediaMetadata(new MediaMetadata.Builder()
+                            .setTitle("external-audio-" + trackIndex)
+                            .build())
                         .build();
 
-                    MediaSource rawSource = new DefaultMediaSourceFactory(mediaDataSourceFactory)
+                    DataSource.Factory dataSourceFactory = (track.getHeaders() != null && !track.getHeaders().isEmpty())
+                    ? DataSourceUtil.getDefaultDataSourceFactory(this.themedReactContext, null, track.getHeaders())
+                    : mediaDataSourceFactory;
+
+                    MediaSource rawSource = new DefaultMediaSourceFactory(dataSourceFactory)
                         .createMediaSource(audioItem);
 
                     MediaSource audioOnlySource = new FilteringMediaSource(rawSource, C.TRACK_TYPE_AUDIO);
 
                     sourcesToMerge.add(audioOnlySource);
+                    trackIndex++;
             } catch (Exception e) {
                 DebugLog.e(TAG, "Error adding sideloaded audio track: " + e.getMessage());
             }

@@ -3,6 +3,7 @@ package com.brentvatne.common.toolbox
 import com.facebook.react.bridge.Dynamic
 import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.bridge.ReadableMap
+import com.facebook.react.bridge.ReadableType
 
 /*
 * Toolbox to safe parsing of <Video props
@@ -79,7 +80,9 @@ object ReactBridgeUtils {
         val result: MutableMap<String, String?> = HashMap()
         while (iterator.hasNextKey()) {
             val key = iterator.nextKey()
-            result[key] = readableMap.getString(key)
+            if (readableMap.getType(key) == ReadableType.String) {
+                result[key] = readableMap.getString(key)
+            }
         }
         return result
     }
@@ -99,7 +102,9 @@ object ReactBridgeUtils {
         val result: MutableMap<String, Int> = HashMap()
         while (iterator.hasNextKey()) {
             val key = iterator.nextKey()
-            result[key] = readableMap.getInt(key)
+            if (readableMap.getType(key) == ReadableType.Number) {
+                result[key] = readableMap.getInt(key)
+            }
         }
         return result
     }

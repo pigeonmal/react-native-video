@@ -9,19 +9,17 @@ import com.facebook.react.bridge.ReadableMap
 */
 class SideLoadedAudioTrack {
    var url: Uri = Uri.EMPTY
-   var title: String? = null
-   var language: String? = null
    var sampleMimeType: String? = null
+   var headers: MutableMap<String, String> = HashMap()
 
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is SideLoadedAudioTrack) return false
-        return language == other.language && title == other.title && url == other.url && sampleMimeType == other.sampleMimeType
+        return url == other.url && sampleMimeType == other.sampleMimeType
     }
 
    companion object {
        val SIDELOAD_AUDIO_TRACK_URL = "url"
-       val SIDELOAD_AUDIO_TRACK_TITLE = "title"
-       val SIDELOAD_AUDIO_TRACK_LANGUAGE = "language"
+       val SIDELOAD_AUDIO_TRACK_HEADERS = "headers"
        val SIDELOAD_AUDIO_TRACK_SAMPLE_MIME_TYPE = "sampleMimeType"
 
        fun parse(src: ReadableMap?): SideLoadedAudioTrack {
@@ -30,9 +28,8 @@ class SideLoadedAudioTrack {
                 return sideLoadedAudioTrack
             }
             sideLoadedAudioTrack.url = Uri.parse(ReactBridgeUtils.safeGetString(src, SIDELOAD_AUDIO_TRACK_URL, ""))
-            sideLoadedAudioTrack.title = ReactBridgeUtils.safeGetString(src, SIDELOAD_AUDIO_TRACK_TITLE, "")
-            sideLoadedAudioTrack.language = ReactBridgeUtils.safeGetString(src, SIDELOAD_AUDIO_TRACK_LANGUAGE, "")
-            sideLoadedAudioTrack.sampleMimeType = ReactBridgeUtils.safeGetString(src, SIDELOAD_AUDIO_TRACK_SAMPLE_MIME_TYPE, "")
+            sideLoadedAudioTrack.sampleMimeType = ReactBridgeUtils.safeGetString(src, SIDELOAD_AUDIO_TRACK_SAMPLE_MIME_TYPE, null)
+            sideLoadedAudioTrack.headers = ReactBridgeUtils.toStringMap(ReactBridgeUtils.safeGetMap(src, SIDELOAD_AUDIO_TRACK_HEADERS))
             return sideLoadedAudioTrack
         }
     }
