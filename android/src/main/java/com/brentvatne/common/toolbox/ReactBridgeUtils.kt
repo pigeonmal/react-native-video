@@ -73,11 +73,11 @@ object ReactBridgeUtils {
      * @see 'Adapted from https://github.com/artemyarulin/react-native-eval/blob/master/android/src/main/java/com/evaluator/react/ConversionUtil.java'
      */
     @JvmStatic
-    fun toStringMap(readableMap: ReadableMap?): Map<String, String?>? {
+    fun toStringMap(readableMap: ReadableMap?): Map<String, String>? {
         if (readableMap == null) return null
         val iterator = readableMap.keySetIterator()
         if (!iterator.hasNextKey()) return null
-        val result: MutableMap<String, String?> = HashMap()
+        val result: MutableMap<String, String> = HashMap()
         while (iterator.hasNextKey()) {
             val key = iterator.nextKey()
             if (readableMap.getType(key) == ReadableType.String) {

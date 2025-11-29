@@ -10,7 +10,7 @@ import com.facebook.react.bridge.ReadableMap
 class SideLoadedAudioTrack {
    var url: Uri = Uri.EMPTY
    var sampleMimeType: String? = null
-   var headers: MutableMap<String, String> = HashMap()
+   var headers: Map<String, String>? = null
 
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is SideLoadedAudioTrack) return false
