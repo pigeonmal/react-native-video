@@ -81,10 +81,13 @@ object ReactBridgeUtils {
         while (iterator.hasNextKey()) {
             val key = iterator.nextKey()
             if (readableMap.getType(key) == ReadableType.String) {
-                result[key] = readableMap.getString(key)
+                val value = readableMap.getString(key)
+                if (value != null) {
+                    result[key] = value
+                }
             }
         }
-        return result
+        return if (result.isEmpty()) null else result
     }
 
     /**
