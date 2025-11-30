@@ -229,6 +229,7 @@ dependencies {
     // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"
+    implementation project(':react-native-nitro-fetch')
 
     implementation "androidx.core:core-ktx:$androidxCore_version"
     implementation "androidx.activity:activity-ktx:$androidxActivity_version"
@@ -287,7 +288,7 @@ dependencies {
 
    if (media3_buildFromSource) {
         // For loading data using the OkHttp network stack
-        implementation(project(":media-lib-datasource-okhttp"))
+        implementation(project(":media-lib-datasource-cronet"))
 
         // For building media playback UIs
         implementation(project(":media-lib-ui"))
@@ -302,7 +303,7 @@ dependencies {
         implementation(project(":media-lib-common"))
     } else {
         // For loading data using the OkHttp network stack
-        implementation "androidx.media3:media3-datasource-okhttp:$media3_version"
+        implementation "androidx.media3:media3-datasource-cronet:$media3_version"
 
         // For building media playback UIs
         implementation "androidx.media3:media3-ui:$media3_version"
