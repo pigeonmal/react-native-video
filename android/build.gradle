@@ -223,16 +223,20 @@ repositories {
 def media3_version = safeExtGet('media3Version')
 def androidxCore_version = safeExtGet('androidxCoreVersion')
 def androidxActivity_version = safeExtGet('androidxActivityVersion')
+def cronetVersion = safeExtGet("cronetVersion")
 
 dependencies {
     // For < 0.71, this will be from the local maven repo
     // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"
-    implementation project(':react-native-nitro-fetch')
 
     implementation "androidx.core:core-ktx:$androidxCore_version"
     implementation "androidx.activity:activity-ktx:$androidxActivity_version"
+
+    implementation project(':react-native-nitro-fetch')
+
+    implementation("org.chromium.net:cronet-embedded:${cronetVersion}")
 
     // For media playback using ExoPlayer
     if (media3_buildFromSource) {
