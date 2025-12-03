@@ -14,79 +14,76 @@ import org.chromium.net.CronetEngine
 import com.margelo.nitro.nitrofetch.NitroFetch
 
 object DataSourceUtil {
-private var defaultDataSourceFactory: DataSource.Factory? = null
-private var defaultHttpDataSourceFactory: HttpDataSource.Factory? = null
-private var userAgent: String? = null
+    private var defaultDataSourceFactory: DataSource.Factory? = null
+    private var defaultHttpDataSourceFactory: HttpDataSource.Factory? = null
+    private var userAgent: String? = null
 
-
-private fun getUserAgent(context: ReactContext): String {
-    if (userAgent == null) {
-        userAgent = Util.getUserAgent(context, context.packageName)
-    }
-    return userAgent as String
-}
-
-@JvmStatic
-fun getDefaultDataSourceFactory(
-    context: ReactContext,
-    bandwidthMeter: DefaultBandwidthMeter?,
-    requestHeaders: Map<String, String>?
-): DataSource.Factory {
-    if (defaultDataSourceFactory == null || !requestHeaders.isNullOrEmpty()) {
-        defaultDataSourceFactory = buildDataSourceFactory(context, bandwidthMeter, requestHeaders)
-    }
-    return defaultDataSourceFactory as DataSource.Factory
-}
-
-@JvmStatic
-fun getDefaultHttpDataSourceFactory(
-    context: ReactContext,
-    bandwidthMeter: DefaultBandwidthMeter?,
-    requestHeaders: Map<String, String>?
-): HttpDataSource.Factory {
-    if (defaultHttpDataSourceFactory == null || !requestHeaders.isNullOrEmpty()) {
-        defaultHttpDataSourceFactory = buildHttpDataSourceFactory(context, bandwidthMeter, requestHeaders)
-    }
-    return defaultHttpDataSourceFactory as HttpDataSource.Factory
-}
-
-private fun buildDataSourceFactory(
-    context: ReactContext,
-    bandwidthMeter: DefaultBandwidthMeter?,
-    requestHeaders: Map<String, String>?
-): DataSource.Factory = DefaultDataSource.Factory(
-    context,
-    buildHttpDataSourceFactory(context, bandwidthMeter, requestHeaders)
-)
-
-private fun buildHttpDataSourceFactory(
-    context: ReactContext,
-    bandwidthMeter: DefaultBandwidthMeter?,
-    requestHeaders: Map<String, String>?
-): HttpDataSource.Factory {
-    // Get CronetEngine from NitroFetch
-    val engine: CronetEngine = NitroFetch.getEngine()
-    val executor = NitroFetch.ioExecutor
-
-    val cronetFactory = CronetDataSource.Factory(engine, executor)
-        .setUserAgent(getUserAgent(context))
-        .setTransferListener(bandwidthMeter)
-
-    // Apply request headers if provided
-    requestHeaders?.let {
-        cronetFactory.setDefaultRequestProperties(it)
+    private fun getUserAgent(context: ReactContext): String {
+        if (userAgent == null) {
+            userAgent = Util.getUserAgent(context, context.packageName)
+        }
+        return userAgent as String
     }
 
-    return cronetFactory
-}
+    @JvmStatic
+    fun getDefaultDataSourceFactory(
+        context: ReactContext,
+        bandwidthMeter: DefaultBandwidthMeter?,
+        requestHeaders: Map<String, String>?
+    ): DataSource.Factory {
+        if (defaultDataSourceFactory == null || !requestHeaders.isNullOrEmpty()) {
+            defaultDataSourceFactory = buildDataSourceFactory(context, bandwidthMeter, requestHeaders)
+        }
+        return defaultDataSourceFactory as DataSource.Factory
+    }
 
-@JvmStatic
-fun buildAssetDataSourceFactory(context: ReactContext?, srcUri: Uri?): DataSource.Factory {
-    val dataSpec = DataSpec(srcUri!!)
-    val assetDataSource = AssetDataSource(context!!)
-    assetDataSource.open(dataSpec)
-    return DataSource.Factory { assetDataSource }
-}
+    @JvmStatic
+    fun getDefaultHttpDataSourceFactory(
+        context: ReactContext,
+        bandwidthMeter: DefaultBandwidthMeter?,
+        requestHeaders: Map<String, String>?
+    ): HttpDataSource.Factory {
+        if (defaultHttpDataSourceFactory == null || !requestHeaders.isNullOrEmpty()) {
+            defaultHttpDataSourceFactory = buildHttpDataSourceFactory(context, bandwidthMeter, requestHeaders)
+        }
+        return defaultHttpDataSourceFactory as HttpDataSource.Factory
+    }
 
+    private fun buildDataSourceFactory(
+        context: ReactContext,
+        bandwidthMeter: DefaultBandwidthMeter?,
+        requestHeaders: Map<String, String>?
+    ): DataSource.Factory = DefaultDataSource.Factory(context, buildHttpDataSourceFactory(context, bandwidthMeter, requestHeaders))
 
+    private fun buildHttpDataSourceFactory(
+        context: ReactContext,
+        bandwidthMeter: DefaultBandwidthMeter?,
+        requestHeaders: Map<String, String>?
+    ): HttpDataSource.Factory {
+        // Get Cronet engine and executor from NitroFetch
+        val cronetEngine: CronetEngine = NitroFetch.getEngine()
+        val executor = NitroFetch.ioExecutor
+
+        val cronetDataSourceFactory = CronetDataSource.Factory(cronetEngine, executor)
+            .setTransferListener(bandwidthMeter)
+
+        if (requestHeaders != null) {
+            cronetDataSourceFactory.setDefaultRequestProperties(requestHeaders)
+            if (!requestHeaders.containsKey("User-Agent")) {
+                cronetDataSourceFactory.setUserAgent(getUserAgent(context))
+            }
+        } else {
+            cronetDataSourceFactory.setUserAgent(getUserAgent(context))
+        }
+
+        return cronetDataSourceFactory
+    }
+
+    @JvmStatic
+    fun buildAssetDataSourceFactory(context: ReactContext?, srcUri: Uri?): DataSource.Factory {
+        val dataSpec = DataSpec(srcUri!!)
+        val rawResourceDataSource = AssetDataSource(context!!)
+        rawResourceDataSource.open(dataSpec)
+        return DataSource.Factory { rawResourceDataSource }
+    }
 }
