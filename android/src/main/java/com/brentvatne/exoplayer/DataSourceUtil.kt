@@ -18,10 +18,6 @@ object DataSourceUtil {
     private var defaultHttpDataSourceFactory: HttpDataSource.Factory? = null
     private var userAgent: String? = null
 
-    companion object {
-        const val CRONET_TIMEOUT_MS = 15_000
-    }
-
     private fun getUserAgent(context: ReactContext): String {
         if (userAgent == null) {
             userAgent = Util.getUserAgent(context, context.packageName)
@@ -70,8 +66,8 @@ object DataSourceUtil {
 
         val cronetDataSourceFactory = CronetDataSource.Factory(cronetEngine, executor)
             .setTransferListener(bandwidthMeter)
-            .setConnectionTimeoutMs(CRONET_TIMEOUT_MS)
-            .setReadTimeoutMs(CRONET_TIMEOUT_MS)
+            .setConnectionTimeoutMs(15_000)
+            .setReadTimeoutMs(15_000)
             .setResetTimeoutOnRedirects(true)
             .setHandleSetCookieRequests(true)
 
