@@ -43,6 +43,7 @@ import androidx.media3.common.Format;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.Metadata;
+import androidx.media3.common.MimeTypes;
 import androidx.media3.common.PlaybackException;
 import androidx.media3.common.PlaybackParameters;
 import androidx.media3.common.Player;
@@ -854,7 +855,7 @@ public class ReactExoplayerView extends FrameLayout implements
 
         MediaSource mediaSourceWithAds = initializeAds(videoSource, runningSource);
         MediaSource mediaSource = Objects.requireNonNullElse(mediaSourceWithAds, videoSource);
-
+/*
         MediaSource subtitlesSource = buildSubtitleConfigurations();
         List<MediaSource> mediaSourceList = new ArrayList<>();
         mediaSourceList.add(mediaSource);
@@ -871,7 +872,7 @@ public class ReactExoplayerView extends FrameLayout implements
 
         // Combine all sources
         mediaSource = new MergingMediaSource(mediaSourceList.toArray(new MediaSource[0]));
-       
+       */
         // wait for player to be set
         while (player == null) {
             try {
@@ -1021,7 +1022,8 @@ public class ReactExoplayerView extends FrameLayout implements
         config.setDisableDisconnectError(this.disableDisconnectError);
 
         MediaItem.Builder mediaItemBuilder = new MediaItem.Builder()
-                .setUri(uri);
+                .setUri(uri)
+                .setMimeType(MimeTypes.APPLICATION_M3U8);
 
         // refresh custom Metadata
         MediaMetadata customMetadata = ConfigurationUtils.buildCustomMetadata(source.getMetadata());
