@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.brentvatne.exoplayer.custom;
+package androidx.media3.exoplayer.source;
 
 import static androidx.media3.common.util.Assertions.checkNotNull;
 
@@ -45,7 +45,6 @@ import androidx.media3.extractor.ExtractorsFactory;
 import androidx.media3.extractor.SeekMap;
 import androidx.media3.extractor.TrackOutput;
 import com.google.common.base.Supplier;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 
@@ -187,7 +186,6 @@ public final class PublicProgressiveMediaSource extends BaseMediaSource
       this.continueLoadingCheckIntervalBytes = continueLoadingCheckIntervalBytes;
     }
 
-    @CanIgnoreReturnValue
     @Override
     public Factory setLoadErrorHandlingPolicy(LoadErrorHandlingPolicy loadErrorHandlingPolicy) {
       this.loadErrorHandlingPolicy =
@@ -209,7 +207,6 @@ public final class PublicProgressiveMediaSource extends BaseMediaSource
      *     MediaPeriod.Callback#onContinueLoadingRequested(SequenceableLoader)}.
      * @return This factory, for convenience.
      */
-    @CanIgnoreReturnValue
     public Factory setContinueLoadingCheckIntervalBytes(int continueLoadingCheckIntervalBytes) {
       this.continueLoadingCheckIntervalBytes = continueLoadingCheckIntervalBytes;
       return this;
@@ -227,14 +224,12 @@ public final class PublicProgressiveMediaSource extends BaseMediaSource
      * @param trackId The ID of the track to pass to {@link ExtractorOutput#track}
      * @param format The format of the track to pass to {@link TrackOutput#format}.
      */
-    @CanIgnoreReturnValue
     public Factory enableLazyLoadingWithSingleTrack(int trackId, Format format) {
       this.singleTrackId = trackId;
       this.singleTrackFormat = checkNotNull(format);
       return this;
     }
 
-    @CanIgnoreReturnValue
     @Override
     public Factory setDrmSessionManagerProvider(
         DrmSessionManagerProvider drmSessionManagerProvider) {
@@ -256,7 +251,6 @@ public final class PublicProgressiveMediaSource extends BaseMediaSource
      *     supplied executor is no longer required.
      * @return This factory, for convenience.
      */
-    @CanIgnoreReturnValue
     public <T extends Executor> Factory setDownloadExecutor(
         Supplier<T> downloadExecutor, Consumer<T> downloadExecutorReleaser) {
       this.downloadExecutorSupplier =
