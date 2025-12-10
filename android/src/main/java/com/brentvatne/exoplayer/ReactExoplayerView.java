@@ -100,6 +100,10 @@ import androidx.media3.exoplayer.upstream.CmcdConfiguration;
 import androidx.media3.exoplayer.upstream.DefaultAllocator;
 import androidx.media3.exoplayer.upstream.DefaultBandwidthMeter;
 import androidx.media3.exoplayer.util.EventLogger;
+import androidx.media3.extractor.Extractor;
+import androidx.media3.extractor.ExtractorsFactory;
+import androidx.media3.extractor.text.SubtitleExtractor;
+import androidx.media3.extractor.text.SubtitleParser;
 import androidx.media3.extractor.metadata.emsg.EventMessage;
 import androidx.media3.extractor.metadata.id3.Id3Frame;
 import androidx.media3.extractor.metadata.id3.TextInformationFrame;
@@ -126,6 +130,7 @@ import com.brentvatne.react.R;
 import com.brentvatne.react.ReactNativeVideoManager;
 import com.brentvatne.receiver.AudioBecomingNoisyReceiver;
 import com.brentvatne.exoplayer.custom.MyRenderersFactory;
+import com.brentvatne.exoplayer.custom.UnknownSubtitlesExtractor;
 import com.brentvatne.receiver.BecomingNoisyListener;
 import com.brentvatne.receiver.PictureInPictureReceiver;
 import com.facebook.react.bridge.LifecycleEventListener;
@@ -855,24 +860,24 @@ public class ReactExoplayerView extends FrameLayout implements
 
         MediaSource mediaSourceWithAds = initializeAds(videoSource, runningSource);
         MediaSource mediaSource = Objects.requireNonNullElse(mediaSourceWithAds, videoSource);
-/*
-        MediaSource subtitlesSource = buildSubtitleConfigurations();
-        List<MediaSource> mediaSourceList = new ArrayList<>();
-        mediaSourceList.add(mediaSource);
 
-        if (subtitlesSource != null) {
-           mediaSourceList.add(subtitlesSource);
-        }
-
-        // Add additional audio sources
+        List<MediaSource> subtitlesSource = buildSubtitleConfigurations();
         List<MediaSource> audioSources = buildAudioSources();
-        if (audioSources != null) {
-           mediaSourceList.addAll(audioSources);
-        }
+        if(subtitlesSource != null || audioSources != null) {
+            List<MediaSource> mediaSourceList = new ArrayList<>();
+            mediaSourceList.add(mediaSource);
 
-        // Combine all sources
-        mediaSource = new MergingMediaSource(mediaSourceList.toArray(new MediaSource[0]));
-       */
+            if (subtitlesSource != null) {
+                mediaSourceList.addAll(subtitlesSource);
+            }
+
+            if (audioSources != null) {
+                mediaSourceList.addAll(audioSources);
+            }
+
+            mediaSource = new MergingMediaSource(mediaSourceList.toArray(new MediaSource[0]));
+        }
+       
         // wait for player to be set
         while (player == null) {
             try {
@@ -1022,8 +1027,7 @@ public class ReactExoplayerView extends FrameLayout implements
         config.setDisableDisconnectError(this.disableDisconnectError);
 
         MediaItem.Builder mediaItemBuilder = new MediaItem.Builder()
-                .setUri(uri)
-                .setMimeType(MimeTypes.APPLICATION_M3U8);
+                .setUri(uri);
 
         // refresh custom Metadata
         MediaMetadata customMetadata = ConfigurationUtils.buildCustomMetadata(source.getMetadata());
@@ -1087,6 +1091,9 @@ public class ReactExoplayerView extends FrameLayout implements
                 if (useCache && !disableCache) {
                     dataSourceFactory = RNVSimpleCache.INSTANCE.getCacheFactory(buildHttpDataSourceFactory(true));
                 }
+
+                // Au cas où :)
+                mediaItemBuilder.setMimeType(MimeTypes.APPLICATION_M3U8);
 
                 mediaSourceFactory = new HlsMediaSource.Factory(
                         dataSourceFactory
@@ -1214,13 +1221,15 @@ public class ReactExoplayerView extends FrameLayout implements
     }
 
     @Nullable
-    private MediaSource buildSubtitleConfigurations() {
+    private List<MediaSource> buildSubtitleConfigurations() {
         if (source.getSideLoadedTextTracks() == null || source.getSideLoadedTextTracks().getTracks().isEmpty()) {
             return null;
         }
 
-        List<MediaItem.SubtitleConfiguration> subtitleConfigurations = new ArrayList<>();
+        List<MediaSource> sourcesToMerge = new ArrayList<>();
         int trackIndex = 0;
+
+        SubtitleParser.Factory subtitleParserFactory = new DefaultSubtitleParserFactory();
 
         for (SideLoadedTextTrack track : source.getSideLoadedTextTracks().getTracks()) {
             try {
@@ -1234,27 +1243,51 @@ public class ReactExoplayerView extends FrameLayout implements
                     }
                 }
                 
-                MediaItem.SubtitleConfiguration.Builder configBuilder = new MediaItem.SubtitleConfiguration.Builder(track.getUri())
-                        .setId(trackId)
-                        .setMimeType(track.getType())
-                        .setLabel(label)
-                        .setRoleFlags(C.ROLE_FLAG_SUBTITLE);
+                Format.Builder formatBuilder = new Format.Builder()
+                    .setSampleMimeType(track.getType())
+                    .setId(trackId)
+                    .setLabel(label)
+                    .setRoleFlags(C.ROLE_FLAG_SUBTITLE);
                 
                 // Set language if available
                 if (track.getLanguage() != null && !track.getLanguage().isEmpty()) {
-                    configBuilder.setLanguage(track.getLanguage());
+                    formatBuilder.setLanguage(track.getLanguage());
                 }
                 
                 // Set selection flags - make first track default if no specific track is selected
                 if (trackIndex == 0 && (textTrackType == null || "disabled".equals(textTrackType))) {
-                    configBuilder.setSelectionFlags(C.SELECTION_FLAG_DEFAULT);
+                    formatBuilder.setSelectionFlags(C.SELECTION_FLAG_DEFAULT);
                 } else {
-                    configBuilder.setSelectionFlags(0);
+                    formatBuilder.setSelectionFlags(0);
                 }
+
+                Format format = formatBuilder.build();
+                ExtractorsFactory extractorsFactory =
+                  () ->
+                  new Extractor[] {
+                    subtitleParserFactory.supportsFormat(format)
+                        ? new SubtitleExtractor(
+                            subtitleParserFactory.create(format), /* format= */ null)
+                        : new UnknownSubtitlesExtractor(format)
+                  };
+
+                ProgressiveMediaSource.Factory progressiveMediaSourceFactory =
+                 new ProgressiveMediaSource.Factory(mediaDataSourceFactory, extractorsFactory)
+                  .enableLazyLoadingWithSingleTrack(
+                      SubtitleExtractor.TRACK_ID,
+                      subtitleParserFactory.supportsFormat(format)
+                          ? format
+                              .buildUpon()
+                              .setSampleMimeType(MimeTypes.APPLICATION_MEDIA3_CUES)
+                              .setCodecs(format.sampleMimeType)
+                              .setCueReplacementBehavior(
+                                  subtitleParserFactory.getCueReplacementBehavior(format))
+                              .build()
+                          : format);
                 
-                MediaItem.SubtitleConfiguration subtitleConfiguration = configBuilder.build();
-                subtitleConfigurations.add(subtitleConfiguration);
-                
+                sourcesToMerge.add(progressiveMediaSourceFactory.createMediaSource(
+                  MediaItem.fromUri(track.getUri().toString())));
+
                 DebugLog.d(TAG, "Created subtitle configuration: " + trackId + " - " + label + " (" + track.getType() + ")");
                 trackIndex++;
             } catch (Exception e) {
@@ -1262,17 +1295,10 @@ public class ReactExoplayerView extends FrameLayout implements
             }
         }
 
-        if (!subtitleConfigurations.isEmpty()) {
-            DebugLog.d(TAG, "Built " + subtitleConfigurations.size() + " external subtitle configurations");
-        } else {
+        if (sourcesToMerge.isEmpty()) {
             return null;
         }
-
-        MediaItem subtitlesMediaItem = new MediaItem.Builder()
-                .setUri(source.getUri())
-                .setSubtitleConfigurations(subtitleConfigurations).build();
-
-        return new DefaultMediaSourceFactory(mediaDataSourceFactory).createMediaSource(subtitlesMediaItem);
+        return sourcesToMerge;
     }
 
     private void releasePlayer() {
