@@ -86,7 +86,6 @@ import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 import androidx.media3.exoplayer.source.MediaSource;
 import androidx.media3.exoplayer.source.MergingMediaSource;
 import androidx.media3.exoplayer.source.FilteringMediaSource;
-import androidx.media3.exoplayer.source.ProgressiveMediaSource;
 import androidx.media3.exoplayer.source.TrackGroupArray;
 import androidx.media3.exoplayer.source.ads.AdsMediaSource;
 import androidx.media3.exoplayer.trackselection.AdaptiveTrackSelection;
@@ -104,6 +103,7 @@ import androidx.media3.extractor.Extractor;
 import androidx.media3.extractor.ExtractorsFactory;
 import androidx.media3.extractor.text.SubtitleExtractor;
 import androidx.media3.extractor.text.SubtitleParser;
+import androidx.media3.extractor.text.DefaultSubtitleParserFactory;
 import androidx.media3.extractor.metadata.emsg.EventMessage;
 import androidx.media3.extractor.metadata.id3.Id3Frame;
 import androidx.media3.extractor.metadata.id3.TextInformationFrame;
@@ -131,6 +131,7 @@ import com.brentvatne.react.ReactNativeVideoManager;
 import com.brentvatne.receiver.AudioBecomingNoisyReceiver;
 import com.brentvatne.exoplayer.custom.MyRenderersFactory;
 import com.brentvatne.exoplayer.custom.UnknownSubtitlesExtractor;
+import com.brentvatne.exoplayer.custom.PublicProgressiveMediaSource;
 import com.brentvatne.receiver.BecomingNoisyListener;
 import com.brentvatne.receiver.PictureInPictureReceiver;
 import com.facebook.react.bridge.LifecycleEventListener;
@@ -1103,17 +1104,17 @@ public class ReactExoplayerView extends FrameLayout implements
                 if ("asset".equals(uri.getScheme())) {
                     try {
                         DataSource.Factory assetDataSourceFactory = DataSourceUtil.buildAssetDataSourceFactory(themedReactContext, uri);
-                        mediaSourceFactory = new ProgressiveMediaSource.Factory(assetDataSourceFactory);
+                        mediaSourceFactory = new PublicProgressiveMediaSource.Factory(assetDataSourceFactory);
                     } catch (Exception e) {
                         throw new IllegalStateException("cannot open input file:" + uri);
                     }
                 } else if ("file".equals(uri.getScheme()) ||
                         !useCache) {
-                    mediaSourceFactory = new ProgressiveMediaSource.Factory(
+                    mediaSourceFactory = new PublicProgressiveMediaSource.Factory(
                             mediaDataSourceFactory
                     );
                 } else {
-                    mediaSourceFactory = new ProgressiveMediaSource.Factory(
+                    mediaSourceFactory = new PublicProgressiveMediaSource.Factory(
                             RNVSimpleCache.INSTANCE.getCacheFactory(buildHttpDataSourceFactory(true))
                     );
 
@@ -1271,8 +1272,8 @@ public class ReactExoplayerView extends FrameLayout implements
                         : new UnknownSubtitlesExtractor(format)
                   };
 
-                ProgressiveMediaSource.Factory progressiveMediaSourceFactory =
-                 new ProgressiveMediaSource.Factory(mediaDataSourceFactory, extractorsFactory)
+                PublicProgressiveMediaSource.Factory progressiveMediaSourceFactory =
+                 new PublicProgressiveMediaSource.Factory(mediaDataSourceFactory, extractorsFactory)
                   .enableLazyLoadingWithSingleTrack(
                       SubtitleExtractor.TRACK_ID,
                       subtitleParserFactory.supportsFormat(format)
