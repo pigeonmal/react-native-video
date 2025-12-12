@@ -742,9 +742,9 @@ public class ReactExoplayerView extends FrameLayout implements
         renderersFactory.forceEnableMediaCodecAsynchronousQueueing();
 
         DefaultMediaSourceFactory mediaSourceFactory = new DefaultMediaSourceFactory(mediaDataSourceFactory);
-        if (useCache && !disableCache) {
+   /*      if (useCache && !disableCache) {
             mediaSourceFactory.setDataSourceFactory(RNVSimpleCache.INSTANCE.getCacheFactory(buildHttpDataSourceFactory(true)));
-        }
+        } */
 
         mediaSourceFactory.setLocalAdInsertionComponents(unusedAdTagUri -> adsLoader, exoPlayerView.getPlayerView());
 
@@ -819,7 +819,7 @@ public class ReactExoplayerView extends FrameLayout implements
             DRMManagerSpec drmManager = ReactNativeVideoManager.Companion.getInstance().getDRMManager();
             if (drmManager == null) {
                 // If no custom manager is registered, use the default implementation
-                drmManager = new DRMManager(buildHttpDataSourceFactory(false));
+                drmManager = new DRMManager(mediaDataSourceFactory);
             }
 
             DrmSessionManager drmSessionManager = drmManager.buildDrmSessionManager(uuid, drmProps);
@@ -1066,8 +1066,7 @@ public class ReactExoplayerView extends FrameLayout implements
                 }
 
                 mediaSourceFactory = new SsMediaSource.Factory(
-                        new DefaultSsChunkSource.Factory(mediaDataSourceFactory),
-                        buildDataSourceFactory(false)
+                        mediaDataSourceFactory
                 );
                 break;
             case CONTENT_TYPE_DASH:
@@ -1077,8 +1076,7 @@ public class ReactExoplayerView extends FrameLayout implements
                 }
 
                 mediaSourceFactory = new DashMediaSource.Factory(
-                        new DefaultDashChunkSource.Factory(mediaDataSourceFactory),
-                        buildDataSourceFactory(false)
+                       mediaDataSourceFactory
                 );
                 break;
             case CONTENT_TYPE_HLS:
@@ -1089,9 +1087,9 @@ public class ReactExoplayerView extends FrameLayout implements
 
                 DataSource.Factory dataSourceFactory = mediaDataSourceFactory;
 
-                if (useCache && !disableCache) {
+               /*  if (useCache && !disableCache) {
                     dataSourceFactory = RNVSimpleCache.INSTANCE.getCacheFactory(buildHttpDataSourceFactory(true));
-                }
+                } */
 
                 // Au cas où :)
                 mediaItemBuilder.setMimeType(MimeTypes.APPLICATION_M3U8);
@@ -1103,7 +1101,7 @@ public class ReactExoplayerView extends FrameLayout implements
             case CONTENT_TYPE_OTHER:
                 if ("asset".equals(uri.getScheme())) {
                     try {
-                        DataSource.Factory assetDataSourceFactory = DataSourceUtil.buildAssetDataSourceFactory(themedReactContext, uri);
+                        DataSource.Factory assetDataSourceFactory = DataSourceUtil.buildAssetDataSourceFactory(themedReactContext);
                         mediaSourceFactory = new PublicProgressiveMediaSource.Factory(assetDataSourceFactory);
                     } catch (Exception e) {
                         throw new IllegalStateException("cannot open input file:" + uri);
@@ -1115,7 +1113,7 @@ public class ReactExoplayerView extends FrameLayout implements
                     );
                 } else {
                     mediaSourceFactory = new PublicProgressiveMediaSource.Factory(
-                            RNVSimpleCache.INSTANCE.getCacheFactory(buildHttpDataSourceFactory(true))
+                           mediaDataSourceFactory
                     );
 
                 }
@@ -1197,11 +1195,13 @@ public class ReactExoplayerView extends FrameLayout implements
                             .build())
                         .build();
 
+                    /* Pour l'instant
                     DataSource.Factory dataSourceFactory = (track.getHeaders() != null && !track.getHeaders().isEmpty())
                     ? DataSourceUtil.getDefaultDataSourceFactory(this.themedReactContext, null, track.getHeaders())
                     : mediaDataSourceFactory;
+                    */
 
-                    MediaSource rawSource = new DefaultMediaSourceFactory(dataSourceFactory)
+                    MediaSource rawSource = new DefaultMediaSourceFactory(mediaDataSourceFactory)
                         .createMediaSource(audioItem);
 
                     MediaSource audioOnlySource = new FilteringMediaSource(rawSource, C.TRACK_TYPE_AUDIO);
@@ -1455,28 +1455,6 @@ public class ReactExoplayerView extends FrameLayout implements
         resumePosition = C.TIME_UNSET;
     }
 
-    /**
-     * Returns a new DataSource factory.
-     *
-     * @param useBandwidthMeter Whether to set {@link #bandwidthMeter} as a listener to the new
-     *                          DataSource factory.
-     * @return A new DataSource factory.
-     */
-    private DataSource.Factory buildDataSourceFactory(boolean useBandwidthMeter) {
-        return DataSourceUtil.getDefaultDataSourceFactory(this.themedReactContext,
-                useBandwidthMeter ? bandwidthMeter : null, source.getHeaders());
-    }
-
-    /**
-     * Returns a new HttpDataSource factory.
-     *
-     * @param useBandwidthMeter Whether to set {@link #bandwidthMeter} as a listener to the new
-     *     DataSource factory.
-     * @return A new HttpDataSource factory.
-     */
-    private HttpDataSource.Factory buildHttpDataSourceFactory(boolean useBandwidthMeter) {
-        return DataSourceUtil.getDefaultHttpDataSourceFactory(this.themedReactContext, useBandwidthMeter ? bandwidthMeter : null, source.getHeaders());
-    }
 
     // AudioBecomingNoisyListener implementation
     @Override
@@ -2118,9 +2096,7 @@ public class ReactExoplayerView extends FrameLayout implements
             boolean isSourceEqual = source.isEquals(this.source);
             hasDrmFailed = false;
             this.source = source;
-            final DataSource.Factory tmpMediaDataSourceFactory =
-                    DataSourceUtil.getDefaultDataSourceFactory(this.themedReactContext, bandwidthMeter,
-                            source.getHeaders());
+            final DataSource.Factory tmpMediaDataSourceFactory = DefaultDataSource.Factory(context, DataSourceUtil.buildHttpDataSourceFactory(this.themedReactContext, bandwidthMeter, source.getHeaders()));
 
             @Nullable
             final DataSource.Factory overriddenMediaDataSourceFactory = ReactNativeVideoManager.Companion.getInstance().overrideMediaDataSourceFactory(source, tmpMediaDataSourceFactory);
