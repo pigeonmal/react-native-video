@@ -12,6 +12,9 @@ public class DashMediaSource {
         public Factory(DefaultDashChunkSource.Factory factory, DataSource.Factory factory1) {
         }
 
+        public Factory(DataSource.Factory factory1) {
+        }
+
         @Override
         public MediaSource.Factory setDrmSessionManagerProvider(DrmSessionManagerProvider drmSessionManagerProvider) {
             return null;

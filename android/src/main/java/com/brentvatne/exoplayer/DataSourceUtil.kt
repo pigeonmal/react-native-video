@@ -18,7 +18,6 @@ object DataSourceUtil {
 
     @JvmStatic
     fun buildHttpDataSourceFactory(
-        context: ReactContext,
         bandwidthMeter: DefaultBandwidthMeter?,
         requestHeaders: Map<String, String>?
     ): HttpDataSource.Factory {

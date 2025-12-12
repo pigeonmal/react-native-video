@@ -56,6 +56,7 @@ import androidx.media3.common.text.CueGroup;
 import androidx.media3.common.util.Util;
 import androidx.media3.datasource.DataSource;
 import androidx.media3.datasource.DataSpec;
+import androidx.media3.datasource.DefaultDataSource;
 import androidx.media3.datasource.HttpDataSource;
 import androidx.media3.exoplayer.DefaultLoadControl;
 import androidx.media3.exoplayer.ExoPlayer;
@@ -192,6 +193,7 @@ public class ReactExoplayerView extends FrameLayout implements
     private FullScreenPlayerView fullScreenPlayerView;
     private ImaAdsLoader adsLoader;
 
+    private HttpDataSource.Factory httpDataSourceFactory;
     private DataSource.Factory mediaDataSourceFactory;
     private ExoPlayer player;
     private MyRenderersFactory renderersFactory;
@@ -819,7 +821,7 @@ public class ReactExoplayerView extends FrameLayout implements
             DRMManagerSpec drmManager = ReactNativeVideoManager.Companion.getInstance().getDRMManager();
             if (drmManager == null) {
                 // If no custom manager is registered, use the default implementation
-                drmManager = new DRMManager(mediaDataSourceFactory);
+                drmManager = new DRMManager(httpDataSourceFactory);
             }
 
             DrmSessionManager drmSessionManager = drmManager.buildDrmSessionManager(uuid, drmProps);
@@ -2096,7 +2098,8 @@ public class ReactExoplayerView extends FrameLayout implements
             boolean isSourceEqual = source.isEquals(this.source);
             hasDrmFailed = false;
             this.source = source;
-            final DataSource.Factory tmpMediaDataSourceFactory = DefaultDataSource.Factory(context, DataSourceUtil.buildHttpDataSourceFactory(this.themedReactContext, bandwidthMeter, source.getHeaders()));
+            this.httpDataSourceFactory = DataSourceUtil.buildHttpDataSourceFactory(bandwidthMeter, source.getHeaders());
+            final DataSource.Factory tmpMediaDataSourceFactory = DefaultDataSource.Factory(this.themedReactContext, this.httpDataSourceFactory);
 
             @Nullable
             final DataSource.Factory overriddenMediaDataSourceFactory = ReactNativeVideoManager.Companion.getInstance().overrideMediaDataSourceFactory(source, tmpMediaDataSourceFactory);
@@ -2129,6 +2132,7 @@ public class ReactExoplayerView extends FrameLayout implements
         }
 
         this.source = new Source();
+        this.httpDataSourceFactory = null;
         this.mediaDataSourceFactory = null;
         clearResumePosition();
     }

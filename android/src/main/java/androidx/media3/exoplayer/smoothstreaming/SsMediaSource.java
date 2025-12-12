@@ -11,6 +11,9 @@ public class SsMediaSource {
         public Factory(DefaultSsChunkSource.Factory factory, DataSource.Factory factory1) {
         }
 
+        public Factory(DataSource.Factory factory1) {
+        }
+
         @Override
         public MediaSource.Factory setDrmSessionManagerProvider(DrmSessionManagerProvider drmSessionManagerProvider) {
             return null;
