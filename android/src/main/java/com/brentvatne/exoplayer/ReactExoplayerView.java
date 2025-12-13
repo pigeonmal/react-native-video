@@ -2099,7 +2099,7 @@ public class ReactExoplayerView extends FrameLayout implements
             hasDrmFailed = false;
             this.source = source;
             this.httpDataSourceFactory = DataSourceUtil.buildHttpDataSourceFactory(bandwidthMeter, source.getHeaders());
-            final DataSource.Factory tmpMediaDataSourceFactory = DefaultDataSource.Factory(this.themedReactContext, this.httpDataSourceFactory);
+            final DataSource.Factory tmpMediaDataSourceFactory =  new DefaultDataSource.Factory(this.themedReactContext, this.httpDataSourceFactory);
 
             @Nullable
             final DataSource.Factory overriddenMediaDataSourceFactory = ReactNativeVideoManager.Companion.getInstance().overrideMediaDataSourceFactory(source, tmpMediaDataSourceFactory);
