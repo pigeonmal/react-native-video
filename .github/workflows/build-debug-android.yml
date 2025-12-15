@@ -14,38 +14,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-bun
+
+      - name: Install npm dependencies (bun)
+        run: bun install
 
       - name: Setup JDK 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: 17
           java-package: jdk
-
-      - name: Install node_modules at Root
-        uses: ./.github/actions/setup-node
-        with:
-          working-directory: ./
-
-      - name: Build Library
-        run: yarn build
-
-      - name: Install node_modules at Example
-        uses: ./.github/actions/setup-node
-        with:
-          working-directory: example
 
       - name: Restore Gradle cache
         uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
-            ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Run Gradle Build for example
-        run: cd example/android && ./gradlew assembleDebug --build-cache && cd ../../..
+
+      - name: Run Gradle Build for example/android/
+        working-directory: example/android
+        run: ./gradlew assembleDebug --no-daemon --build-cache
+
+      - name: Stop Gradle Daemon
+        working-directory: example/android
+        run: ./gradlew --stop
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
