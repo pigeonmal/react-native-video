@@ -242,6 +242,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
       .build()
 
     val renderersFactory = DefaultRenderersFactory(context)
+      .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
       .forceEnableMediaCodecAsynchronousQueueing()
       .setEnableDecoderFallback(true)
 
