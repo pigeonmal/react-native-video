@@ -4,17 +4,9 @@ on:
   push:
     branches:
       - master
-    paths:
-      - '.github/workflows/build-android.yml'
-      - 'android/**'
-      - 'example/**'
-      - 'yarn.lock'
   pull_request:
-    paths:
-      - '.github/workflows/build-android.yml'
-      - 'android/**'
-      - 'example/**'
-      - 'yarn.lock'
+    branches:
+      - master
 
 jobs:
   build:
@@ -54,3 +46,9 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Run Gradle Build for example
         run: cd example/android && ./gradlew assembleDebug --build-cache && cd ../../..
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Build Android
+          path: example/android/app/build/outputs/apk/debug/app-debug.apk
