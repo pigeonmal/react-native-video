@@ -193,6 +193,9 @@ android {
 repositories {
   mavenCentral()
   google()
+  maven {
+    url "https://pigeonmal.github.io/react-native-video"
+  }
 }
 
 def kotlin_version = getExtOrDefault("kotlinVersion")
