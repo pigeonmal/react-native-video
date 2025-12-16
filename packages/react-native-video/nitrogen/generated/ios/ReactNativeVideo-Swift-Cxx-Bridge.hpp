@@ -14,6 +14,8 @@ namespace margelo::nitro::video { struct BandwidthData; }
 namespace margelo::nitro::video { struct BufferConfig; }
 // Forward declaration of `CustomVideoMetadata` to properly resolve imports.
 namespace margelo::nitro::video { struct CustomVideoMetadata; }
+// Forward declaration of `ExternalForcedType` to properly resolve imports.
+namespace margelo::nitro::video { enum class ExternalForcedType; }
 // Forward declaration of `HybridVideoPlayerEventEmitterSpec` to properly resolve imports.
 namespace margelo::nitro::video { class HybridVideoPlayerEventEmitterSpec; }
 // Forward declaration of `HybridVideoPlayerFactorySpec` to properly resolve imports.
@@ -87,6 +89,7 @@ namespace ReactNativeVideo { class HybridVideoViewViewManagerSpec_cxx; }
 #include "BandwidthData.hpp"
 #include "BufferConfig.hpp"
 #include "CustomVideoMetadata.hpp"
+#include "ExternalForcedType.hpp"
 #include "HybridVideoPlayerEventEmitterSpec.hpp"
 #include "HybridVideoPlayerFactorySpec.hpp"
 #include "HybridVideoPlayerSourceFactorySpec.hpp"
@@ -970,6 +973,21 @@ namespace margelo::nitro::video::bridge::swift {
     return optional.has_value();
   }
   inline CustomVideoMetadata get_std__optional_CustomVideoMetadata_(const std::optional<CustomVideoMetadata>& optional) noexcept {
+    return *optional;
+  }
+  
+  // pragma MARK: std::optional<ExternalForcedType>
+  /**
+   * Specialized version of `std::optional<ExternalForcedType>`.
+   */
+  using std__optional_ExternalForcedType_ = std::optional<ExternalForcedType>;
+  inline std::optional<ExternalForcedType> create_std__optional_ExternalForcedType_(const ExternalForcedType& value) noexcept {
+    return std::optional<ExternalForcedType>(value);
+  }
+  inline bool has_value_std__optional_ExternalForcedType_(const std::optional<ExternalForcedType>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline ExternalForcedType get_std__optional_ExternalForcedType_(const std::optional<ExternalForcedType>& optional) noexcept {
     return *optional;
   }
   

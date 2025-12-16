@@ -19,7 +19,7 @@ public extension NativeVideoConfig {
   /**
    * Create a new instance of `NativeVideoConfig`.
    */
-  init(uri: String, externalSubtitles: [NativeExternalSubtitle]?, drm: NativeDrmParams?, headers: Dictionary<String, String>?, bufferConfig: BufferConfig?, metadata: CustomVideoMetadata?, initializeOnCreation: Bool?) {
+  init(uri: String, externalSubtitles: [NativeExternalSubtitle]?, drm: NativeDrmParams?, headers: Dictionary<String, String>?, bufferConfig: BufferConfig?, metadata: CustomVideoMetadata?, initializeOnCreation: Bool?, forceType: ExternalForcedType?) {
     self.init(std.string(uri), { () -> bridge.std__optional_std__vector_NativeExternalSubtitle__ in
       if let __unwrappedValue = externalSubtitles {
         return bridge.create_std__optional_std__vector_NativeExternalSubtitle__({ () -> bridge.std__vector_NativeExternalSubtitle_ in
@@ -65,6 +65,12 @@ public extension NativeVideoConfig {
     }(), { () -> bridge.std__optional_bool_ in
       if let __unwrappedValue = initializeOnCreation {
         return bridge.create_std__optional_bool_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_ExternalForcedType_ in
+      if let __unwrappedValue = forceType {
+        return bridge.create_std__optional_ExternalForcedType_(__unwrappedValue)
       } else {
         return .init()
       }
@@ -218,6 +224,23 @@ public extension NativeVideoConfig {
       self.__initializeOnCreation = { () -> bridge.std__optional_bool_ in
         if let __unwrappedValue = newValue {
           return bridge.create_std__optional_bool_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
+    }
+  }
+  
+  var forceType: ExternalForcedType? {
+    @inline(__always)
+    get {
+      return self.__forceType.value
+    }
+    @inline(__always)
+    set {
+      self.__forceType = { () -> bridge.std__optional_ExternalForcedType_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_ExternalForcedType_(__unwrappedValue)
         } else {
           return .init()
         }

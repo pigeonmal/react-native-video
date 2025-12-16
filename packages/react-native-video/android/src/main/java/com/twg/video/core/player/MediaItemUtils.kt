@@ -45,6 +45,15 @@ fun createMediaItemFromVideoConfig(
     mediaItemBuilder.setMediaMetadata(getCustomMetadata(metadata))
   }
 
+  if (!source.config.externalSubtitles.isNullOrEmpty()) {
+    mediaItemBuilder.setSubtitleConfigurations(getSubtitlesConfiguration(source.config))
+  }
+
+  when (source.forceType) {
+      ExternalForcedType.MPD -> C.CONTENT_TYPE_DASH
+      ExternalForcedType.M3U8 -> C.CONTENT_TYPE_HLS
+  }?.let { mediaItemBuilder.setMimeType(it) }
+
   return PluginsRegistry.shared.overrideMediaItemBuilder(
     source,
     mediaItemBuilder
@@ -78,7 +87,7 @@ fun getSubtitlesConfiguration(
         val subtitleConfig = MediaItem.SubtitleConfiguration.Builder(subtitle.uri.toUri())
           .setId("external-subtitle-${subtitle.uri}")
           .setMimeType(mimeType)
-          .setSelectionFlags(C.SELECTION_FLAG_DEFAULT)
+          .setSelectionFlags(0) //  C.SELECTION_FLAG_DEFAULT
           .setRoleFlags(C.ROLE_FLAG_SUBTITLE)
           .setLabel(subtitle.label)
           .build()

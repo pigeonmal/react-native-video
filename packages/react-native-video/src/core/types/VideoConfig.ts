@@ -61,6 +61,8 @@ export type VideoConfig = {
    * @default true
    */
   initializeOnCreation?: boolean;
+  /** when uri doesn't provide explicit extension, you can force a specific type */
+  forceType?: ExternalForcedType;
 };
 
 // @internal
@@ -125,6 +127,8 @@ interface ExternalSubtitleWithCustomType {
    */
   language?: string;
 }
+
+export type ExternalForcedType = 'm3u8' | 'mpd';
 
 export type ExternalSubtitle =
   | ExternalSubtitleWithInferredType
