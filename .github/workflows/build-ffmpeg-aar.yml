@@ -82,11 +82,22 @@ jobs:
           
           apply plugin: 'maven-publish'
           
+          // [CORRECTION] Force la création du composant 'release'
+          android {
+              publishing {
+                  singleVariant("release") {
+                      withSourcesJar()
+                  }
+              }
+          }
+          
           afterEvaluate {
               publishing {
                   publications {
                       release(MavenPublication) {
+                          // Maintenant 'components.release' existe grâce au bloc android ci-dessus
                           from components.release
+                          
                           groupId = 'androidx.media3'
                           artifactId = 'media3-decoder-ffmpeg'
                           version = '${{ github.event.inputs.MEDIA_TAG }}'
@@ -105,7 +116,6 @@ jobs:
                   }
                   repositories {
                       maven {
-                          // On publie dans un dossier nommé "maven-export" à la racine du runner
                           name = "LocalRepo"
                           url = uri("file://" + System.getenv("GITHUB_WORKSPACE") + "/maven-export")
                       }
