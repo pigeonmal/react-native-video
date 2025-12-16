@@ -109,7 +109,7 @@ android {
 
 repositories {
     maven {
-        url "https://pigeonmal.github.io/react-native-video/"
+        url "https://pigeonmal.github.io/react-native-video"
     }
 }
 
