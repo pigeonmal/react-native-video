@@ -207,7 +207,8 @@ dependencies {
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-  api project(':media3-decoder-ffmpeg')
+
+  implementation project(':react-native-video:media3-decoder-ffmpeg')
 
 
   // Add a dependency on NitroModules
