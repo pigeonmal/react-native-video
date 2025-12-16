@@ -10,9 +10,6 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { 
-            url 'https://pigeonmal.github.io/react-native-video/' 
-        }
     }
     dependencies {
         classpath("com.android.tools.build:gradle")
