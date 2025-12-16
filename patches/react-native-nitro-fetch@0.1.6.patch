@@ -1,0 +1,35 @@
+diff --git a/android/build.gradle b/android/build.gradle
+index 31757369bc4712d970b4d5e5b57868f355ece86a..649dfe08a5581ccf2e7c858ab6a27a30d82e34b7 100644
+--- a/android/build.gradle
++++ b/android/build.gradle
+@@ -109,8 +109,6 @@ repositories {
+ }
+ 
+ def kotlin_version = getExtOrDefault("kotlinVersion")
+-// ---------- Cronet (Java API only) ----------
+-def cronetVersion = (getExtOrDefault("cronetVersion") ?: "119.6045.31")
+ 
+ 
+ dependencies {
+@@ -119,7 +117,7 @@ dependencies {
+   implementation project(":react-native-nitro-modules")
+   // Provide org.chromium.net Java API for CronetEngine in Kotlin
+   // Cronet
+-  api "org.chromium.net:cronet-embedded:${cronetVersion}"
++  api "com.google.android.gms:play-services-cronet:18.0.1"
+   implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0"
+ 
+ }
+diff --git a/android/src/main/java/com/margelo/nitro/nitrofetch/NitroFetch.kt b/android/src/main/java/com/margelo/nitro/nitrofetch/NitroFetch.kt
+index 89170c67849b737ce84089ece568a8315dd92878..e935d64a65c678930b11e6bfe19ffc6e17843e3d 100644
+--- a/android/src/main/java/com/margelo/nitro/nitrofetch/NitroFetch.kt
++++ b/android/src/main/java/com/margelo/nitro/nitrofetch/NitroFetch.kt
+@@ -49,7 +49,7 @@ class NitroFetch : HybridNitroFetchSpec() {
+           .enableQuic(true)
+           .enableBrotli(true)
+           .setStoragePath(cacheDir.absolutePath)
+-          .enableHttpCache(CronetEngine.Builder.HTTP_CACHE_DISK, 50 * 1024 * 1024)
++          .enableHttpCache(CronetEngine.Builder.HTTP_CACHE_DISK_NO_HTTP, 10 * 1024 * 1024)
+           .setUserAgent("NitroFetch/0.1")
+ 
+ 

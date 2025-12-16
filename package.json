@@ -113,5 +113,8 @@
         }
       }
     }
+  },
+  "patchedDependencies": {
+    "react-native-nitro-fetch@0.1.6": "patches/react-native-nitro-fetch@0.1.6.patch"
   }
 }
