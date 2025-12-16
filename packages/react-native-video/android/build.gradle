@@ -193,9 +193,6 @@ android {
 repositories {
   mavenCentral()
   google()
-  flatDir {
-    dirs 'libs'
-  }
 }
 
 def kotlin_version = getExtOrDefault("kotlinVersion")
@@ -234,7 +231,7 @@ dependencies {
   // For Media Session
   implementation "androidx.media3:media3-session:$media3_version"
 
-  implementation files('libs/lib-decoder-ffmpeg-release.aar')
+  implementation 'androidx.media3:media3-decoder-ffmpeg:1.4.1'
 
   if (ExoplayerDependencies.useExoplayerDash) {
     implementation "androidx.media3:media3-exoplayer-dash:$media3_version"
