@@ -225,13 +225,13 @@ dependencies {
   // Common functionality for loading data
   implementation "androidx.media3:media3-datasource:$media3_version"
 
-  // For loading data using the OkHttp network stack
-  implementation "androidx.media3:media3-datasource-okhttp:$media3_version"
+  implementation "androidx.media3:media3-datasource-cronet:$media3_version"
 
   // For Media Session
   implementation "androidx.media3:media3-session:$media3_version"
 
   api project(':media3-ffmpeg-decoder')
+  implementation project(':react-native-nitro-fetch')
 
   if (ExoplayerDependencies.useExoplayerDash) {
     implementation "androidx.media3:media3-exoplayer-dash:$media3_version"
