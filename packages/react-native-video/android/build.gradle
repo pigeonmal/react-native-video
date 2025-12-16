@@ -193,8 +193,8 @@ android {
 repositories {
   mavenCentral()
   google()
-  maven { 
-    url 'https://pigeonmal.github.io/react-native-video/' 
+  flatDir {
+    dirs 'libs'
   }
 }
 
@@ -234,7 +234,7 @@ dependencies {
   // For Media Session
   implementation "androidx.media3:media3-session:$media3_version"
 
-  implementation 'androidx.media3:media3-decoder-ffmpeg:1.4.1'
+  implementation files('libs/lib-decoder-ffmpeg-release.aar')
 
   if (ExoplayerDependencies.useExoplayerDash) {
     implementation "androidx.media3:media3-exoplayer-dash:$media3_version"
