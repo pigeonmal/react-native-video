@@ -25,9 +25,6 @@ buildscript {
   repositories {
     google()
     mavenCentral()
-    maven {
-      url "https://pigeonmal.github.io/react-native-video"
-    }
   }
 
   dependencies {
@@ -196,9 +193,6 @@ android {
 repositories {
   mavenCentral()
   google()
-  maven {
-    url "https://pigeonmal.github.io/react-native-video"
-  }
 }
 
 def kotlin_version = getExtOrDefault("kotlinVersion")
@@ -236,8 +230,6 @@ dependencies {
 
   // For Media Session
   implementation "androidx.media3:media3-session:$media3_version"
-
-  implementation(name: 'ffmpeg', ext: 'aar')
 
   if (ExoplayerDependencies.useExoplayerDash) {
     implementation "androidx.media3:media3-exoplayer-dash:$media3_version"
