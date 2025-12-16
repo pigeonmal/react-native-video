@@ -54,6 +54,10 @@ export type VideoConfig = {
    * ```
    */
   externalSubtitles?: ExternalSubtitle[];
+  /** Add audios sources in addition of the video source */
+  externalAudios?: ExternalAudio[];
+  /** Positive or negative delay in millis */
+  initialSubtitleDelay?: number;
   /**
    * when the player is created, this flag will determine if native player should be initialized immediately.
    * If set to true, the player will be initialized as soon as player is created
@@ -71,6 +75,12 @@ export interface NativeVideoConfig extends VideoConfig {
   uri: string;
   externalSubtitles?: NativeExternalSubtitle[];
   drm?: NativeDrmParams;
+}
+
+export interface ExternalAudio {
+  uri: string;
+  mimetype?: string;
+  headers?: Record<string, string>;
 }
 
 /**

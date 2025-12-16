@@ -12,7 +12,6 @@ import androidx.media3.common.Tracks
 import androidx.media3.common.text.CueGroup
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.DefaultLoadControl
-import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.analytics.AnalyticsListener
 import androidx.media3.exoplayer.upstream.DefaultAllocator
@@ -37,6 +36,7 @@ import com.twg.video.core.utils.Threading.mainThreadProperty
 import com.twg.video.core.utils.Threading.runOnMainThread
 import com.twg.video.core.utils.Threading.runOnMainThreadSync
 import com.twg.video.core.utils.VideoOrientationUtils
+import com.twg.video.core.custom.MyRenderersFactory
 import com.twg.video.view.VideoView
 import java.lang.ref.WeakReference
 import kotlin.math.max
@@ -64,6 +64,8 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
     // Build Temporary player that will be replaced when source is loaded
     return@runOnMainThreadSync ExoPlayer.Builder(context).build()
   }
+
+  private var renderersFactory: MyRenderersFactory? = null
 
   var loadedWithSource = false
   private var currentPlayerView: WeakReference<PlayerView>? = null
@@ -241,8 +243,8 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
       )
       .build()
 
-    val renderersFactory = DefaultRenderersFactory(context)
-      .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
+    renderersFactory = MyRenderersFactory(context, hybridSource.config.initialSubtitleDelay ?: 0L)
+      .setExtensionRendererMode(MyRenderersFactory.EXTENSION_RENDERER_MODE_ON)
       .forceEnableMediaCodecAsynchronousQueueing()
       .setEnableDecoderFallback(true)
 
@@ -362,7 +364,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
       player.removeListener(playerListener)
       player.removeAnalyticsListener(analyticsListener)
       player.release() // Release player
-
+      renderersFactory = null
       // Clean Listeners
       audioFocusChangedListener.removeEventEmitter()
       audioBecomingNoisyReceiver.removeEventEmitter()

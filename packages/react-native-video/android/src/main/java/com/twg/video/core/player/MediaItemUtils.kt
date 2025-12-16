@@ -49,7 +49,7 @@ fun createMediaItemFromVideoConfig(
     mediaItemBuilder.setSubtitleConfigurations(getSubtitlesConfiguration(source.config))
   }
 
-  when (source.forceType) {
+  when (source.config.forceType) {
       ExternalForcedType.MPD -> C.CONTENT_TYPE_DASH
       ExternalForcedType.M3U8 -> C.CONTENT_TYPE_HLS
   }?.let { mediaItemBuilder.setMimeType(it) }
@@ -66,7 +66,7 @@ fun getSubtitlesConfiguration(
   val subtitlesConfiguration: MutableList<MediaItem.SubtitleConfiguration> = mutableListOf()
 
   if (config.externalSubtitles != null) {
-    for (subtitle in config.externalSubtitles) {
+    for ((index, subtitle) in config.externalSubtitles.withIndex()) {
       val ext = if (subtitle.type == SubtitleType.AUTO) {
         MimeTypeMap.getFileExtensionFromUrl(subtitle.uri)
       } else {
@@ -85,7 +85,7 @@ fun getSubtitlesConfiguration(
 
       try {
         val subtitleConfig = MediaItem.SubtitleConfiguration.Builder(subtitle.uri.toUri())
-          .setId("external-subtitle-${subtitle.uri}")
+          .setId("external-subtitle-$index")
           .setMimeType(mimeType)
           .setSelectionFlags(0) //  C.SELECTION_FLAG_DEFAULT
           .setRoleFlags(C.ROLE_FLAG_SUBTITLE)

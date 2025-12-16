@@ -226,6 +226,8 @@ dependencies {
   implementation "androidx.media3:media3-datasource:$media3_version"
 
   implementation "androidx.media3:media3-datasource-cronet:$media3_version"
+  implementation "androidx.media3:media3-datasource-okhttp:$media3_version"
+
 
   // For Media Session
   implementation "androidx.media3:media3-session:$media3_version"

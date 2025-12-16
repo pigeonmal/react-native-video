@@ -14,6 +14,8 @@ namespace margelo::nitro::video { struct BandwidthData; }
 namespace margelo::nitro::video { struct BufferConfig; }
 // Forward declaration of `CustomVideoMetadata` to properly resolve imports.
 namespace margelo::nitro::video { struct CustomVideoMetadata; }
+// Forward declaration of `ExternalAudio` to properly resolve imports.
+namespace margelo::nitro::video { struct ExternalAudio; }
 // Forward declaration of `ExternalForcedType` to properly resolve imports.
 namespace margelo::nitro::video { enum class ExternalForcedType; }
 // Forward declaration of `HybridVideoPlayerEventEmitterSpec` to properly resolve imports.
@@ -89,6 +91,7 @@ namespace ReactNativeVideo { class HybridVideoViewViewManagerSpec_cxx; }
 #include "BandwidthData.hpp"
 #include "BufferConfig.hpp"
 #include "CustomVideoMetadata.hpp"
+#include "ExternalAudio.hpp"
 #include "ExternalForcedType.hpp"
 #include "HybridVideoPlayerEventEmitterSpec.hpp"
 #include "HybridVideoPlayerFactorySpec.hpp"
@@ -973,6 +976,32 @@ namespace margelo::nitro::video::bridge::swift {
     return optional.has_value();
   }
   inline CustomVideoMetadata get_std__optional_CustomVideoMetadata_(const std::optional<CustomVideoMetadata>& optional) noexcept {
+    return *optional;
+  }
+  
+  // pragma MARK: std::vector<ExternalAudio>
+  /**
+   * Specialized version of `std::vector<ExternalAudio>`.
+   */
+  using std__vector_ExternalAudio_ = std::vector<ExternalAudio>;
+  inline std::vector<ExternalAudio> create_std__vector_ExternalAudio_(size_t size) noexcept {
+    std::vector<ExternalAudio> vector;
+    vector.reserve(size);
+    return vector;
+  }
+  
+  // pragma MARK: std::optional<std::vector<ExternalAudio>>
+  /**
+   * Specialized version of `std::optional<std::vector<ExternalAudio>>`.
+   */
+  using std__optional_std__vector_ExternalAudio__ = std::optional<std::vector<ExternalAudio>>;
+  inline std::optional<std::vector<ExternalAudio>> create_std__optional_std__vector_ExternalAudio__(const std::vector<ExternalAudio>& value) noexcept {
+    return std::optional<std::vector<ExternalAudio>>(value);
+  }
+  inline bool has_value_std__optional_std__vector_ExternalAudio__(const std::optional<std::vector<ExternalAudio>>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline std::vector<ExternalAudio> get_std__optional_std__vector_ExternalAudio__(const std::optional<std::vector<ExternalAudio>>& optional) noexcept {
     return *optional;
   }
   

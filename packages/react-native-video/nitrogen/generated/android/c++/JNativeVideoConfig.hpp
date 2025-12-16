@@ -12,9 +12,11 @@
 
 #include "BufferConfig.hpp"
 #include "CustomVideoMetadata.hpp"
+#include "ExternalAudio.hpp"
 #include "ExternalForcedType.hpp"
 #include "JBufferConfig.hpp"
 #include "JCustomVideoMetadata.hpp"
+#include "JExternalAudio.hpp"
 #include "JExternalForcedType.hpp"
 #include "JFunc_std__shared_ptr_Promise_std__shared_ptr_Promise_std__string_____OnGetLicensePayload.hpp"
 #include "JLivePlaybackParams.hpp"
@@ -69,6 +71,10 @@ namespace margelo::nitro::video {
       jni::local_ref<JBufferConfig> bufferConfig = this->getFieldValue(fieldBufferConfig);
       static const auto fieldMetadata = clazz->getField<JCustomVideoMetadata>("metadata");
       jni::local_ref<JCustomVideoMetadata> metadata = this->getFieldValue(fieldMetadata);
+      static const auto fieldExternalAudios = clazz->getField<jni::JArrayClass<JExternalAudio>>("externalAudios");
+      jni::local_ref<jni::JArrayClass<JExternalAudio>> externalAudios = this->getFieldValue(fieldExternalAudios);
+      static const auto fieldInitialSubtitleDelay = clazz->getField<jni::JDouble>("initialSubtitleDelay");
+      jni::local_ref<jni::JDouble> initialSubtitleDelay = this->getFieldValue(fieldInitialSubtitleDelay);
       static const auto fieldInitializeOnCreation = clazz->getField<jni::JBoolean>("initializeOnCreation");
       jni::local_ref<jni::JBoolean> initializeOnCreation = this->getFieldValue(fieldInitializeOnCreation);
       static const auto fieldForceType = clazz->getField<JExternalForcedType>("forceType");
@@ -96,6 +102,17 @@ namespace margelo::nitro::video {
         }()) : std::nullopt,
         bufferConfig != nullptr ? std::make_optional(bufferConfig->toCpp()) : std::nullopt,
         metadata != nullptr ? std::make_optional(metadata->toCpp()) : std::nullopt,
+        externalAudios != nullptr ? std::make_optional([&]() {
+          size_t __size = externalAudios->size();
+          std::vector<ExternalAudio> __vector;
+          __vector.reserve(__size);
+          for (size_t __i = 0; __i < __size; __i++) {
+            auto __element = externalAudios->getElement(__i);
+            __vector.push_back(__element->toCpp());
+          }
+          return __vector;
+        }()) : std::nullopt,
+        initialSubtitleDelay != nullptr ? std::make_optional(initialSubtitleDelay->value()) : std::nullopt,
         initializeOnCreation != nullptr ? std::make_optional(static_cast<bool>(initializeOnCreation->value())) : std::nullopt,
         forceType != nullptr ? std::make_optional(forceType->toCpp()) : std::nullopt
       );
@@ -107,7 +124,7 @@ namespace margelo::nitro::video {
      */
     [[maybe_unused]]
     static jni::local_ref<JNativeVideoConfig::javaobject> fromCpp(const NativeVideoConfig& value) {
-      using JSignature = JNativeVideoConfig(jni::alias_ref<jni::JString>, jni::alias_ref<jni::JArrayClass<JNativeExternalSubtitle>>, jni::alias_ref<JNativeDrmParams>, jni::alias_ref<jni::JMap<jni::JString, jni::JString>>, jni::alias_ref<JBufferConfig>, jni::alias_ref<JCustomVideoMetadata>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<JExternalForcedType>);
+      using JSignature = JNativeVideoConfig(jni::alias_ref<jni::JString>, jni::alias_ref<jni::JArrayClass<JNativeExternalSubtitle>>, jni::alias_ref<JNativeDrmParams>, jni::alias_ref<jni::JMap<jni::JString, jni::JString>>, jni::alias_ref<JBufferConfig>, jni::alias_ref<JCustomVideoMetadata>, jni::alias_ref<jni::JArrayClass<JExternalAudio>>, jni::alias_ref<jni::JDouble>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<JExternalForcedType>);
       static const auto clazz = javaClassStatic();
       static const auto create = clazz->getStaticMethod<JSignature>("fromCpp");
       return create(
@@ -133,6 +150,17 @@ namespace margelo::nitro::video {
         }() : nullptr,
         value.bufferConfig.has_value() ? JBufferConfig::fromCpp(value.bufferConfig.value()) : nullptr,
         value.metadata.has_value() ? JCustomVideoMetadata::fromCpp(value.metadata.value()) : nullptr,
+        value.externalAudios.has_value() ? [&]() {
+          size_t __size = value.externalAudios.value().size();
+          jni::local_ref<jni::JArrayClass<JExternalAudio>> __array = jni::JArrayClass<JExternalAudio>::newArray(__size);
+          for (size_t __i = 0; __i < __size; __i++) {
+            const auto& __element = value.externalAudios.value()[__i];
+            auto __elementJni = JExternalAudio::fromCpp(__element);
+            __array->setElement(__i, *__elementJni);
+          }
+          return __array;
+        }() : nullptr,
+        value.initialSubtitleDelay.has_value() ? jni::JDouble::valueOf(value.initialSubtitleDelay.value()) : nullptr,
         value.initializeOnCreation.has_value() ? jni::JBoolean::valueOf(value.initializeOnCreation.value()) : nullptr,
         value.forceType.has_value() ? JExternalForcedType::fromCpp(value.forceType.value()) : nullptr
       );

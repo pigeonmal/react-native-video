@@ -25,10 +25,7 @@ object TextTrackUtils {
                         val language = format.language
                         val isSelected = trackGroup.isTrackSelected(trackIndex)
 
-                        // Determine if this is an external track by checking if it matches external subtitle labels
-                        val isExternal = source.config.externalSubtitles?.any { subtitle ->
-                            label.contains(subtitle.label, ignoreCase = true)
-                        } == true
+                        val isExternal = trackId.startsWith("external-subtitle") == true
 
                         val finalTrackId = if (isExternal) "external-$globalTrackIndex" else trackId
 
@@ -88,10 +85,7 @@ object TextTrackUtils {
                         val currentTrackId = format.id ?: "text-$globalTrackIndex"
                         val label = format.label ?: "Unknown ${globalTrackIndex + 1}"
 
-                        // Check if this matches our target track (either by original ID or by external ID)
-                        val isExternal = source.config.externalSubtitles?.any { subtitle ->
-                            label.contains(subtitle.label, ignoreCase = true)
-                        } == true
+                        val isExternal = currentTrackId.startsWith("external-subtitle") == true
 
                         val finalTrackId =
                             if (isExternal) "external-$globalTrackIndex" else currentTrackId
@@ -147,10 +141,7 @@ object TextTrackUtils {
                             val label = format.label ?: "Unknown ${globalTrackIndex + 1}"
                             val language = format.language
 
-                            // Determine if this is an external track by checking if it matches external subtitle labels
-                            val isExternal = source.config.externalSubtitles?.any { subtitle ->
-                                label.contains(subtitle.label, ignoreCase = true)
-                            } == true
+                            val isExternal = trackId.startsWith("external-subtitle") == true
 
                             val finalTrackId = if (isExternal) "external-$globalTrackIndex" else trackId
 

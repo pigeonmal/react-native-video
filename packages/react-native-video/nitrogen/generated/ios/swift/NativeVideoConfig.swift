@@ -19,7 +19,7 @@ public extension NativeVideoConfig {
   /**
    * Create a new instance of `NativeVideoConfig`.
    */
-  init(uri: String, externalSubtitles: [NativeExternalSubtitle]?, drm: NativeDrmParams?, headers: Dictionary<String, String>?, bufferConfig: BufferConfig?, metadata: CustomVideoMetadata?, initializeOnCreation: Bool?, forceType: ExternalForcedType?) {
+  init(uri: String, externalSubtitles: [NativeExternalSubtitle]?, drm: NativeDrmParams?, headers: Dictionary<String, String>?, bufferConfig: BufferConfig?, metadata: CustomVideoMetadata?, externalAudios: [ExternalAudio]?, initialSubtitleDelay: Double?, initializeOnCreation: Bool?, forceType: ExternalForcedType?) {
     self.init(std.string(uri), { () -> bridge.std__optional_std__vector_NativeExternalSubtitle__ in
       if let __unwrappedValue = externalSubtitles {
         return bridge.create_std__optional_std__vector_NativeExternalSubtitle__({ () -> bridge.std__vector_NativeExternalSubtitle_ in
@@ -59,6 +59,24 @@ public extension NativeVideoConfig {
     }(), { () -> bridge.std__optional_CustomVideoMetadata_ in
       if let __unwrappedValue = metadata {
         return bridge.create_std__optional_CustomVideoMetadata_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_std__vector_ExternalAudio__ in
+      if let __unwrappedValue = externalAudios {
+        return bridge.create_std__optional_std__vector_ExternalAudio__({ () -> bridge.std__vector_ExternalAudio_ in
+          var __vector = bridge.create_std__vector_ExternalAudio_(__unwrappedValue.count)
+          for __item in __unwrappedValue {
+            __vector.push_back(__item)
+          }
+          return __vector
+        }())
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_double_ in
+      if let __unwrappedValue = initialSubtitleDelay {
+        return bridge.create_std__optional_double_(__unwrappedValue)
       } else {
         return .init()
       }
@@ -200,6 +218,53 @@ public extension NativeVideoConfig {
       self.__metadata = { () -> bridge.std__optional_CustomVideoMetadata_ in
         if let __unwrappedValue = newValue {
           return bridge.create_std__optional_CustomVideoMetadata_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
+    }
+  }
+  
+  var externalAudios: [ExternalAudio]? {
+    @inline(__always)
+    get {
+      return { () -> [ExternalAudio]? in
+        if bridge.has_value_std__optional_std__vector_ExternalAudio__(self.__externalAudios) {
+          let __unwrapped = bridge.get_std__optional_std__vector_ExternalAudio__(self.__externalAudios)
+          return __unwrapped.map({ __item in __item })
+        } else {
+          return nil
+        }
+      }()
+    }
+    @inline(__always)
+    set {
+      self.__externalAudios = { () -> bridge.std__optional_std__vector_ExternalAudio__ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_std__vector_ExternalAudio__({ () -> bridge.std__vector_ExternalAudio_ in
+            var __vector = bridge.create_std__vector_ExternalAudio_(__unwrappedValue.count)
+            for __item in __unwrappedValue {
+              __vector.push_back(__item)
+            }
+            return __vector
+          }())
+        } else {
+          return .init()
+        }
+      }()
+    }
+  }
+  
+  var initialSubtitleDelay: Double? {
+    @inline(__always)
+    get {
+      return self.__initialSubtitleDelay.value
+    }
+    @inline(__always)
+    set {
+      self.__initialSubtitleDelay = { () -> bridge.std__optional_double_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_double_(__unwrappedValue)
         } else {
           return .init()
         }
