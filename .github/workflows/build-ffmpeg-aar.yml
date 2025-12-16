@@ -48,7 +48,7 @@ jobs:
       - name: Build Media3 Exoplayer FFmpeg
         run: |
           cd "$GITHUB_WORKSPACE"
-          git clone -b ffmpeg1.4.1 --single-branch https://github.com/pigeonmal/media.git
+          git clone --depth 1 --branch ${{ github.event.inputs.MEDIA_TAG }} https://github.com/androidx/media.git
           cd media
           FFMPEG_MODULE_PATH="$(pwd)/libraries/decoder_ffmpeg/src/main"
           NDK_PATH="$GITHUB_WORKSPACE"/android-ndk-${{ github.event.inputs.ANDROID_NDK }}
@@ -66,13 +66,14 @@ jobs:
           ./build_ffmpeg.sh \
           "${FFMPEG_MODULE_PATH}" "${NDK_PATH}" "${HOST_PLATFORM}" "${ANDROID_ABI}" "${ENABLED_DECODERS[@]}"
 
-      - name: Publish to Maven Central
-        env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
-          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+      - name: Build FFmpeg AAR
         run: |
-          cd "$GITHUB_WORKSPACE/media"
-          ./gradlew lib-decoder-ffmpeg:publishReleasePublicationToSonatypeRepository
+          cd "$GITHUB_WORKSPACE"
+          cd media
+          ./gradlew lib-decoder-ffmpeg:assembleRelease
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: media3-ffmpeg-decoder-${{ github.event.inputs.MEDIA_TAG }}
+          path: media/libraries/decoder_ffmpeg/*
