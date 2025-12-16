@@ -23,10 +23,6 @@ on:
         description: 'MEDIA_TAG'
         required: true
         default: '1.4.1'
-      JITPACK_RELEASE:
-        description: 'Create JitPack Release (true/false)'
-        required: false
-        default: 'true'
 
 jobs:
   Build-Media3-Exoplayer-FFmpeg:
@@ -70,77 +66,13 @@ jobs:
           ./build_ffmpeg.sh \
           "${FFMPEG_MODULE_PATH}" "${NDK_PATH}" "${HOST_PLATFORM}" "${ANDROID_ABI}" "${ENABLED_DECODERS[@]}"
 
-      - name: Build FFmpeg AAR
-        run: |
-          cd "$GITHUB_WORKSPACE"
-          cd media
-          ./gradlew lib-decoder-ffmpeg:assembleRelease
-
-      - name: Configure Git
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-
-      - name: Create GitHub Release for JitPack
-        if: github.event.inputs.JITPACK_RELEASE == 'true'
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            media/libraries/decoder_ffmpeg/buildout/outputs/aar/lib-decoder-ffmpeg-release.aar
-          tag_name: ffmpeg-${{ github.event.inputs.FFMPEG_RELEASE_BRANCH }}-media${{ github.event.inputs.MEDIA_TAG }}
-          body: |
-            # Media3 ExoPlayer FFmpeg Decoder
-            
-            - **FFmpeg Release**: ${{ github.event.inputs.FFMPEG_RELEASE_BRANCH }}
-            - **Media Tag**: ${{ github.event.inputs.MEDIA_TAG }}
-            - **Android NDK**: ${{ github.event.inputs.ANDROID_NDK }}
-            - **Target ABI**: ${{ github.event.inputs.ANDROID_ABI }}
-            - **Enabled Decoders**: ${{ github.event.inputs.ENABLED_DECODERS }}
-            
-            This AAR is ready for JitPack deployment.
-            
-            ## Usage with JitPack
-            
-            1. Add JitPack to your project's `settings.gradle`:
-            ```gradle
-            dependencyResolutionManagement {
-                repositories {
-                    maven { url 'https://jitpack.io' }
-                }
-            }
-            ```
-            
-            2. Add the dependency to your module's `build.gradle`:
-            ```gradle
-            dependencies {
-                implementation 'com.github.YOUR_USERNAME:YOUR_REPO:ffmpeg-${{ github.event.inputs.FFMPEG_RELEASE_BRANCH }}-media${{ github.event.inputs.MEDIA_TAG }}'
-            }
-            ```
+      - name: Publish to Maven Central
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: media3-ffmpeg-decoder-${{ github.event.inputs.MEDIA_TAG }}
-          path: media/libraries/decoder_ffmpeg/*
-
-  Notify-JitPack:
-    needs: Build-Media3-Exoplayer-FFmpeg
-    runs-on: ubuntu-latest
-    if: github.event.inputs.JITPACK_RELEASE == 'true'
-    
-    steps:
-      - name: Notify JitPack Build
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
         run: |
-          RELEASE_TAG="ffmpeg-${{ github.event.inputs.FFMPEG_RELEASE_BRANCH }}-media${{ github.event.inputs.MEDIA_TAG }}"
-          REPO_URL="${{ github.server_url }}/${{ github.repository }}"
-          
-          echo "✅ Release created: $RELEASE_TAG"
-          echo "📦 Repository: $REPO_URL"
-          echo ""
-          echo "🔗 JitPack URL:"
-          echo "https://jitpack.io/#$(echo $REPO_URL | sed 's|.*github.com/||')/$(echo $RELEASE_TAG)"
-          echo ""
-          echo "⏳ JitPack will automatically build the AAR."
-          echo "   Check https://jitpack.io for build status."
+          cd "$GITHUB_WORKSPACE/media"
+          ./gradlew lib-decoder-ffmpeg:publishReleasePublicationToSonatypeRepository
