@@ -231,6 +231,9 @@ dependencies {
   // For Media Session
   implementation "androidx.media3:media3-session:$media3_version"
 
+  implementation 'com.github.pigeonmal:react-native-video:ffmpeg-6.0-media1.4.1'
+
+
   if (ExoplayerDependencies.useExoplayerDash) {
     implementation "androidx.media3:media3-exoplayer-dash:$media3_version"
   }
