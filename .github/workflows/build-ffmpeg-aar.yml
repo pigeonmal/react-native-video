@@ -1,4 +1,4 @@
-name: Build & Publish Media3 FFmpeg to Pages
+name: Build Media3 Exoplayer FFmpeg
 
 on:
   workflow_dispatch:
@@ -20,15 +20,13 @@ on:
         required: true
         default: '6.0'
       MEDIA_TAG:
-        description: 'MEDIA_TAG (Version)'
+        description: 'MEDIA_TAG'
         required: true
         default: '1.4.1'
 
 jobs:
-  Build-And-Deploy:
+  Build-Media3-Exoplayer-FFmpeg:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # Nécessaire pour pousser sur la branche gh-pages
 
     steps:
       - name: Checkout repository
@@ -47,95 +45,35 @@ jobs:
           unzip android-ndk-${{ github.event.inputs.ANDROID_NDK }}-linux.zip &>/dev/null
           rm -rf android-ndk-${{ github.event.inputs.ANDROID_NDK }}-linux.zip
 
-      - name: Setup & Build FFmpeg
+      - name: Build Media3 Exoplayer FFmpeg
         run: |
           cd "$GITHUB_WORKSPACE"
-          # Clone Media3
           git clone --depth 1 --branch ${{ github.event.inputs.MEDIA_TAG }} https://github.com/androidx/media.git
-          
-          # Setup Variables
           cd media
           FFMPEG_MODULE_PATH="$(pwd)/libraries/decoder_ffmpeg/src/main"
           NDK_PATH="$GITHUB_WORKSPACE"/android-ndk-${{ github.event.inputs.ANDROID_NDK }}
           HOST_PLATFORM="linux-x86_64"
           ANDROID_ABI=${{ github.event.inputs.ANDROID_ABI }}
           ENABLED_DECODERS=(${{ github.event.inputs.ENABLED_DECODERS }})
-          
-          # Build Native
-          cd libraries/decoder_ffmpeg
-          git clone git://source.ffmpeg.org/ffmpeg
-          cd ffmpeg
-          git checkout release/${{ github.event.inputs.FFMPEG_RELEASE_BRANCH }}
+          cd libraries/decoder_ffmpeg && \
+          git clone git://source.ffmpeg.org/ffmpeg && \
+          cd ffmpeg && \
+          git checkout release/${{ github.event.inputs.FFMPEG_RELEASE_BRANCH }} && \
           FFMPEG_PATH="$(pwd)"
-          
-          cd "${FFMPEG_MODULE_PATH}/jni"
+          cd "${FFMPEG_MODULE_PATH}/jni" && \
           ln -s "$FFMPEG_PATH" ffmpeg
+          cd "${FFMPEG_MODULE_PATH}/jni" && \
           ./build_ffmpeg.sh \
-            "${FFMPEG_MODULE_PATH}" "${NDK_PATH}" "${HOST_PLATFORM}" "${ANDROID_ABI}" "${ENABLED_DECODERS[@]}"
+          "${FFMPEG_MODULE_PATH}" "${NDK_PATH}" "${HOST_PLATFORM}" "${ANDROID_ABI}" "${ENABLED_DECODERS[@]}"
 
-      # Étape 1 : Configurer Gradle pour publier dans un dossier LOCAL temporaire
-      - name: Inject Local Publishing Config
+      - name: Build FFmpeg AAR
         run: |
-          cd "$GITHUB_WORKSPACE/media/libraries/decoder_ffmpeg"
-          
-          cat <<EOF >> build.gradle
-          
-          apply plugin: 'maven-publish'
-          
-          // [CORRECTION] Force la création du composant 'release'
-          android {
-              publishing {
-                  singleVariant("release") {
-                      withSourcesJar()
-                  }
-              }
-          }
-          
-          afterEvaluate {
-              publishing {
-                  publications {
-                      release(MavenPublication) {
-                          // Maintenant 'components.release' existe grâce au bloc android ci-dessus
-                          from components.release
-                          
-                          groupId = 'androidx.media3'
-                          artifactId = 'media3-decoder-ffmpeg'
-                          version = '${{ github.event.inputs.MEDIA_TAG }}'
-                          
-                          pom {
-                              name = 'Media3 FFmpeg Decoder'
-                              description = 'Unofficial FFmpeg decoder for Media3'
-                              licenses {
-                                  license {
-                                      name = 'The Apache License, Version 2.0'
-                                      url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                                  }
-                              }
-                          }
-                      }
-                  }
-                  repositories {
-                      maven {
-                          name = "LocalRepo"
-                          url = uri("file://" + System.getenv("GITHUB_WORKSPACE") + "/maven-export")
-                      }
-                  }
-              }
-          }
-          EOF
+          cd "$GITHUB_WORKSPACE"
+          cd media
+          ./gradlew lib-decoder-ffmpeg:assembleRelease
 
-      # Étape 2 : Générer les fichiers (AAR + POM) dans le dossier local
-      - name: Generate Maven Artifacts
-        run: |
-          cd "$GITHUB_WORKSPACE/media"
-          ./gradlew lib-decoder-ffmpeg:publish
-
-      # Étape 3 : Pousser le contenu de "maven-export" vers la branche "gh-pages"
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Upload
+        uses: actions/upload-artifact@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./maven-export
-          keep_files: true  # IMPORTANT : Garde les anciennes versions (v1.4.0) quand on publie la v1.4.1
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
+          name: media3-ffmpeg-decoder-${{ github.event.inputs.MEDIA_TAG }}
+          path: media/libraries/decoder_ffmpeg/*
