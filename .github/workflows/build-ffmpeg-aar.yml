@@ -86,7 +86,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            media/libraries/decoder_ffmpeg/build/outputs/aar/lib-decoder-ffmpeg-release.aar
+            media/libraries/decoder_ffmpeg/buildout/outputs/aar/lib-decoder-ffmpeg-release.aar
           tag_name: ffmpeg-${{ github.event.inputs.FFMPEG_RELEASE_BRANCH }}-media${{ github.event.inputs.MEDIA_TAG }}
           body: |
             # Media3 ExoPlayer FFmpeg Decoder
@@ -113,7 +113,7 @@ jobs:
             2. Add the dependency to your module's `build.gradle`:
             ```gradle
             dependencies {
-                implementation 'com.github.pigeonmal:react-native-video:ffmpeg-${{ github.event.inputs.FFMPEG_RELEASE_BRANCH }}-media${{ github.event.inputs.MEDIA_TAG }}'
+                implementation 'com.github.YOUR_USERNAME:YOUR_REPO:ffmpeg-${{ github.event.inputs.FFMPEG_RELEASE_BRANCH }}-media${{ github.event.inputs.MEDIA_TAG }}'
             }
             ```
         env:
@@ -123,7 +123,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: media3-ffmpeg-decoder-${{ github.event.inputs.MEDIA_TAG }}
-          path: media/libraries/decoder_ffmpeg/build/outputs/aar/
+          path: media/libraries/decoder_ffmpeg/*
 
   Notify-JitPack:
     needs: Build-Media3-Exoplayer-FFmpeg
