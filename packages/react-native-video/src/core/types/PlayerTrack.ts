@@ -1,4 +1,4 @@
-export interface TextTrack {
+export interface PlayerTrack {
   /**
    * Unique identifier for the text track
    */

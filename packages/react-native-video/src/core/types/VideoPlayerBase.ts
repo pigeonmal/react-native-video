@@ -1,11 +1,11 @@
 import type { IgnoreSilentSwitchMode } from './IgnoreSilentSwitchMode';
 import type { MixAudioMode } from './MixAudioMode';
-import type { TextTrack } from './TextTrack';
 import type { VideoPlayerSourceBase } from './VideoPlayerSourceBase';
 import type { VideoPlayerStatus } from './VideoPlayerStatus';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { VideoConfig } from './VideoConfig';
+import type { PlayerTrack } from './PlayerTrack';
 
 export interface VideoPlayerBase {
   /**
@@ -158,17 +158,17 @@ export interface VideoPlayerBase {
    * Get all available text tracks for the current source.
    * @returns Array of available text tracks
    */
-  getAvailableTextTracks(): TextTrack[];
+  getAvailableTextTracks(): PlayerTrack[];
 
   /**
    * Select a text track to display.
    * @param textTrack - Text track to select, or null to unselect current track
    */
-  selectTextTrack(textTrack: TextTrack | null): void;
+  selectTextTrack(textTrack: PlayerTrack | null): void;
 
   /**
    * Get the currently selected text track.
    * @returns The currently selected text track, or undefined if none is selected
    */
-  readonly selectedTrack?: TextTrack;
+  readonly selectedTrack?: PlayerTrack;
 }

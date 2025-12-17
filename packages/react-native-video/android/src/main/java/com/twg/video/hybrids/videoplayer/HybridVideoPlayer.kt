@@ -602,11 +602,11 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
 
   // MARK: - Text Track Management
 
-  override fun getAvailableTextTracks(): Array<TextTrack> {
+  override fun getAvailableTextTracks(): Array<PlayerTrack> {
     return TextTrackUtils.getAvailableTextTracks(player, source)
   }
 
-  override fun selectTextTrack(textTrack: Variant_NullType_TextTrack?) {
+  override fun selectTextTrack(textTrack: Variant_NullType_PlayerTrack?) {
     selectedExternalTrackIndex = TextTrackUtils.selectTextTrack(
       player = player,
       textTrack = textTrack?.asSecondOrNull(),
@@ -614,6 +614,6 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
     )
   }
 
-  override val selectedTrack: TextTrack?
+  override val selectedTrack: PlayerTrack?
     get() = TextTrackUtils.getSelectedTrack(player, source)
 }

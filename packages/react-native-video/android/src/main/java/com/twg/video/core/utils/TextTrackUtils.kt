@@ -5,13 +5,13 @@ import androidx.media3.common.TrackSelectionOverride
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import com.margelo.nitro.video.HybridVideoPlayerSourceSpec
-import com.margelo.nitro.video.TextTrack
+import com.margelo.nitro.video.PlayerTrack
 
 @UnstableApi
 object TextTrackUtils {
-    fun getAvailableTextTracks(player: ExoPlayer, source: HybridVideoPlayerSourceSpec): Array<TextTrack> {
+    fun getAvailableTextTracks(player: ExoPlayer, source: HybridVideoPlayerSourceSpec): Array<PlayerTrack> {
         return Threading.runOnMainThreadSync {
-            val tracks = mutableListOf<TextTrack>()
+            val tracks = mutableListOf<PlayerTrack>()
             val currentTracks = player.currentTracks
             var globalTrackIndex = 0
 
@@ -30,7 +30,7 @@ object TextTrackUtils {
                         val finalTrackId = if (isExternal) "external-$globalTrackIndex" else trackId
 
                         tracks.add(
-                            TextTrack(
+                            PlayerTrack(
                                 id = finalTrackId,
                                 label = label,
                                 language = language,
@@ -49,7 +49,7 @@ object TextTrackUtils {
 
     fun selectTextTrack(
         player: ExoPlayer,
-        textTrack: TextTrack?,
+        textTrack: PlayerTrack?,
         source: HybridVideoPlayerSourceSpec
     ): Int? {
         return Threading.runOnMainThreadSync {
@@ -115,7 +115,7 @@ object TextTrackUtils {
         }
     }
 
-    fun getSelectedTrack(player: ExoPlayer, source: HybridVideoPlayerSourceSpec): TextTrack? {
+    fun getSelectedTrack(player: ExoPlayer, source: HybridVideoPlayerSourceSpec): PlayerTrack? {
         return Threading.runOnMainThreadSync {
             val currentTracks = player.currentTracks
             var globalTrackIndex = 0
@@ -134,7 +134,7 @@ object TextTrackUtils {
 
                             val finalTrackId = if (isExternal) "external-$globalTrackIndex" else trackId
 
-                            return@runOnMainThreadSync TextTrack(
+                            return@runOnMainThreadSync PlayerTrack(
                                 id = finalTrackId,
                                 label = label,
                                 language = language,

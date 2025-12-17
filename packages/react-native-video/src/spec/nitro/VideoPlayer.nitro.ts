@@ -1,8 +1,8 @@
 import type { HybridObject } from 'react-native-nitro-modules';
-import type { TextTrack } from '../../core/types/TextTrack';
 import type { VideoPlayerBase } from '../../core/types/VideoPlayerBase';
 import type { VideoPlayerEventEmitter } from './VideoPlayerEventEmitter.nitro';
 import type { VideoPlayerSource } from './VideoPlayerSource.nitro';
+import type { PlayerTrack } from '../../core/types/PlayerTrack';
 
 export interface VideoPlayer
   extends HybridObject<{ ios: 'swift'; android: 'kotlin' }>,
@@ -29,13 +29,13 @@ export interface VideoPlayer
    * Get all available text tracks for the current source.
    * @returns Array of available text tracks
    */
-  getAvailableTextTracks(): TextTrack[];
+  getAvailableTextTracks(): PlayerTrack[];
 
   /**
    * Select a text track to display.
    * @param textTrack - Text track to select, or null to unselect current track
    */
-  selectTextTrack(textTrack: TextTrack | null): void;
+  selectTextTrack(textTrack: PlayerTrack | null): void;
 }
 
 export interface VideoPlayerFactory

@@ -4,7 +4,6 @@ import { type VideoPlayer as VideoPlayerImpl } from '../spec/nitro/VideoPlayer.n
 import type { VideoPlayerSource } from '../spec/nitro/VideoPlayerSource.nitro';
 import type { IgnoreSilentSwitchMode } from './types/IgnoreSilentSwitchMode';
 import type { MixAudioMode } from './types/MixAudioMode';
-import type { TextTrack } from './types/TextTrack';
 import type { NoAutocomplete } from './types/Utils';
 import type { VideoConfig, VideoSource } from './types/VideoConfig';
 import {
@@ -16,6 +15,7 @@ import type { VideoPlayerStatus } from './types/VideoPlayerStatus';
 import { createPlayer } from './utils/playerFactory';
 import { createSource } from './utils/sourceFactory';
 import { VideoPlayerEvents } from './VideoPlayerEvents';
+import type { PlayerTrack } from './types/PlayerTrack';
 
 class VideoPlayer extends VideoPlayerEvents implements VideoPlayerBase {
   protected player: VideoPlayerImpl;
@@ -271,7 +271,7 @@ class VideoPlayer extends VideoPlayerEvents implements VideoPlayerBase {
   }
 
   // Text Track Management
-  getAvailableTextTracks(): TextTrack[] {
+  getAvailableTextTracks(): PlayerTrack[] {
     try {
       return this.player.getAvailableTextTracks();
     } catch (error) {
@@ -280,7 +280,7 @@ class VideoPlayer extends VideoPlayerEvents implements VideoPlayerBase {
     }
   }
 
-  selectTextTrack(textTrack: TextTrack | null): void {
+  selectTextTrack(textTrack: PlayerTrack | null): void {
     try {
       this.player.selectTextTrack(textTrack);
     } catch (error) {
@@ -289,7 +289,7 @@ class VideoPlayer extends VideoPlayerEvents implements VideoPlayerBase {
   }
 
   // Selected Text Track
-  get selectedTrack(): TextTrack | undefined {
+  get selectedTrack(): PlayerTrack | undefined {
     return this.player.selectedTrack;
   }
 }
