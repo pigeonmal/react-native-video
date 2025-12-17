@@ -18,6 +18,7 @@ import com.twg.video.core.LibraryError
 import com.twg.video.core.SourceError
 import com.twg.video.core.plugins.PluginsRegistry
 import com.margelo.nitro.video.ExternalAudio
+import androidx.media3.exoplayer.source.MergingMediaSource
 
 @OptIn(UnstableApi::class)
 @Throws(SourceError::class)
@@ -43,8 +44,8 @@ fun buildMediaSource(context: Context, source: HybridVideoPlayerSource, mediaIte
 
   return source.config.externalAudios
     ?.takeIf { it.isNotEmpty() }
-    ?.let { configAudioSources(mediaSource, it, dataSourceFactory) }
-    ?: mediaSource
+    ?.let { configAudioSources(mediasource, it, dataSourceFactory) }
+    ?: mediasource
 }
 
 fun configAudioSources(

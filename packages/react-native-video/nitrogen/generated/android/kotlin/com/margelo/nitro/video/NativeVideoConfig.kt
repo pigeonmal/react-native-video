@@ -40,7 +40,7 @@ data class NativeVideoConfig(
   val externalAudios: Array<ExternalAudio>?,
   @DoNotStrip
   @Keep
-  val initialSubtitleDelay: Double?,
+  val initialSubtitleDelay: Long?,
   @DoNotStrip
   @Keep
   val initializeOnCreation: Boolean?,
@@ -58,7 +58,7 @@ data class NativeVideoConfig(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(uri: String, externalSubtitles: Array<NativeExternalSubtitle>?, drm: NativeDrmParams?, headers: Map<String, String>?, bufferConfig: BufferConfig?, metadata: CustomVideoMetadata?, externalAudios: Array<ExternalAudio>?, initialSubtitleDelay: Double?, initializeOnCreation: Boolean?, forceType: ExternalForcedType?): NativeVideoConfig {
+    private fun fromCpp(uri: String, externalSubtitles: Array<NativeExternalSubtitle>?, drm: NativeDrmParams?, headers: Map<String, String>?, bufferConfig: BufferConfig?, metadata: CustomVideoMetadata?, externalAudios: Array<ExternalAudio>?, initialSubtitleDelay: Long?, initializeOnCreation: Boolean?, forceType: ExternalForcedType?): NativeVideoConfig {
       return NativeVideoConfig(uri, externalSubtitles, drm, headers, bufferConfig, metadata, externalAudios, initialSubtitleDelay, initializeOnCreation, forceType)
     }
   }

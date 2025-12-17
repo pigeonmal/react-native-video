@@ -20,6 +20,8 @@ import com.twg.video.core.LibraryError
 import com.twg.video.core.SourceError
 import com.twg.video.core.extensions.toStringExtension
 import com.twg.video.core.plugins.PluginsRegistry
+import com.margelo.nitro.video.ExternalForcedType
+import androidx.media3.common.MimeTypes
 
 private const val TAG = "MediaItemUtils"
 
@@ -50,8 +52,9 @@ fun createMediaItemFromVideoConfig(
   }
 
   when (source.config.forceType) {
-      ExternalForcedType.MPD -> C.CONTENT_TYPE_DASH
-      ExternalForcedType.M3U8 -> C.CONTENT_TYPE_HLS
+      ExternalForcedType.MPD -> MimeTypes.APPLICATION_MPD
+      ExternalForcedType.M3U8 -> MimeTypes.APPLICATION_M3U8
+      else -> null
   }?.let { mediaItemBuilder.setMimeType(it) }
 
   return PluginsRegistry.shared.overrideMediaItemBuilder(

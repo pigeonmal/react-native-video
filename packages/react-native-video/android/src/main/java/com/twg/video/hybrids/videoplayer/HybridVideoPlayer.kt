@@ -243,10 +243,14 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
       )
       .build()
 
-    renderersFactory = MyRenderersFactory(context, hybridSource.config.initialSubtitleDelay ?: 0L)
-      .setExtensionRendererMode(MyRenderersFactory.EXTENSION_RENDERER_MODE_ON)
-      .forceEnableMediaCodecAsynchronousQueueing()
-      .setEnableDecoderFallback(true)
+    renderersFactory = MyRenderersFactory(
+      context,
+      hybridSource.config.initialSubtitleDelay ?: 0L
+    ).apply {
+      setExtensionRendererMode(MyRenderersFactory.EXTENSION_RENDERER_MODE_ON)
+      forceEnableMediaCodecAsynchronousQueueing()
+      setEnableDecoderFallback(true)
+    }
 
     // Build the player with the LoadControl
     player = ExoPlayer.Builder(context)

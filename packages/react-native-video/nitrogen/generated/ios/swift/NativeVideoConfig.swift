@@ -19,7 +19,7 @@ public extension NativeVideoConfig {
   /**
    * Create a new instance of `NativeVideoConfig`.
    */
-  init(uri: String, externalSubtitles: [NativeExternalSubtitle]?, drm: NativeDrmParams?, headers: Dictionary<String, String>?, bufferConfig: BufferConfig?, metadata: CustomVideoMetadata?, externalAudios: [ExternalAudio]?, initialSubtitleDelay: Double?, initializeOnCreation: Bool?, forceType: ExternalForcedType?) {
+  init(uri: String, externalSubtitles: [NativeExternalSubtitle]?, drm: NativeDrmParams?, headers: Dictionary<String, String>?, bufferConfig: BufferConfig?, metadata: CustomVideoMetadata?, externalAudios: [ExternalAudio]?, initialSubtitleDelay: Int64?, initializeOnCreation: Bool?, forceType: ExternalForcedType?) {
     self.init(std.string(uri), { () -> bridge.std__optional_std__vector_NativeExternalSubtitle__ in
       if let __unwrappedValue = externalSubtitles {
         return bridge.create_std__optional_std__vector_NativeExternalSubtitle__({ () -> bridge.std__vector_NativeExternalSubtitle_ in
@@ -74,9 +74,9 @@ public extension NativeVideoConfig {
       } else {
         return .init()
       }
-    }(), { () -> bridge.std__optional_double_ in
+    }(), { () -> bridge.std__optional_int64_t_ in
       if let __unwrappedValue = initialSubtitleDelay {
-        return bridge.create_std__optional_double_(__unwrappedValue)
+        return bridge.create_std__optional_int64_t_(__unwrappedValue)
       } else {
         return .init()
       }
@@ -255,16 +255,16 @@ public extension NativeVideoConfig {
     }
   }
   
-  var initialSubtitleDelay: Double? {
+  var initialSubtitleDelay: Int64? {
     @inline(__always)
     get {
       return self.__initialSubtitleDelay.value
     }
     @inline(__always)
     set {
-      self.__initialSubtitleDelay = { () -> bridge.std__optional_double_ in
+      self.__initialSubtitleDelay = { () -> bridge.std__optional_int64_t_ in
         if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_double_(__unwrappedValue)
+          return bridge.create_std__optional_int64_t_(__unwrappedValue)
         } else {
           return .init()
         }

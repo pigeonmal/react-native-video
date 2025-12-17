@@ -57,7 +57,7 @@ export type VideoConfig = {
   /** Add audios sources in addition of the video source */
   externalAudios?: ExternalAudio[];
   /** Positive or negative delay in millis */
-  initialSubtitleDelay?: number;
+  initialSubtitleDelay?: bigint;
   /**
    * when the player is created, this flag will determine if native player should be initialized immediately.
    * If set to true, the player will be initialized as soon as player is created

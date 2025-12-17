@@ -1005,6 +1005,21 @@ namespace margelo::nitro::video::bridge::swift {
     return *optional;
   }
   
+  // pragma MARK: std::optional<int64_t>
+  /**
+   * Specialized version of `std::optional<int64_t>`.
+   */
+  using std__optional_int64_t_ = std::optional<int64_t>;
+  inline std::optional<int64_t> create_std__optional_int64_t_(const int64_t& value) noexcept {
+    return std::optional<int64_t>(value);
+  }
+  inline bool has_value_std__optional_int64_t_(const std::optional<int64_t>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline int64_t get_std__optional_int64_t_(const std::optional<int64_t>& optional) noexcept {
+    return *optional;
+  }
+  
   // pragma MARK: std::optional<ExternalForcedType>
   /**
    * Specialized version of `std::optional<ExternalForcedType>`.
