@@ -42,14 +42,14 @@ namespace margelo::nitro::video { struct NativeDrmParams; }
 namespace margelo::nitro::video { struct NativeExternalSubtitle; }
 // Forward declaration of `OnGetLicensePayload` to properly resolve imports.
 namespace margelo::nitro::video { struct OnGetLicensePayload; }
+// Forward declaration of `PlayerTrack` to properly resolve imports.
+namespace margelo::nitro::video { struct PlayerTrack; }
 // Forward declaration of `Resolution` to properly resolve imports.
 namespace margelo::nitro::video { struct Resolution; }
 // Forward declaration of `SourceType` to properly resolve imports.
 namespace margelo::nitro::video { enum class SourceType; }
 // Forward declaration of `SubtitleType` to properly resolve imports.
 namespace margelo::nitro::video { enum class SubtitleType; }
-// Forward declaration of `TextTrack` to properly resolve imports.
-namespace margelo::nitro::video { struct TextTrack; }
 // Forward declaration of `TimedMetadataObject` to properly resolve imports.
 namespace margelo::nitro::video { struct TimedMetadataObject; }
 // Forward declaration of `TimedMetadata` to properly resolve imports.
@@ -105,10 +105,10 @@ namespace ReactNativeVideo { class HybridVideoViewViewManagerSpec_cxx; }
 #include "NativeDrmParams.hpp"
 #include "NativeExternalSubtitle.hpp"
 #include "OnGetLicensePayload.hpp"
+#include "PlayerTrack.hpp"
 #include "Resolution.hpp"
 #include "SourceType.hpp"
 #include "SubtitleType.hpp"
-#include "TextTrack.hpp"
 #include "TimedMetadata.hpp"
 #include "TimedMetadataObject.hpp"
 #include "VideoInformation.hpp"
@@ -277,73 +277,44 @@ namespace margelo::nitro::video::bridge::swift {
     return *optional;
   }
   
-  // pragma MARK: std::vector<TextTrack>
+  // pragma MARK: std::vector<PlayerTrack>
   /**
-   * Specialized version of `std::vector<TextTrack>`.
+   * Specialized version of `std::vector<PlayerTrack>`.
    */
-  using std__vector_TextTrack_ = std::vector<TextTrack>;
-  inline std::vector<TextTrack> create_std__vector_TextTrack_(size_t size) noexcept {
-    std::vector<TextTrack> vector;
+  using std__vector_PlayerTrack_ = std::vector<PlayerTrack>;
+  inline std::vector<PlayerTrack> create_std__vector_PlayerTrack_(size_t size) noexcept {
+    std::vector<PlayerTrack> vector;
     vector.reserve(size);
     return vector;
   }
   
-  // pragma MARK: std::variant<nitro::NullType, TextTrack>
+  // pragma MARK: std::optional<double>
   /**
-   * Wrapper struct for `std::variant<nitro::NullType, TextTrack>`.
-   * std::variant cannot be used in Swift because of a Swift bug.
-   * Not even specializing it works. So we create a wrapper struct.
+   * Specialized version of `std::optional<double>`.
    */
-  struct std__variant_nitro__NullType__TextTrack_ {
-    std::variant<nitro::NullType, TextTrack> variant;
-    std__variant_nitro__NullType__TextTrack_(std::variant<nitro::NullType, TextTrack> variant): variant(variant) { }
-    operator std::variant<nitro::NullType, TextTrack>() const noexcept {
-      return variant;
-    }
-    inline size_t index() const noexcept {
-      return variant.index();
-    }
-    inline nitro::NullType get_0() const noexcept {
-      return std::get<0>(variant);
-    }
-    inline TextTrack get_1() const noexcept {
-      return std::get<1>(variant);
-    }
-  };
-  inline std__variant_nitro__NullType__TextTrack_ create_std__variant_nitro__NullType__TextTrack_(nitro::NullType value) noexcept {
-    return std__variant_nitro__NullType__TextTrack_(value);
+  using std__optional_double_ = std::optional<double>;
+  inline std::optional<double> create_std__optional_double_(const double& value) noexcept {
+    return std::optional<double>(value);
   }
-  inline std__variant_nitro__NullType__TextTrack_ create_std__variant_nitro__NullType__TextTrack_(const TextTrack& value) noexcept {
-    return std__variant_nitro__NullType__TextTrack_(value);
-  }
-  
-  // pragma MARK: std::optional<std::variant<nitro::NullType, TextTrack>>
-  /**
-   * Specialized version of `std::optional<std::variant<nitro::NullType, TextTrack>>`.
-   */
-  using std__optional_std__variant_nitro__NullType__TextTrack__ = std::optional<std::variant<nitro::NullType, TextTrack>>;
-  inline std::optional<std::variant<nitro::NullType, TextTrack>> create_std__optional_std__variant_nitro__NullType__TextTrack__(const std::variant<nitro::NullType, TextTrack>& value) noexcept {
-    return std::optional<std::variant<nitro::NullType, TextTrack>>(value);
-  }
-  inline bool has_value_std__optional_std__variant_nitro__NullType__TextTrack__(const std::optional<std::variant<nitro::NullType, TextTrack>>& optional) noexcept {
+  inline bool has_value_std__optional_double_(const std::optional<double>& optional) noexcept {
     return optional.has_value();
   }
-  inline std::variant<nitro::NullType, TextTrack> get_std__optional_std__variant_nitro__NullType__TextTrack__(const std::optional<std::variant<nitro::NullType, TextTrack>>& optional) noexcept {
+  inline double get_std__optional_double_(const std::optional<double>& optional) noexcept {
     return *optional;
   }
   
-  // pragma MARK: std::optional<TextTrack>
+  // pragma MARK: std::optional<PlayerTrack>
   /**
-   * Specialized version of `std::optional<TextTrack>`.
+   * Specialized version of `std::optional<PlayerTrack>`.
    */
-  using std__optional_TextTrack_ = std::optional<TextTrack>;
-  inline std::optional<TextTrack> create_std__optional_TextTrack_(const TextTrack& value) noexcept {
-    return std::optional<TextTrack>(value);
+  using std__optional_PlayerTrack_ = std::optional<PlayerTrack>;
+  inline std::optional<PlayerTrack> create_std__optional_PlayerTrack_(const PlayerTrack& value) noexcept {
+    return std::optional<PlayerTrack>(value);
   }
-  inline bool has_value_std__optional_TextTrack_(const std::optional<TextTrack>& optional) noexcept {
+  inline bool has_value_std__optional_PlayerTrack_(const std::optional<PlayerTrack>& optional) noexcept {
     return optional.has_value();
   }
-  inline TextTrack get_std__optional_TextTrack_(const std::optional<TextTrack>& optional) noexcept {
+  inline PlayerTrack get_std__optional_PlayerTrack_(const std::optional<PlayerTrack>& optional) noexcept {
     return *optional;
   }
   
@@ -368,13 +339,13 @@ namespace margelo::nitro::video::bridge::swift {
     return Result<std::shared_ptr<Promise<void>>>::withError(error);
   }
   
-  // pragma MARK: Result<std::vector<TextTrack>>
-  using Result_std__vector_TextTrack__ = Result<std::vector<TextTrack>>;
-  inline Result_std__vector_TextTrack__ create_Result_std__vector_TextTrack__(const std::vector<TextTrack>& value) noexcept {
-    return Result<std::vector<TextTrack>>::withValue(value);
+  // pragma MARK: Result<std::vector<PlayerTrack>>
+  using Result_std__vector_PlayerTrack__ = Result<std::vector<PlayerTrack>>;
+  inline Result_std__vector_PlayerTrack__ create_Result_std__vector_PlayerTrack__(const std::vector<PlayerTrack>& value) noexcept {
+    return Result<std::vector<PlayerTrack>>::withValue(value);
   }
-  inline Result_std__vector_TextTrack__ create_Result_std__vector_TextTrack__(const std::exception_ptr& error) noexcept {
-    return Result<std::vector<TextTrack>>::withError(error);
+  inline Result_std__vector_PlayerTrack__ create_Result_std__vector_PlayerTrack__(const std::exception_ptr& error) noexcept {
+    return Result<std::vector<PlayerTrack>>::withError(error);
   }
   
   // pragma MARK: Result<void>
@@ -427,21 +398,6 @@ namespace margelo::nitro::video::bridge::swift {
   Func_void_bool create_Func_void_bool(void* NON_NULL swiftClosureWrapper) noexcept;
   inline Func_void_bool_Wrapper wrap_Func_void_bool(Func_void_bool value) noexcept {
     return Func_void_bool_Wrapper(std::move(value));
-  }
-  
-  // pragma MARK: std::optional<double>
-  /**
-   * Specialized version of `std::optional<double>`.
-   */
-  using std__optional_double_ = std::optional<double>;
-  inline std::optional<double> create_std__optional_double_(const double& value) noexcept {
-    return std::optional<double>(value);
-  }
-  inline bool has_value_std__optional_double_(const std::optional<double>& optional) noexcept {
-    return optional.has_value();
-  }
-  inline double get_std__optional_double_(const std::optional<double>& optional) noexcept {
-    return *optional;
   }
   
   // pragma MARK: std::function<void(const BandwidthData& /* data */)>
@@ -662,28 +618,6 @@ namespace margelo::nitro::video::bridge::swift {
   Func_void_std__vector_std__string_ create_Func_void_std__vector_std__string_(void* NON_NULL swiftClosureWrapper) noexcept;
   inline Func_void_std__vector_std__string__Wrapper wrap_Func_void_std__vector_std__string_(Func_void_std__vector_std__string_ value) noexcept {
     return Func_void_std__vector_std__string__Wrapper(std::move(value));
-  }
-  
-  // pragma MARK: std::function<void(const std::optional<std::variant<nitro::NullType, TextTrack>>& /* track */)>
-  /**
-   * Specialized version of `std::function<void(const std::optional<std::variant<nitro::NullType, TextTrack>>&)>`.
-   */
-  using Func_void_std__optional_std__variant_nitro__NullType__TextTrack__ = std::function<void(const std::optional<std::variant<nitro::NullType, TextTrack>>& /* track */)>;
-  /**
-   * Wrapper class for a `std::function<void(const std::optional<std::variant<nitro::NullType, TextTrack>>& / * track * /)>`, this can be used from Swift.
-   */
-  class Func_void_std__optional_std__variant_nitro__NullType__TextTrack___Wrapper final {
-  public:
-    explicit Func_void_std__optional_std__variant_nitro__NullType__TextTrack___Wrapper(std::function<void(const std::optional<std::variant<nitro::NullType, TextTrack>>& /* track */)>&& func): _function(std::make_unique<std::function<void(const std::optional<std::variant<nitro::NullType, TextTrack>>& /* track */)>>(std::move(func))) {}
-    inline void call(std::optional<std::variant<nitro::NullType, TextTrack>> track) const noexcept {
-      _function->operator()(track);
-    }
-  private:
-    std::unique_ptr<std::function<void(const std::optional<std::variant<nitro::NullType, TextTrack>>& /* track */)>> _function;
-  } SWIFT_NONCOPYABLE;
-  Func_void_std__optional_std__variant_nitro__NullType__TextTrack__ create_Func_void_std__optional_std__variant_nitro__NullType__TextTrack__(void* NON_NULL swiftClosureWrapper) noexcept;
-  inline Func_void_std__optional_std__variant_nitro__NullType__TextTrack___Wrapper wrap_Func_void_std__optional_std__variant_nitro__NullType__TextTrack__(Func_void_std__optional_std__variant_nitro__NullType__TextTrack__ value) noexcept {
-    return Func_void_std__optional_std__variant_nitro__NullType__TextTrack___Wrapper(std::move(value));
   }
   
   // pragma MARK: std::function<void(const onVolumeChangeData& /* data */)>

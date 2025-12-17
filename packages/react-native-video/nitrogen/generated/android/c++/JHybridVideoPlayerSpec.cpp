@@ -17,8 +17,10 @@ namespace margelo::nitro::video { enum class VideoPlayerStatus; }
 namespace margelo::nitro::video { enum class MixAudioMode; }
 // Forward declaration of `IgnoreSilentSwitchMode` to properly resolve imports.
 namespace margelo::nitro::video { enum class IgnoreSilentSwitchMode; }
-// Forward declaration of `TextTrack` to properly resolve imports.
-namespace margelo::nitro::video { struct TextTrack; }
+// Forward declaration of `PlayerTrack` to properly resolve imports.
+namespace margelo::nitro::video { struct PlayerTrack; }
+// Forward declaration of `TrackType` to properly resolve imports.
+namespace margelo::nitro::video { enum class TrackType; }
 
 #include <memory>
 #include "HybridVideoPlayerSourceSpec.hpp"
@@ -31,9 +33,9 @@ namespace margelo::nitro::video { struct TextTrack; }
 #include "JMixAudioMode.hpp"
 #include "IgnoreSilentSwitchMode.hpp"
 #include "JIgnoreSilentSwitchMode.hpp"
-#include "TextTrack.hpp"
+#include "PlayerTrack.hpp"
 #include <optional>
-#include "JTextTrack.hpp"
+#include "JPlayerTrack.hpp"
 #include <string>
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/JPromise.hpp>
@@ -42,7 +44,8 @@ namespace margelo::nitro::video { struct TextTrack; }
 #include <variant>
 #include "JVariant_NullType_HybridVideoPlayerSourceSpec.hpp"
 #include <NitroModules/JNull.hpp>
-#include "JVariant_NullType_TextTrack.hpp"
+#include "TrackType.hpp"
+#include "JTrackType.hpp"
 
 namespace margelo::nitro::video {
 
@@ -188,8 +191,8 @@ namespace margelo::nitro::video {
     auto __result = method(_javaPart);
     return static_cast<bool>(__result);
   }
-  std::optional<TextTrack> JHybridVideoPlayerSpec::getSelectedTrack() {
-    static const auto method = javaClassStatic()->getMethod<jni::local_ref<JTextTrack>()>("getSelectedTrack");
+  std::optional<PlayerTrack> JHybridVideoPlayerSpec::getSelectedTrack() {
+    static const auto method = javaClassStatic()->getMethod<jni::local_ref<JPlayerTrack>()>("getSelectedTrack");
     auto __result = method(_javaPart);
     return __result != nullptr ? std::make_optional(__result->toCpp()) : std::nullopt;
   }
@@ -210,12 +213,12 @@ namespace margelo::nitro::video {
       return __promise;
     }();
   }
-  std::vector<TextTrack> JHybridVideoPlayerSpec::getAvailableTextTracks() {
-    static const auto method = javaClassStatic()->getMethod<jni::local_ref<jni::JArrayClass<JTextTrack>>()>("getAvailableTextTracks");
+  std::vector<PlayerTrack> JHybridVideoPlayerSpec::getAvailableTextTracks() {
+    static const auto method = javaClassStatic()->getMethod<jni::local_ref<jni::JArrayClass<JPlayerTrack>>()>("getAvailableTextTracks");
     auto __result = method(_javaPart);
     return [&]() {
       size_t __size = __result->size();
-      std::vector<TextTrack> __vector;
+      std::vector<PlayerTrack> __vector;
       __vector.reserve(__size);
       for (size_t __i = 0; __i < __size; __i++) {
         auto __element = __result->getElement(__i);
@@ -223,10 +226,6 @@ namespace margelo::nitro::video {
       }
       return __vector;
     }();
-  }
-  void JHybridVideoPlayerSpec::selectTextTrack(const std::optional<std::variant<nitro::NullType, TextTrack>>& textTrack) {
-    static const auto method = javaClassStatic()->getMethod<void(jni::alias_ref<JVariant_NullType_TextTrack> /* textTrack */)>("selectTextTrack");
-    method(_javaPart, textTrack.has_value() ? JVariant_NullType_TextTrack::fromCpp(textTrack.value()) : nullptr);
   }
   std::shared_ptr<Promise<void>> JHybridVideoPlayerSpec::initialize() {
     static const auto method = javaClassStatic()->getMethod<jni::local_ref<JPromise::javaobject>()>("initialize");
@@ -273,6 +272,14 @@ namespace margelo::nitro::video {
   void JHybridVideoPlayerSpec::seekTo(double time) {
     static const auto method = javaClassStatic()->getMethod<void(double /* time */)>("seekTo");
     method(_javaPart, time);
+  }
+  void JHybridVideoPlayerSpec::selectTrackById(TrackType type, const std::optional<std::string>& id) {
+    static const auto method = javaClassStatic()->getMethod<void(jni::alias_ref<JTrackType> /* type */, jni::alias_ref<jni::JString> /* id */)>("selectTrackById");
+    method(_javaPart, JTrackType::fromCpp(type), id.has_value() ? jni::make_jstring(id.value()) : nullptr);
+  }
+  void JHybridVideoPlayerSpec::selectTrackByIndex(TrackType type, std::optional<double> index) {
+    static const auto method = javaClassStatic()->getMethod<void(jni::alias_ref<JTrackType> /* type */, jni::alias_ref<jni::JDouble> /* index */)>("selectTrackByIndex");
+    method(_javaPart, JTrackType::fromCpp(type), index.has_value() ? jni::JDouble::valueOf(index.value()) : nullptr);
   }
 
 } // namespace margelo::nitro::video

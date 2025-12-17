@@ -10,7 +10,6 @@ package com.margelo.nitro.video
 import androidx.annotation.Keep
 import com.facebook.jni.HybridData
 import com.facebook.proguard.annotations.DoNotStrip
-import com.margelo.nitro.core.NullType
 import com.margelo.nitro.core.HybridObject
 
 /**
@@ -196,15 +195,6 @@ abstract class HybridVideoPlayerEventEmitterSpec: HybridObject() {
   @Keep
   private fun addOnTextTrackDataChangedListener_cxx(listener: Func_void_std__vector_std__string_): ListenerSubscription {
     val __result = addOnTextTrackDataChangedListener(listener)
-    return __result
-  }
-  
-  abstract fun addOnTrackChangeListener(listener: (track: Variant_NullType_TextTrack?) -> Unit): ListenerSubscription
-  
-  @DoNotStrip
-  @Keep
-  private fun addOnTrackChangeListener_cxx(listener: Func_void_std__optional_std__variant_nitro__NullType__TextTrack__): ListenerSubscription {
-    val __result = addOnTrackChangeListener(listener)
     return __result
   }
   

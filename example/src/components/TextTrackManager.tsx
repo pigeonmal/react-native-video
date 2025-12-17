@@ -1,19 +1,22 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { useEvent, type TextTrack, type VideoPlayer } from 'react-native-video';
+import {
+  useEvent,
+  type PlayerTrack,
+  type VideoPlayer,
+  TrackType,
+} from 'react-native-video';
 import { styles } from '../styles';
 import { ActionButton } from './Controls';
 
 export const TextTrackManager = ({ player }: { player: VideoPlayer }) => {
-  const [textTracks, setTextTracks] = React.useState<TextTrack[]>([]);
+  const [textTracks, setTextTracks] = React.useState<PlayerTrack[]>([]);
   const [selectedTrackId, setSelectedTrackId] = React.useState<string | null>(
     null
   );
   const [currentSelectedTrack, setCurrentSelectedTrack] =
-    React.useState<TextTrack | null>(null);
-  const [trackChangeEvents, setTrackChangeEvents] = React.useState<string[]>(
-    []
-  );
+    React.useState<PlayerTrack | null>(null);
+  const [trackChangeEvents, _] = React.useState<string[]>([]);
 
   const loadTextTracks = React.useCallback(() => {
     try {
@@ -29,9 +32,11 @@ export const TextTrackManager = ({ player }: { player: VideoPlayer }) => {
   }, [player]);
 
   const selectTrack = React.useCallback(
-    (track: TextTrack) => {
+    (track: PlayerTrack) => {
       try {
-        player.selectTextTrack(track);
+        player.selectTrackById(TrackType.TEXT, track.id);
+        setCurrentSelectedTrack(track);
+        setSelectedTrackId(track.id);
       } catch (error) {
         console.error('Error selecting text track:', error);
       }
@@ -41,7 +46,9 @@ export const TextTrackManager = ({ player }: { player: VideoPlayer }) => {
 
   const disableTextTracks = React.useCallback(() => {
     try {
-      player.selectTextTrack(null);
+      player.selectTrackById(TrackType.TEXT, undefined);
+      setCurrentSelectedTrack(null);
+      setSelectedTrackId(null);
     } catch (error) {
       console.error('Error disabling text tracks:', error);
     }
@@ -49,18 +56,6 @@ export const TextTrackManager = ({ player }: { player: VideoPlayer }) => {
 
   useEvent(player, 'onReadyToDisplay', () => {
     loadTextTracks();
-  });
-
-  useEvent(player, 'onTrackChange', (track) => {
-    setCurrentSelectedTrack(track);
-    setSelectedTrackId(track?.id || null);
-
-    const timestamp = new Date().toLocaleTimeString();
-    const eventMessage = track
-      ? `${timestamp}: Track changed to "${track.label}" (${track.id})${track.id.startsWith('external-') ? ' [External]' : ''}`
-      : `${timestamp}: All tracks disabled`;
-
-    setTrackChangeEvents((prev) => [eventMessage, ...prev.slice(0, 4)]);
   });
 
   return (

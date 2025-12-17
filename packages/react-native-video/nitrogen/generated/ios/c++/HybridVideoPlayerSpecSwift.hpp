@@ -22,8 +22,10 @@ namespace margelo::nitro::video { enum class VideoPlayerStatus; }
 namespace margelo::nitro::video { enum class MixAudioMode; }
 // Forward declaration of `IgnoreSilentSwitchMode` to properly resolve imports.
 namespace margelo::nitro::video { enum class IgnoreSilentSwitchMode; }
-// Forward declaration of `TextTrack` to properly resolve imports.
-namespace margelo::nitro::video { struct TextTrack; }
+// Forward declaration of `PlayerTrack` to properly resolve imports.
+namespace margelo::nitro::video { struct PlayerTrack; }
+// Forward declaration of `TrackType` to properly resolve imports.
+namespace margelo::nitro::video { enum class TrackType; }
 
 #include <memory>
 #include "HybridVideoPlayerSourceSpec.hpp"
@@ -31,13 +33,14 @@ namespace margelo::nitro::video { struct TextTrack; }
 #include "VideoPlayerStatus.hpp"
 #include "MixAudioMode.hpp"
 #include "IgnoreSilentSwitchMode.hpp"
-#include "TextTrack.hpp"
+#include "PlayerTrack.hpp"
 #include <optional>
 #include <string>
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/Null.hpp>
 #include <variant>
 #include <vector>
+#include "TrackType.hpp"
 
 #include "ReactNativeVideo-Swift-Cxx-Umbrella.hpp"
 
@@ -159,7 +162,7 @@ namespace margelo::nitro::video {
     inline bool getIsPlaying() noexcept override {
       return _swiftPart.isPlaying();
     }
-    inline std::optional<TextTrack> getSelectedTrack() noexcept override {
+    inline std::optional<PlayerTrack> getSelectedTrack() noexcept override {
       auto __result = _swiftPart.getSelectedTrack();
       return __result;
     }
@@ -174,19 +177,13 @@ namespace margelo::nitro::video {
       auto __value = std::move(__result.value());
       return __value;
     }
-    inline std::vector<TextTrack> getAvailableTextTracks() override {
+    inline std::vector<PlayerTrack> getAvailableTextTracks() override {
       auto __result = _swiftPart.getAvailableTextTracks();
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }
       auto __value = std::move(__result.value());
       return __value;
-    }
-    inline void selectTextTrack(const std::optional<std::variant<nitro::NullType, TextTrack>>& textTrack) override {
-      auto __result = _swiftPart.selectTextTrack(textTrack);
-      if (__result.hasError()) [[unlikely]] {
-        std::rethrow_exception(__result.error());
-      }
     }
     inline std::shared_ptr<Promise<void>> initialize() override {
       auto __result = _swiftPart.initialize();
@@ -224,6 +221,18 @@ namespace margelo::nitro::video {
     }
     inline void seekTo(double time) override {
       auto __result = _swiftPart.seekTo(std::forward<decltype(time)>(time));
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+    }
+    inline void selectTrackById(TrackType type, const std::optional<std::string>& id) override {
+      auto __result = _swiftPart.selectTrackById(static_cast<int>(type), id);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+    }
+    inline void selectTrackByIndex(TrackType type, std::optional<double> index) override {
+      auto __result = _swiftPart.selectTrackByIndex(static_cast<int>(type), index);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }

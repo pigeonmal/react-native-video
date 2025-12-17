@@ -31,7 +31,7 @@ import com.twg.video.core.player.OnAudioFocusChangedListener
 import com.twg.video.core.recivers.AudioBecomingNoisyReceiver
 import com.twg.video.core.services.playback.VideoPlaybackService
 import com.twg.video.core.services.playback.VideoPlaybackServiceConnection
-import com.twg.video.core.utils.TextTrackUtils
+import com.twg.video.core.utils.TrackUtils
 import com.twg.video.core.utils.Threading.mainThreadProperty
 import com.twg.video.core.utils.Threading.runOnMainThread
 import com.twg.video.core.utils.Threading.runOnMainThreadSync
@@ -86,9 +86,6 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
 
   // Service Connection
   private val videoPlaybackServiceConnection = VideoPlaybackServiceConnection(WeakReference(this))
-
-  // Text track selection state
-  private var selectedExternalTrackIndex: Int? = null
 
   private companion object {
     const val PROGRESS_UPDATE_INTERVAL_MS = 250L
@@ -603,17 +600,17 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
   // MARK: - Text Track Management
 
   override fun getAvailableTextTracks(): Array<PlayerTrack> {
-    return TextTrackUtils.getAvailableTextTracks(player, source)
+    return TrackUtils.getAvailableTextTracks(player, source)
   }
 
-  override fun selectTextTrack(textTrack: Variant_NullType_PlayerTrack?) {
-    selectedExternalTrackIndex = TextTrackUtils.selectTextTrack(
-      player = player,
-      textTrack = textTrack?.asSecondOrNull(),
-      source = source
-    )
+  override fun selectTrackById(type: TrackType, id: String?) {
+    TrackUtils.selectTrackById(player, type, id)
+  }
+
+  override fun selectTrackByIndex(type: TrackType, index: Double?) {
+    TrackUtils.selectTrackByIndex(player, type, index?.toInt())
   }
 
   override val selectedTrack: PlayerTrack?
-    get() = TextTrackUtils.getSelectedTrack(player, source)
+    get() = TrackUtils.getSelectedTrack(player, source)
 }

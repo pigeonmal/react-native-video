@@ -20,3 +20,9 @@ export interface PlayerTrack {
    */
   selected: boolean;
 }
+
+export enum TrackType {
+  AUDIO = 1,
+  VIDEO = 2,
+  TEXT = 3,
+}

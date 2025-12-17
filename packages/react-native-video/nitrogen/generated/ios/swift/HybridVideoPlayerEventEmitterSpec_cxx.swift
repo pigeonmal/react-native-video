@@ -413,36 +413,6 @@ open class HybridVideoPlayerEventEmitterSpec_cxx {
   }
   
   @inline(__always)
-  public final func addOnTrackChangeListener(listener: bridge.Func_void_std__optional_std__variant_nitro__NullType__TextTrack__) -> bridge.Result_ListenerSubscription_ {
-    do {
-      let __result = try self.__implementation.addOnTrackChangeListener(listener: { () -> (Variant_NullType_TextTrack?) -> Void in
-        let __wrappedFunction = bridge.wrap_Func_void_std__optional_std__variant_nitro__NullType__TextTrack__(listener)
-        return { (__track: Variant_NullType_TextTrack?) -> Void in
-          __wrappedFunction.call({ () -> bridge.std__optional_std__variant_nitro__NullType__TextTrack__ in
-            if let __unwrappedValue = __track {
-              return bridge.create_std__optional_std__variant_nitro__NullType__TextTrack__({ () -> bridge.std__variant_nitro__NullType__TextTrack_ in
-                switch __unwrappedValue {
-                  case .first(let __value):
-                    return bridge.create_std__variant_nitro__NullType__TextTrack_(margelo.nitro.NullType.null)
-                  case .second(let __value):
-                    return bridge.create_std__variant_nitro__NullType__TextTrack_(__value)
-                }
-              }().variant)
-            } else {
-              return .init()
-            }
-          }())
-        }
-      }())
-      let __resultCpp = __result
-      return bridge.create_Result_ListenerSubscription_(__resultCpp)
-    } catch (let __error) {
-      let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_ListenerSubscription_(__exceptionPtr)
-    }
-  }
-  
-  @inline(__always)
   public final func addOnVolumeChangeListener(listener: bridge.Func_void_onVolumeChangeData) -> bridge.Result_ListenerSubscription_ {
     do {
       let __result = try self.__implementation.addOnVolumeChangeListener(listener: { () -> (onVolumeChangeData) -> Void in

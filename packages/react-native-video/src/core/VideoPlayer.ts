@@ -15,7 +15,7 @@ import type { VideoPlayerStatus } from './types/VideoPlayerStatus';
 import { createPlayer } from './utils/playerFactory';
 import { createSource } from './utils/sourceFactory';
 import { VideoPlayerEvents } from './VideoPlayerEvents';
-import type { PlayerTrack } from './types/PlayerTrack';
+import type { PlayerTrack, TrackType } from './types/PlayerTrack';
 
 class VideoPlayer extends VideoPlayerEvents implements VideoPlayerBase {
   protected player: VideoPlayerImpl;
@@ -280,9 +280,17 @@ class VideoPlayer extends VideoPlayerEvents implements VideoPlayerBase {
     }
   }
 
-  selectTextTrack(textTrack: PlayerTrack | null): void {
+  selectTrackById(type: TrackType, id?: string): void {
     try {
-      this.player.selectTextTrack(textTrack);
+      this.player.selectTrackById(type, id);
+    } catch (error) {
+      this.throwError(error);
+    }
+  }
+
+  selectTrackByIndex(type: TrackType, index?: number): void {
+    try {
+      this.player.selectTrackByIndex(type, index);
     } catch (error) {
       this.throwError(error);
     }

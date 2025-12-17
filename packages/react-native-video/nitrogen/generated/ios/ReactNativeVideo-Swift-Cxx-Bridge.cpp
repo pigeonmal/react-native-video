@@ -180,14 +180,6 @@ namespace margelo::nitro::video::bridge::swift {
     };
   }
   
-  // pragma MARK: std::function<void(const std::optional<std::variant<nitro::NullType, TextTrack>>& /* track */)>
-  Func_void_std__optional_std__variant_nitro__NullType__TextTrack__ create_Func_void_std__optional_std__variant_nitro__NullType__TextTrack__(void* NON_NULL swiftClosureWrapper) noexcept {
-    auto swiftClosure = ReactNativeVideo::Func_void_std__optional_std__variant_nitro__NullType__TextTrack__::fromUnsafe(swiftClosureWrapper);
-    return [swiftClosure = std::move(swiftClosure)](const std::optional<std::variant<nitro::NullType, TextTrack>>& track) mutable -> void {
-      swiftClosure.call(track);
-    };
-  }
-  
   // pragma MARK: std::function<void(const onVolumeChangeData& /* data */)>
   Func_void_onVolumeChangeData create_Func_void_onVolumeChangeData(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeVideo::Func_void_onVolumeChangeData::fromUnsafe(swiftClosureWrapper);

@@ -31,7 +31,6 @@ namespace margelo::nitro::video {
       prototype.registerHybridMethod("addOnStatusChangeListener", &HybridVideoPlayerEventEmitterSpec::addOnStatusChangeListener);
       prototype.registerHybridMethod("addOnTimedMetadataListener", &HybridVideoPlayerEventEmitterSpec::addOnTimedMetadataListener);
       prototype.registerHybridMethod("addOnTextTrackDataChangedListener", &HybridVideoPlayerEventEmitterSpec::addOnTextTrackDataChangedListener);
-      prototype.registerHybridMethod("addOnTrackChangeListener", &HybridVideoPlayerEventEmitterSpec::addOnTrackChangeListener);
       prototype.registerHybridMethod("addOnVolumeChangeListener", &HybridVideoPlayerEventEmitterSpec::addOnVolumeChangeListener);
       prototype.registerHybridMethod("clearAllListeners", &HybridVideoPlayerEventEmitterSpec::clearAllListeners);
     });

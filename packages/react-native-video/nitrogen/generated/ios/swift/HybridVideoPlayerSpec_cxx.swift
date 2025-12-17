@@ -265,12 +265,12 @@ open class HybridVideoPlayerSpec_cxx {
     }
   }
   
-  public final var selectedTrack: bridge.std__optional_TextTrack_ {
+  public final var selectedTrack: bridge.std__optional_PlayerTrack_ {
     @inline(__always)
     get {
-      return { () -> bridge.std__optional_TextTrack_ in
+      return { () -> bridge.std__optional_PlayerTrack_ in
         if let __unwrappedValue = self.__implementation.selectedTrack {
-          return bridge.create_std__optional_TextTrack_(__unwrappedValue)
+          return bridge.create_std__optional_PlayerTrack_(__unwrappedValue)
         } else {
           return .init()
         }
@@ -322,50 +322,20 @@ open class HybridVideoPlayerSpec_cxx {
   }
   
   @inline(__always)
-  public final func getAvailableTextTracks() -> bridge.Result_std__vector_TextTrack__ {
+  public final func getAvailableTextTracks() -> bridge.Result_std__vector_PlayerTrack__ {
     do {
       let __result = try self.__implementation.getAvailableTextTracks()
-      let __resultCpp = { () -> bridge.std__vector_TextTrack_ in
-        var __vector = bridge.create_std__vector_TextTrack_(__result.count)
+      let __resultCpp = { () -> bridge.std__vector_PlayerTrack_ in
+        var __vector = bridge.create_std__vector_PlayerTrack_(__result.count)
         for __item in __result {
           __vector.push_back(__item)
         }
         return __vector
       }()
-      return bridge.create_Result_std__vector_TextTrack__(__resultCpp)
+      return bridge.create_Result_std__vector_PlayerTrack__(__resultCpp)
     } catch (let __error) {
       let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_std__vector_TextTrack__(__exceptionPtr)
-    }
-  }
-  
-  @inline(__always)
-  public final func selectTextTrack(textTrack: bridge.std__optional_std__variant_nitro__NullType__TextTrack__) -> bridge.Result_void_ {
-    do {
-      try self.__implementation.selectTextTrack(textTrack: { () -> Variant_NullType_TextTrack? in
-        if bridge.has_value_std__optional_std__variant_nitro__NullType__TextTrack__(textTrack) {
-          let __unwrapped = bridge.get_std__optional_std__variant_nitro__NullType__TextTrack__(textTrack)
-          return { () -> Variant_NullType_TextTrack in
-            let __variant = bridge.std__variant_nitro__NullType__TextTrack_(__unwrapped)
-            switch __variant.index() {
-              case 0:
-                let __actual = __variant.get_0()
-                return .first(NullType.null)
-              case 1:
-                let __actual = __variant.get_1()
-                return .second(__actual)
-              default:
-                fatalError("Variant can never have index \(__variant.index())!")
-            }
-          }()
-        } else {
-          return nil
-        }
-      }())
-      return bridge.create_Result_void_()
-    } catch (let __error) {
-      let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_void_(__exceptionPtr)
+      return bridge.create_Result_std__vector_PlayerTrack__(__exceptionPtr)
     }
   }
   
@@ -444,6 +414,35 @@ open class HybridVideoPlayerSpec_cxx {
   public final func seekTo(time: Double) -> bridge.Result_void_ {
     do {
       try self.__implementation.seekTo(time: time)
+      return bridge.create_Result_void_()
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_void_(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func selectTrackById(type: Int32, id: bridge.std__optional_std__string_) -> bridge.Result_void_ {
+    do {
+      try self.__implementation.selectTrackById(type: margelo.nitro.video.TrackType(rawValue: type)!, id: { () -> String? in
+        if bridge.has_value_std__optional_std__string_(id) {
+          let __unwrapped = bridge.get_std__optional_std__string_(id)
+          return String(__unwrapped)
+        } else {
+          return nil
+        }
+      }())
+      return bridge.create_Result_void_()
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_void_(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func selectTrackByIndex(type: Int32, index: bridge.std__optional_double_) -> bridge.Result_void_ {
+    do {
+      try self.__implementation.selectTrackByIndex(type: margelo.nitro.video.TrackType(rawValue: type)!, index: index.value)
       return bridge.create_Result_void_()
     } catch (let __error) {
       let __exceptionPtr = __error.toCpp()

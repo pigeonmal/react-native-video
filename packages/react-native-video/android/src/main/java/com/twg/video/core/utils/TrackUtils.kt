@@ -6,9 +6,10 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import com.margelo.nitro.video.HybridVideoPlayerSourceSpec
 import com.margelo.nitro.video.PlayerTrack
+import com.margelo.nitro.video.TrackType
 
 @UnstableApi
-object TextTrackUtils {
+object TrackUtils {
     fun getAvailableTextTracks(player: ExoPlayer, source: HybridVideoPlayerSourceSpec): Array<PlayerTrack> {
         return Threading.runOnMainThreadSync {
             val tracks = mutableListOf<PlayerTrack>()
@@ -25,7 +26,7 @@ object TextTrackUtils {
                         val language = format.language
                         val isSelected = trackGroup.isTrackSelected(trackIndex)
 
-                        val isExternal = trackId.startsWith("external-subtitle") == true
+                        val isExternal = trackId.startsWith("external-") == true
 
                         val finalTrackId = if (isExternal) "external-$globalTrackIndex" else trackId
 
@@ -47,55 +48,45 @@ object TextTrackUtils {
         }
     }
 
-    fun selectTextTrack(
+    fun selectTrackById(
         player: ExoPlayer,
-        textTrack: PlayerTrack?,
-        source: HybridVideoPlayerSourceSpec
-    ): Int? {
+        type: TrackType,
+        id: String?
+    ) {
         return Threading.runOnMainThreadSync {
             val trackSelector = player.trackSelectionParameters.buildUpon()
 
-            // If textTrack is null, disable all text tracks
-            if (textTrack == null || textTrack.id.isEmpty()) {
-                trackSelector.setTrackTypeDisabled(C.TRACK_TYPE_TEXT, true)
+            if (id == null || id.isEmpty()) {
+                trackSelector.setTrackTypeDisabled(type, true)
                 player.trackSelectionParameters = trackSelector.build()
                 return@runOnMainThreadSync null
             }
 
             val currentTracks = player.currentTracks
             var trackFound = false
-            var selectedExternalTrackIndex: Int? = null
             var globalTrackIndex = 0
 
-            // Find and select the specific text track
             for (trackGroup in currentTracks.groups) {
-                if (trackGroup.type == C.TRACK_TYPE_TEXT) {
+                if (trackGroup.type == type) {
                     for (trackIndex in 0 until trackGroup.length) {
                         val format = trackGroup.getTrackFormat(trackIndex)
-                        val currentTrackId = format.id ?: "text-$globalTrackIndex"
-                        val label = format.label ?: "Unknown ${globalTrackIndex + 1}"
+                        val currentTrackId = format.id ?: "track-$type-$globalTrackIndex"
+                        //val label = format.label ?: "Unknown ${globalTrackIndex + 1}"
 
-                        val isExternal = currentTrackId.startsWith("external-subtitle") == true
+                        val isExternal = currentTrackId.startsWith("external-") == true
 
                         val finalTrackId =
                             if (isExternal) "external-$globalTrackIndex" else currentTrackId
 
-                        if (finalTrackId == textTrack.id) {
+                        if (finalTrackId == id) {
                             // Enable this specific track
-                            trackSelector.setTrackTypeDisabled(C.TRACK_TYPE_TEXT, false)
+                            trackSelector.setTrackTypeDisabled(type, false)
                             trackSelector.setOverrideForType(
                                 TrackSelectionOverride(
                                     trackGroup.mediaTrackGroup,
                                     listOf(trackIndex)
                                 )
                             )
-
-                            // Update selection state
-                            selectedExternalTrackIndex = if (isExternal) {
-                                globalTrackIndex
-                            } else {
-                                null
-                            }
 
                             trackFound = true
                             break
@@ -111,7 +102,54 @@ object TextTrackUtils {
 
             // Apply the track selection parameters regardless of whether we found a track
             player.trackSelectionParameters = trackSelector.build()
-            selectedExternalTrackIndex
+        }
+    }
+
+     fun selectTrackByIndex(
+        player: ExoPlayer,
+        type: TrackType,
+        index: Int?
+    ) {
+        return Threading.runOnMainThreadSync {
+            val trackSelector = player.trackSelectionParameters.buildUpon()
+
+            if (index == null) {
+                trackSelector.setTrackTypeDisabled(type, true)
+                player.trackSelectionParameters = trackSelector.build()
+                return@runOnMainThreadSync null
+            }
+
+            val currentTracks = player.currentTracks
+            var trackFound = false
+            var globalTrackIndex = 0
+
+            for (trackGroup in currentTracks.groups) {
+                if (trackGroup.type == type) {
+                    for (trackIndex in 0 until trackGroup.length) {
+                        if (index == globalTrackIndex) {
+                            // Enable this specific track
+                            trackSelector.setTrackTypeDisabled(type, false)
+                            trackSelector.setOverrideForType(
+                                TrackSelectionOverride(
+                                    trackGroup.mediaTrackGroup,
+                                    listOf(trackIndex)
+                                )
+                            )
+
+                            trackFound = true
+                            break
+                        }
+                        
+                        globalTrackIndex++
+                    }
+                    if (trackFound) {
+                        break
+                    }
+                }
+            }
+
+            // Apply the track selection parameters regardless of whether we found a track
+            player.trackSelectionParameters = trackSelector.build()
         }
     }
 
@@ -130,7 +168,7 @@ object TextTrackUtils {
                             val label = format.label ?: "Unknown ${globalTrackIndex + 1}"
                             val language = format.language
 
-                            val isExternal = trackId.startsWith("external-subtitle") == true
+                            val isExternal = trackId.startsWith("external-") == true
 
                             val finalTrackId = if (isExternal) "external-$globalTrackIndex" else trackId
 

@@ -23,8 +23,10 @@ namespace margelo::nitro::video { enum class VideoPlayerStatus; }
 namespace margelo::nitro::video { enum class MixAudioMode; }
 // Forward declaration of `IgnoreSilentSwitchMode` to properly resolve imports.
 namespace margelo::nitro::video { enum class IgnoreSilentSwitchMode; }
-// Forward declaration of `TextTrack` to properly resolve imports.
-namespace margelo::nitro::video { struct TextTrack; }
+// Forward declaration of `PlayerTrack` to properly resolve imports.
+namespace margelo::nitro::video { struct PlayerTrack; }
+// Forward declaration of `TrackType` to properly resolve imports.
+namespace margelo::nitro::video { enum class TrackType; }
 
 #include <memory>
 #include "HybridVideoPlayerSourceSpec.hpp"
@@ -32,12 +34,14 @@ namespace margelo::nitro::video { struct TextTrack; }
 #include "VideoPlayerStatus.hpp"
 #include "MixAudioMode.hpp"
 #include "IgnoreSilentSwitchMode.hpp"
-#include "TextTrack.hpp"
+#include "PlayerTrack.hpp"
 #include <optional>
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/Null.hpp>
 #include <variant>
 #include <vector>
+#include "TrackType.hpp"
+#include <string>
 
 namespace margelo::nitro::video {
 
@@ -91,19 +95,20 @@ namespace margelo::nitro::video {
       virtual bool getPlayWhenInactive() = 0;
       virtual void setPlayWhenInactive(bool playWhenInactive) = 0;
       virtual bool getIsPlaying() = 0;
-      virtual std::optional<TextTrack> getSelectedTrack() = 0;
+      virtual std::optional<PlayerTrack> getSelectedTrack() = 0;
 
     public:
       // Methods
       virtual std::shared_ptr<Promise<void>> replaceSourceAsync(const std::optional<std::variant<nitro::NullType, std::shared_ptr<HybridVideoPlayerSourceSpec>>>& source) = 0;
-      virtual std::vector<TextTrack> getAvailableTextTracks() = 0;
-      virtual void selectTextTrack(const std::optional<std::variant<nitro::NullType, TextTrack>>& textTrack) = 0;
+      virtual std::vector<PlayerTrack> getAvailableTextTracks() = 0;
       virtual std::shared_ptr<Promise<void>> initialize() = 0;
       virtual std::shared_ptr<Promise<void>> preload() = 0;
       virtual void play() = 0;
       virtual void pause() = 0;
       virtual void seekBy(double time) = 0;
       virtual void seekTo(double time) = 0;
+      virtual void selectTrackById(TrackType type, const std::optional<std::string>& id) = 0;
+      virtual void selectTrackByIndex(TrackType type, std::optional<double> index) = 0;
 
     protected:
       // Hybrid Setup

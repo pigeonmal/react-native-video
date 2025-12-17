@@ -5,7 +5,7 @@ import type { VideoPlayerStatus } from './VideoPlayerStatus';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { VideoConfig } from './VideoConfig';
-import type { PlayerTrack } from './PlayerTrack';
+import type { PlayerTrack, TrackType } from './PlayerTrack';
 
 export interface VideoPlayerBase {
   /**
@@ -161,10 +161,18 @@ export interface VideoPlayerBase {
   getAvailableTextTracks(): PlayerTrack[];
 
   /**
-   * Select a text track to display.
-   * @param textTrack - Text track to select, or null to unselect current track
+   * Select a track (text, audio, video) to display.
+   * @param type - TrackType (text, audio, video)
+   * @param id - The id of the track to select.
    */
-  selectTextTrack(textTrack: PlayerTrack | null): void;
+  selectTrackById(type: TrackType, id?: string): void;
+
+  /**
+   * Select a track (text, audio, video) to display.
+   * @param type - TrackType (text, audio, video)
+   * @param index - The index of the track to select.
+   */
+  selectTrackByIndex(type: TrackType, index?: number): void;
 
   /**
    * Get the currently selected text track.

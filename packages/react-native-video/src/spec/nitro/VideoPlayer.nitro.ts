@@ -30,12 +30,6 @@ export interface VideoPlayer
    * @returns Array of available text tracks
    */
   getAvailableTextTracks(): PlayerTrack[];
-
-  /**
-   * Select a text track to display.
-   * @param textTrack - Text track to select, or null to unselect current track
-   */
-  selectTextTrack(textTrack: PlayerTrack | null): void;
 }
 
 export interface VideoPlayerFactory

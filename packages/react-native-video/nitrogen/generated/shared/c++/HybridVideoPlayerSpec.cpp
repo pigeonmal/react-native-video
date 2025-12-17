@@ -42,13 +42,14 @@ namespace margelo::nitro::video {
       prototype.registerHybridGetter("selectedTrack", &HybridVideoPlayerSpec::getSelectedTrack);
       prototype.registerHybridMethod("replaceSourceAsync", &HybridVideoPlayerSpec::replaceSourceAsync);
       prototype.registerHybridMethod("getAvailableTextTracks", &HybridVideoPlayerSpec::getAvailableTextTracks);
-      prototype.registerHybridMethod("selectTextTrack", &HybridVideoPlayerSpec::selectTextTrack);
       prototype.registerHybridMethod("initialize", &HybridVideoPlayerSpec::initialize);
       prototype.registerHybridMethod("preload", &HybridVideoPlayerSpec::preload);
       prototype.registerHybridMethod("play", &HybridVideoPlayerSpec::play);
       prototype.registerHybridMethod("pause", &HybridVideoPlayerSpec::pause);
       prototype.registerHybridMethod("seekBy", &HybridVideoPlayerSpec::seekBy);
       prototype.registerHybridMethod("seekTo", &HybridVideoPlayerSpec::seekTo);
+      prototype.registerHybridMethod("selectTrackById", &HybridVideoPlayerSpec::selectTrackById);
+      prototype.registerHybridMethod("selectTrackByIndex", &HybridVideoPlayerSpec::selectTrackByIndex);
     });
   }
 

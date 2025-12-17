@@ -5,6 +5,7 @@ export type { IgnoreSilentSwitchMode } from './core/types/IgnoreSilentSwitchMode
 export type { MixAudioMode } from './core/types/MixAudioMode';
 export type { ResizeMode } from './core/types/ResizeMode';
 export type { PlayerTrack } from './core/types/PlayerTrack';
+export { TrackType } from './core/types/PlayerTrack';
 export type { VideoConfig, VideoSource } from './core/types/VideoConfig';
 export {
   type LibraryError,

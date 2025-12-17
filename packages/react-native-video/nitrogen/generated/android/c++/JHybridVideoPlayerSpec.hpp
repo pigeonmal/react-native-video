@@ -75,19 +75,20 @@ namespace margelo::nitro::video {
     bool getPlayWhenInactive() override;
     void setPlayWhenInactive(bool playWhenInactive) override;
     bool getIsPlaying() override;
-    std::optional<TextTrack> getSelectedTrack() override;
+    std::optional<PlayerTrack> getSelectedTrack() override;
 
   public:
     // Methods
     std::shared_ptr<Promise<void>> replaceSourceAsync(const std::optional<std::variant<nitro::NullType, std::shared_ptr<HybridVideoPlayerSourceSpec>>>& source) override;
-    std::vector<TextTrack> getAvailableTextTracks() override;
-    void selectTextTrack(const std::optional<std::variant<nitro::NullType, TextTrack>>& textTrack) override;
+    std::vector<PlayerTrack> getAvailableTextTracks() override;
     std::shared_ptr<Promise<void>> initialize() override;
     std::shared_ptr<Promise<void>> preload() override;
     void play() override;
     void pause() override;
     void seekBy(double time) override;
     void seekTo(double time) override;
+    void selectTrackById(TrackType type, const std::optional<std::string>& id) override;
+    void selectTrackByIndex(TrackType type, std::optional<double> index) override;
 
   private:
     friend HybridBase;

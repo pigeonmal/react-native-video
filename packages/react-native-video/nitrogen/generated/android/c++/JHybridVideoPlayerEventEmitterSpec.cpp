@@ -31,8 +31,6 @@ namespace margelo::nitro::video { enum class VideoPlayerStatus; }
 namespace margelo::nitro::video { struct TimedMetadata; }
 // Forward declaration of `TimedMetadataObject` to properly resolve imports.
 namespace margelo::nitro::video { struct TimedMetadataObject; }
-// Forward declaration of `TextTrack` to properly resolve imports.
-namespace margelo::nitro::video { struct TextTrack; }
 // Forward declaration of `onVolumeChangeData` to properly resolve imports.
 namespace margelo::nitro::video { struct onVolumeChangeData; }
 
@@ -77,13 +75,6 @@ namespace margelo::nitro::video { struct onVolumeChangeData; }
 #include "JTimedMetadataObject.hpp"
 #include <string>
 #include "JFunc_void_std__vector_std__string_.hpp"
-#include <NitroModules/Null.hpp>
-#include "TextTrack.hpp"
-#include <variant>
-#include "JFunc_void_std__optional_std__variant_nitro__NullType__TextTrack__.hpp"
-#include "JVariant_NullType_TextTrack.hpp"
-#include <NitroModules/JNull.hpp>
-#include "JTextTrack.hpp"
 #include "onVolumeChangeData.hpp"
 #include "JFunc_void_onVolumeChangeData.hpp"
 #include "JonVolumeChangeData.hpp"
@@ -203,11 +194,6 @@ namespace margelo::nitro::video {
   ListenerSubscription JHybridVideoPlayerEventEmitterSpec::addOnTextTrackDataChangedListener(const std::function<void(const std::vector<std::string>& /* data */)>& listener) {
     static const auto method = javaClassStatic()->getMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<JFunc_void_std__vector_std__string_::javaobject> /* listener */)>("addOnTextTrackDataChangedListener_cxx");
     auto __result = method(_javaPart, JFunc_void_std__vector_std__string__cxx::fromCpp(listener));
-    return __result->toCpp();
-  }
-  ListenerSubscription JHybridVideoPlayerEventEmitterSpec::addOnTrackChangeListener(const std::function<void(const std::optional<std::variant<nitro::NullType, TextTrack>>& /* track */)>& listener) {
-    static const auto method = javaClassStatic()->getMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<JFunc_void_std__optional_std__variant_nitro__NullType__TextTrack__::javaobject> /* listener */)>("addOnTrackChangeListener_cxx");
-    auto __result = method(_javaPart, JFunc_void_std__optional_std__variant_nitro__NullType__TextTrack___cxx::fromCpp(listener));
     return __result->toCpp();
   }
   ListenerSubscription JHybridVideoPlayerEventEmitterSpec::addOnVolumeChangeListener(const std::function<void(const onVolumeChangeData& /* data */)>& listener) {

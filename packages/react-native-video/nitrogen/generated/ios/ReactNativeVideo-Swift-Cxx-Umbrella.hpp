@@ -48,6 +48,8 @@ namespace margelo::nitro::video { struct NativeExternalSubtitle; }
 namespace margelo::nitro::video { struct NativeVideoConfig; }
 // Forward declaration of `OnGetLicensePayload` to properly resolve imports.
 namespace margelo::nitro::video { struct OnGetLicensePayload; }
+// Forward declaration of `PlayerTrack` to properly resolve imports.
+namespace margelo::nitro::video { struct PlayerTrack; }
 // Forward declaration of `ResizeMode` to properly resolve imports.
 namespace margelo::nitro::video { enum class ResizeMode; }
 // Forward declaration of `Resolution` to properly resolve imports.
@@ -58,12 +60,12 @@ namespace margelo::nitro::video { enum class SourceType; }
 namespace margelo::nitro::video { enum class SubtitleType; }
 // Forward declaration of `SurfaceType` to properly resolve imports.
 namespace margelo::nitro::video { enum class SurfaceType; }
-// Forward declaration of `TextTrack` to properly resolve imports.
-namespace margelo::nitro::video { struct TextTrack; }
 // Forward declaration of `TimedMetadataObject` to properly resolve imports.
 namespace margelo::nitro::video { struct TimedMetadataObject; }
 // Forward declaration of `TimedMetadata` to properly resolve imports.
 namespace margelo::nitro::video { struct TimedMetadata; }
+// Forward declaration of `TrackType` to properly resolve imports.
+namespace margelo::nitro::video { enum class TrackType; }
 // Forward declaration of `VideoInformation` to properly resolve imports.
 namespace margelo::nitro::video { struct VideoInformation; }
 // Forward declaration of `VideoOrientation` to properly resolve imports.
@@ -102,14 +104,15 @@ namespace margelo::nitro::video { struct onVolumeChangeData; }
 #include "NativeExternalSubtitle.hpp"
 #include "NativeVideoConfig.hpp"
 #include "OnGetLicensePayload.hpp"
+#include "PlayerTrack.hpp"
 #include "ResizeMode.hpp"
 #include "Resolution.hpp"
 #include "SourceType.hpp"
 #include "SubtitleType.hpp"
 #include "SurfaceType.hpp"
-#include "TextTrack.hpp"
 #include "TimedMetadata.hpp"
 #include "TimedMetadataObject.hpp"
+#include "TrackType.hpp"
 #include "VideoInformation.hpp"
 #include "VideoOrientation.hpp"
 #include "VideoPlayerStatus.hpp"
