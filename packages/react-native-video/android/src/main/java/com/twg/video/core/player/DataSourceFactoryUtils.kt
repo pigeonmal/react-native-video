@@ -76,5 +76,5 @@ fun buildCronetHttpDataSourceFactory(source: HybridVideoPlayerSourceSpec): Crone
     factory.setUserAgent(DEFAULT_USER_AGENT)
   }
 
-  return cronetDataSourceFactory
+  return factory
 }
