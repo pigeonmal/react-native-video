@@ -15,7 +15,11 @@ import type { VideoPlayerStatus } from './types/VideoPlayerStatus';
 import { createPlayer } from './utils/playerFactory';
 import { createSource } from './utils/sourceFactory';
 import { VideoPlayerEvents } from './VideoPlayerEvents';
-import type { PlayerTrack, TrackType } from './types/PlayerTrack';
+import type {
+  AllPlayerTracks,
+  PlayerTrack,
+  TrackType,
+} from './types/PlayerTrack';
 
 class VideoPlayer extends VideoPlayerEvents implements VideoPlayerBase {
   protected player: VideoPlayerImpl;
@@ -285,6 +289,15 @@ class VideoPlayer extends VideoPlayerEvents implements VideoPlayerBase {
     } catch (error) {
       this.throwError(error);
       return [];
+    }
+  }
+
+  getAllPlayerTracks(): AllPlayerTracks {
+    try {
+      return this.player.getAllPlayerTracks();
+    } catch (error) {
+      this.throwError(error);
+      return { audios: [], videos: [], texts: [] };
     }
   }
 

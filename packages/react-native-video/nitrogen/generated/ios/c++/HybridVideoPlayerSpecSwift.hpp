@@ -24,6 +24,10 @@ namespace margelo::nitro::video { enum class MixAudioMode; }
 namespace margelo::nitro::video { enum class IgnoreSilentSwitchMode; }
 // Forward declaration of `PlayerTrack` to properly resolve imports.
 namespace margelo::nitro::video { struct PlayerTrack; }
+// Forward declaration of `AllPlayerTracks` to properly resolve imports.
+namespace margelo::nitro::video { struct AllPlayerTracks; }
+// Forward declaration of `VideoPlayerTrack` to properly resolve imports.
+namespace margelo::nitro::video { struct VideoPlayerTrack; }
 // Forward declaration of `TrackType` to properly resolve imports.
 namespace margelo::nitro::video { enum class TrackType; }
 
@@ -40,6 +44,8 @@ namespace margelo::nitro::video { enum class TrackType; }
 #include <NitroModules/Null.hpp>
 #include <variant>
 #include <vector>
+#include "AllPlayerTracks.hpp"
+#include "VideoPlayerTrack.hpp"
 #include "TrackType.hpp"
 
 #include "ReactNativeVideo-Swift-Cxx-Umbrella.hpp"
@@ -114,6 +120,12 @@ namespace margelo::nitro::video {
     }
     inline void setCurrentTime(double currentTime) noexcept override {
       _swiftPart.setCurrentTime(std::forward<decltype(currentTime)>(currentTime));
+    }
+    inline int64_t getSubtitleDelay() noexcept override {
+      return _swiftPart.getSubtitleDelay();
+    }
+    inline void setSubtitleDelay(int64_t subtitleDelay) noexcept override {
+      _swiftPart.setSubtitleDelay(std::forward<decltype(subtitleDelay)>(subtitleDelay));
     }
     inline bool getMuted() noexcept override {
       return _swiftPart.getMuted();
@@ -224,6 +236,14 @@ namespace margelo::nitro::video {
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }
+    }
+    inline AllPlayerTracks getAllPlayerTracks() override {
+      auto __result = _swiftPart.getAllPlayerTracks();
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
     }
     inline void selectTrackById(TrackType type, const std::optional<std::string>& id) override {
       auto __result = _swiftPart.selectTrackById(static_cast<int>(type), id);

@@ -181,6 +181,17 @@ open class HybridVideoPlayerSpec_cxx {
     }
   }
   
+  public final var subtitleDelay: Int64 {
+    @inline(__always)
+    get {
+      return self.__implementation.subtitleDelay
+    }
+    @inline(__always)
+    set {
+      self.__implementation.subtitleDelay = newValue
+    }
+  }
+  
   public final var muted: Bool {
     @inline(__always)
     get {
@@ -418,6 +429,18 @@ open class HybridVideoPlayerSpec_cxx {
     } catch (let __error) {
       let __exceptionPtr = __error.toCpp()
       return bridge.create_Result_void_(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func getAllPlayerTracks() -> bridge.Result_AllPlayerTracks_ {
+    do {
+      let __result = try self.__implementation.getAllPlayerTracks()
+      let __resultCpp = __result
+      return bridge.create_Result_AllPlayerTracks_(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_AllPlayerTracks_(__exceptionPtr)
     }
   }
   

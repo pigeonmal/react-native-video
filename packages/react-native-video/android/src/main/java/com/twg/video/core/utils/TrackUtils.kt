@@ -6,6 +6,7 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import com.margelo.nitro.video.HybridVideoPlayerSourceSpec
 import com.margelo.nitro.video.PlayerTrack
+import com.margelo.nitro.video.AllPlayerTracks
 import com.margelo.nitro.video.TrackType
 
 @UnstableApi
@@ -21,7 +22,7 @@ object TrackUtils {
                 if (trackGroup.type == C.TRACK_TYPE_TEXT) {
                     for (trackIndex in 0 until trackGroup.length) {
                         val format = trackGroup.getTrackFormat(trackIndex)
-                        val trackId = format.id ?: "text-$globalTrackIndex"
+                        val trackId = format.id ?: "track-${C.TRACK_TYPE_TEXT}-$globalTrackIndex"
                         val label = format.label ?: "Unknown ${globalTrackIndex + 1}"
                         val language = format.language
                         val isSelected = trackGroup.isTrackSelected(trackIndex)
@@ -153,7 +154,7 @@ object TrackUtils {
         }
     }
 
-    fun getSelectedTrack(player: ExoPlayer, source: HybridVideoPlayerSourceSpec): PlayerTrack? {
+    fun getTextSelectedTrack(player: ExoPlayer, source: HybridVideoPlayerSourceSpec): PlayerTrack? {
         return Threading.runOnMainThreadSync {
             val currentTracks = player.currentTracks
             var globalTrackIndex = 0
@@ -164,7 +165,7 @@ object TrackUtils {
                     for (trackIndex in 0 until trackGroup.length) {
                         if (trackGroup.isTrackSelected(trackIndex)) {
                             val format = trackGroup.getTrackFormat(trackIndex)
-                            val trackId = format.id ?: "text-$globalTrackIndex"
+                            val trackId = format.id ?: "track-${C.}-$globalTrackIndex"
                             val label = format.label ?: "Unknown ${globalTrackIndex + 1}"
                             val language = format.language
 
@@ -190,4 +191,110 @@ object TrackUtils {
             null
         }
     }
+
+    fun getAllPlayerTracks(player: ExoPlayer): AllPlayerTracks {
+        return Threading.runOnMainThreadSync {
+            val audioTracks = mutableListOf<PlayerTrack>()
+            val textTracks = mutableListOf<PlayerTrack>()
+            val videoTracks = mutableListOf<VideoPlayerTrack>()
+
+            val currentTracks = player.currentTracks
+
+            var globalAudioIndex = 0
+            var globalTextIndex = 0
+            var globalVideoIndex = 0
+
+            for (trackGroup in currentTracks.groups) {
+                when (trackGroup.type) {
+                    C.TRACK_TYPE_AUDIO -> {
+                        for (trackIndex in 0 until trackGroup.length) {
+                            val format = trackGroup.getTrackFormat(trackIndex)
+
+                            val rawId = format.id ?: "track-${C.TRACK_TYPE_AUDIO}-$globalAudioIndex"
+                            val isExternal = rawId.startsWith("external-")
+                            val finalId = if (isExternal) "external-$globalAudioIndex" else rawId
+
+                            val label = format.label ?: "Unknown ${globalAudioIndex + 1}"
+                            val language = format.language
+                            val isSelected = trackGroup.isTrackSelected(trackIndex)
+
+                            audioTracks.add(
+                                PlayerTrack(
+                                    id = finalId,
+                                    label = label,
+                                    language = language,
+                                    selected = isSelected
+                                )
+                            )
+
+                            globalAudioIndex++
+                        }
+                    }
+                    C.TRACK_TYPE_TEXT -> {
+                        for (trackIndex in 0 until trackGroup.length) {
+                            val format = trackGroup.getTrackFormat(trackIndex)
+
+                            val rawId = format.id ?: "track-${C.TRACK_TYPE_TEXT}-$globalTextIndex"
+                            val isExternal = rawId.startsWith("external-")
+                            val finalId = if (isExternal) "external-$globalTextIndex" else rawId
+
+                            val label = format.label ?: "Unknown ${globalTextIndex + 1}"
+                            val language = format.language
+                            val isSelected = trackGroup.isTrackSelected(trackIndex)
+
+                            textTracks.add(
+                                PlayerTrack(
+                                    id = finalId,
+                                    label = label,
+                                    language = language,
+                                    selected = isSelected
+                                )
+                            )
+
+                            globalTextIndex++
+                        }
+                    }
+
+                    C.TRACK_TYPE_VIDEO -> {
+                        for (trackIndex in 0 until trackGroup.length) {
+                            val format = trackGroup.getTrackFormat(trackIndex)
+
+                            val rawId = format.id ?: "track-${C.TRACK_TYPE_VIDEO}-$globalVideoIndex"
+                            val isExternal = rawId.startsWith("external-")
+                            val finalId = if (isExternal) "external-$globalVideoIndex" else rawId
+
+                            val label = format.label ?: "Unknown ${globalVideoIndex + 1}"
+                            val language = format.language
+                            val isSelected = trackGroup.isTrackSelected(trackIndex)
+
+                            val width = if (format.width != Format.NO_VALUE) format.width.toDouble() else 0.0
+                            val height = if (format.height != Format.NO_VALUE) format.height.toDouble() else 0.0
+
+                            videoTracks.add(
+                                VideoPlayerTrack(
+                                    width = width,
+                                    height = height,
+                                    id = finalId,
+                                    label = label,
+                                    language = language,
+                                    selected = isSelected
+                                )
+                            )
+
+                            globalVideoIndex++
+                        }
+                    }
+
+                    else -> Unit
+                }
+            }
+
+            AllPlayerTracks(
+                audios = audioTracks.toTypedArray(),
+                videos = videoTracks.toTypedArray(),
+                texts = textTracks.toTypedArray()
+            )
+        }
+    }
+
 }

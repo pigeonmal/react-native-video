@@ -24,6 +24,8 @@ namespace margelo::nitro::video {
       prototype.registerHybridSetter("volume", &HybridVideoPlayerSpec::setVolume);
       prototype.registerHybridGetter("currentTime", &HybridVideoPlayerSpec::getCurrentTime);
       prototype.registerHybridSetter("currentTime", &HybridVideoPlayerSpec::setCurrentTime);
+      prototype.registerHybridGetter("subtitleDelay", &HybridVideoPlayerSpec::getSubtitleDelay);
+      prototype.registerHybridSetter("subtitleDelay", &HybridVideoPlayerSpec::setSubtitleDelay);
       prototype.registerHybridGetter("muted", &HybridVideoPlayerSpec::getMuted);
       prototype.registerHybridSetter("muted", &HybridVideoPlayerSpec::setMuted);
       prototype.registerHybridGetter("loop", &HybridVideoPlayerSpec::getLoop);
@@ -48,6 +50,7 @@ namespace margelo::nitro::video {
       prototype.registerHybridMethod("pause", &HybridVideoPlayerSpec::pause);
       prototype.registerHybridMethod("seekBy", &HybridVideoPlayerSpec::seekBy);
       prototype.registerHybridMethod("seekTo", &HybridVideoPlayerSpec::seekTo);
+      prototype.registerHybridMethod("getAllPlayerTracks", &HybridVideoPlayerSpec::getAllPlayerTracks);
       prototype.registerHybridMethod("selectTrackById", &HybridVideoPlayerSpec::selectTrackById);
       prototype.registerHybridMethod("selectTrackByIndex", &HybridVideoPlayerSpec::selectTrackByIndex);
     });

@@ -82,6 +82,12 @@ abstract class HybridVideoPlayerSpec: HybridObject() {
   @get:Keep
   @set:DoNotStrip
   @set:Keep
+  abstract var subtitleDelay: Long
+  
+  @get:DoNotStrip
+  @get:Keep
+  @set:DoNotStrip
+  @set:Keep
   abstract var muted: Boolean
   
   @get:DoNotStrip
@@ -160,6 +166,10 @@ abstract class HybridVideoPlayerSpec: HybridObject() {
   @DoNotStrip
   @Keep
   abstract fun seekTo(time: Double): Unit
+  
+  @DoNotStrip
+  @Keep
+  abstract fun getAllPlayerTracks(): AllPlayerTracks
   
   @DoNotStrip
   @Keep

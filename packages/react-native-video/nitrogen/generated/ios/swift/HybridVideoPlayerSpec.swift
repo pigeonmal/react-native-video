@@ -18,6 +18,7 @@ public protocol HybridVideoPlayerSpec_protocol: HybridObject {
   var duration: Double { get }
   var volume: Double { get set }
   var currentTime: Double { get set }
+  var subtitleDelay: Int64 { get set }
   var muted: Bool { get set }
   var loop: Bool { get set }
   var rate: Double { get set }
@@ -37,6 +38,7 @@ public protocol HybridVideoPlayerSpec_protocol: HybridObject {
   func pause() throws -> Void
   func seekBy(time: Double) throws -> Void
   func seekTo(time: Double) throws -> Void
+  func getAllPlayerTracks() throws -> AllPlayerTracks
   func selectTrackById(type: TrackType, id: String?) throws -> Void
   func selectTrackByIndex(type: TrackType, index: Double?) throws -> Void
 }

@@ -60,6 +60,8 @@ namespace margelo::nitro::video {
     void setVolume(double volume) override;
     double getCurrentTime() override;
     void setCurrentTime(double currentTime) override;
+    int64_t getSubtitleDelay() override;
+    void setSubtitleDelay(int64_t subtitleDelay) override;
     bool getMuted() override;
     void setMuted(bool muted) override;
     bool getLoop() override;
@@ -87,6 +89,7 @@ namespace margelo::nitro::video {
     void pause() override;
     void seekBy(double time) override;
     void seekTo(double time) override;
+    AllPlayerTracks getAllPlayerTracks() override;
     void selectTrackById(TrackType type, const std::optional<std::string>& id) override;
     void selectTrackByIndex(TrackType type, std::optional<double> index) override;
 

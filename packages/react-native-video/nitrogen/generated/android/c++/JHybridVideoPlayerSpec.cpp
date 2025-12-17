@@ -19,6 +19,10 @@ namespace margelo::nitro::video { enum class MixAudioMode; }
 namespace margelo::nitro::video { enum class IgnoreSilentSwitchMode; }
 // Forward declaration of `PlayerTrack` to properly resolve imports.
 namespace margelo::nitro::video { struct PlayerTrack; }
+// Forward declaration of `AllPlayerTracks` to properly resolve imports.
+namespace margelo::nitro::video { struct AllPlayerTracks; }
+// Forward declaration of `VideoPlayerTrack` to properly resolve imports.
+namespace margelo::nitro::video { struct VideoPlayerTrack; }
 // Forward declaration of `TrackType` to properly resolve imports.
 namespace margelo::nitro::video { enum class TrackType; }
 
@@ -40,6 +44,10 @@ namespace margelo::nitro::video { enum class TrackType; }
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/JPromise.hpp>
 #include <vector>
+#include "AllPlayerTracks.hpp"
+#include "JAllPlayerTracks.hpp"
+#include "VideoPlayerTrack.hpp"
+#include "JVideoPlayerTrack.hpp"
 #include <NitroModules/Null.hpp>
 #include <variant>
 #include "JVariant_NullType_HybridVideoPlayerSourceSpec.hpp"
@@ -122,6 +130,15 @@ namespace margelo::nitro::video {
   void JHybridVideoPlayerSpec::setCurrentTime(double currentTime) {
     static const auto method = javaClassStatic()->getMethod<void(double /* currentTime */)>("setCurrentTime");
     method(_javaPart, currentTime);
+  }
+  int64_t JHybridVideoPlayerSpec::getSubtitleDelay() {
+    static const auto method = javaClassStatic()->getMethod<int64_t()>("getSubtitleDelay");
+    auto __result = method(_javaPart);
+    return __result;
+  }
+  void JHybridVideoPlayerSpec::setSubtitleDelay(int64_t subtitleDelay) {
+    static const auto method = javaClassStatic()->getMethod<void(int64_t /* subtitleDelay */)>("setSubtitleDelay");
+    method(_javaPart, subtitleDelay);
   }
   bool JHybridVideoPlayerSpec::getMuted() {
     static const auto method = javaClassStatic()->getMethod<jboolean()>("getMuted");
@@ -272,6 +289,11 @@ namespace margelo::nitro::video {
   void JHybridVideoPlayerSpec::seekTo(double time) {
     static const auto method = javaClassStatic()->getMethod<void(double /* time */)>("seekTo");
     method(_javaPart, time);
+  }
+  AllPlayerTracks JHybridVideoPlayerSpec::getAllPlayerTracks() {
+    static const auto method = javaClassStatic()->getMethod<jni::local_ref<JAllPlayerTracks>()>("getAllPlayerTracks");
+    auto __result = method(_javaPart);
+    return __result->toCpp();
   }
   void JHybridVideoPlayerSpec::selectTrackById(TrackType type, const std::optional<std::string>& id) {
     static const auto method = javaClassStatic()->getMethod<void(jni::alias_ref<JTrackType> /* type */, jni::alias_ref<jni::JString> /* id */)>("selectTrackById");

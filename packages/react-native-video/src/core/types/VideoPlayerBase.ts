@@ -5,7 +5,7 @@ import type { VideoPlayerStatus } from './VideoPlayerStatus';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { VideoConfig } from './VideoConfig';
-import type { PlayerTrack, TrackType } from './PlayerTrack';
+import type { AllPlayerTracks, PlayerTrack, TrackType } from './PlayerTrack';
 
 export interface VideoPlayerBase {
   /**
@@ -164,6 +164,12 @@ export interface VideoPlayerBase {
    * @returns Array of available text tracks
    */
   getAvailableTextTracks(): PlayerTrack[];
+
+  /**
+   * Get all tracks (audios, videos, texts) tracks for the current source.
+   * @returns All tracks of the player
+   */
+  getAllPlayerTracks(): AllPlayerTracks;
 
   /**
    * Select a track (text, audio, video) to display.

@@ -26,3 +26,14 @@ export enum TrackType {
   VIDEO = 2,
   TEXT = 3,
 }
+
+export interface VideoPlayerTrack extends PlayerTrack {
+  width: number;
+  height: number;
+}
+
+export interface AllPlayerTracks {
+  audios: PlayerTrack[];
+  videos: VideoPlayerTrack[];
+  texts: PlayerTrack[];
+}

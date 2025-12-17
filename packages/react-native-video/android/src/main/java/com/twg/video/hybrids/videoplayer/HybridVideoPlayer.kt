@@ -608,6 +608,10 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
     return TrackUtils.getAvailableTextTracks(player, source)
   }
 
+  override fun getAllPlayerTracks(): AllPlayerTracks {
+    return TrackUtils.getAllPlayerTracks(player)
+  }
+
   override fun selectTrackById(type: TrackType, id: String?) {
     TrackUtils.selectTrackById(player, type, id)
   }
@@ -617,5 +621,5 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
   }
 
   override val selectedTrack: PlayerTrack?
-    get() = TrackUtils.getSelectedTrack(player, source)
+    get() = TrackUtils.getTextSelectedTrack(player, source)
 }

@@ -8,6 +8,8 @@
 #pragma once
 
 // Forward declarations of C++ defined types
+// Forward declaration of `AllPlayerTracks` to properly resolve imports.
+namespace margelo::nitro::video { struct AllPlayerTracks; }
 // Forward declaration of `BandwidthData` to properly resolve imports.
 namespace margelo::nitro::video { struct BandwidthData; }
 // Forward declaration of `BufferConfig` to properly resolve imports.
@@ -60,6 +62,8 @@ namespace margelo::nitro::video { struct VideoInformation; }
 namespace margelo::nitro::video { enum class VideoOrientation; }
 // Forward declaration of `VideoPlayerStatus` to properly resolve imports.
 namespace margelo::nitro::video { enum class VideoPlayerStatus; }
+// Forward declaration of `VideoPlayerTrack` to properly resolve imports.
+namespace margelo::nitro::video { struct VideoPlayerTrack; }
 // Forward declaration of `onLoadData` to properly resolve imports.
 namespace margelo::nitro::video { struct onLoadData; }
 // Forward declaration of `onLoadStartData` to properly resolve imports.
@@ -88,6 +92,7 @@ namespace ReactNativeVideo { class HybridVideoViewViewManagerFactorySpec_cxx; }
 namespace ReactNativeVideo { class HybridVideoViewViewManagerSpec_cxx; }
 
 // Include C++ defined types
+#include "AllPlayerTracks.hpp"
 #include "BandwidthData.hpp"
 #include "BufferConfig.hpp"
 #include "CustomVideoMetadata.hpp"
@@ -114,6 +119,7 @@ namespace ReactNativeVideo { class HybridVideoViewViewManagerSpec_cxx; }
 #include "VideoInformation.hpp"
 #include "VideoOrientation.hpp"
 #include "VideoPlayerStatus.hpp"
+#include "VideoPlayerTrack.hpp"
 #include "onLoadData.hpp"
 #include "onLoadStartData.hpp"
 #include "onPlaybackStateChangeData.hpp"
@@ -288,6 +294,17 @@ namespace margelo::nitro::video::bridge::swift {
     return vector;
   }
   
+  // pragma MARK: std::vector<VideoPlayerTrack>
+  /**
+   * Specialized version of `std::vector<VideoPlayerTrack>`.
+   */
+  using std__vector_VideoPlayerTrack_ = std::vector<VideoPlayerTrack>;
+  inline std::vector<VideoPlayerTrack> create_std__vector_VideoPlayerTrack_(size_t size) noexcept {
+    std::vector<VideoPlayerTrack> vector;
+    vector.reserve(size);
+    return vector;
+  }
+  
   // pragma MARK: std::optional<double>
   /**
    * Specialized version of `std::optional<double>`.
@@ -355,6 +372,15 @@ namespace margelo::nitro::video::bridge::swift {
   }
   inline Result_void_ create_Result_void_(const std::exception_ptr& error) noexcept {
     return Result<void>::withError(error);
+  }
+  
+  // pragma MARK: Result<AllPlayerTracks>
+  using Result_AllPlayerTracks_ = Result<AllPlayerTracks>;
+  inline Result_AllPlayerTracks_ create_Result_AllPlayerTracks_(const AllPlayerTracks& value) noexcept {
+    return Result<AllPlayerTracks>::withValue(value);
+  }
+  inline Result_AllPlayerTracks_ create_Result_AllPlayerTracks_(const std::exception_ptr& error) noexcept {
+    return Result<AllPlayerTracks>::withError(error);
   }
   
   // pragma MARK: std::shared_ptr<HybridVideoPlayerFactorySpec>

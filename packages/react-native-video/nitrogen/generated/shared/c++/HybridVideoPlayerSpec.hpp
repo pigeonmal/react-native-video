@@ -25,6 +25,8 @@ namespace margelo::nitro::video { enum class MixAudioMode; }
 namespace margelo::nitro::video { enum class IgnoreSilentSwitchMode; }
 // Forward declaration of `PlayerTrack` to properly resolve imports.
 namespace margelo::nitro::video { struct PlayerTrack; }
+// Forward declaration of `AllPlayerTracks` to properly resolve imports.
+namespace margelo::nitro::video { struct AllPlayerTracks; }
 // Forward declaration of `TrackType` to properly resolve imports.
 namespace margelo::nitro::video { enum class TrackType; }
 
@@ -40,6 +42,7 @@ namespace margelo::nitro::video { enum class TrackType; }
 #include <NitroModules/Null.hpp>
 #include <variant>
 #include <vector>
+#include "AllPlayerTracks.hpp"
 #include "TrackType.hpp"
 #include <string>
 
@@ -80,6 +83,8 @@ namespace margelo::nitro::video {
       virtual void setVolume(double volume) = 0;
       virtual double getCurrentTime() = 0;
       virtual void setCurrentTime(double currentTime) = 0;
+      virtual int64_t getSubtitleDelay() = 0;
+      virtual void setSubtitleDelay(int64_t subtitleDelay) = 0;
       virtual bool getMuted() = 0;
       virtual void setMuted(bool muted) = 0;
       virtual bool getLoop() = 0;
@@ -107,6 +112,7 @@ namespace margelo::nitro::video {
       virtual void pause() = 0;
       virtual void seekBy(double time) = 0;
       virtual void seekTo(double time) = 0;
+      virtual AllPlayerTracks getAllPlayerTracks() = 0;
       virtual void selectTrackById(TrackType type, const std::optional<std::string>& id) = 0;
       virtual void selectTrackByIndex(TrackType type, std::optional<double> index) = 0;
 
