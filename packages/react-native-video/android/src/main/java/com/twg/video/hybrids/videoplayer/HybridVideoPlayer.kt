@@ -613,11 +613,11 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
   }
 
   override fun selectTrackById(type: TrackType, id: String?) {
-    TrackUtils.selectTrackById(player, type, id)
+    TrackUtils.selectTrackById(player, type.value, id)
   }
 
   override fun selectTrackByIndex(type: TrackType, index: Double?) {
-    TrackUtils.selectTrackByIndex(player, type, index?.toInt())
+    TrackUtils.selectTrackByIndex(player, type.value, index?.toInt())
   }
 
   override val selectedTrack: PlayerTrack?

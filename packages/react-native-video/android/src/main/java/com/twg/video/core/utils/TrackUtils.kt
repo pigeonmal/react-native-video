@@ -1,5 +1,6 @@
 package com.twg.video.core.utils
 
+import androidx.media3.common.Format
 import androidx.media3.common.C
 import androidx.media3.common.TrackSelectionOverride
 import androidx.media3.common.util.UnstableApi
@@ -7,7 +8,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import com.margelo.nitro.video.HybridVideoPlayerSourceSpec
 import com.margelo.nitro.video.PlayerTrack
 import com.margelo.nitro.video.AllPlayerTracks
-import com.margelo.nitro.video.TrackType
+import com.margelo.nitro.video.VideoPlayerTrack
 
 @UnstableApi
 object TrackUtils {
@@ -51,7 +52,7 @@ object TrackUtils {
 
     fun selectTrackById(
         player: ExoPlayer,
-        type: TrackType,
+        type: Int,
         id: String?
     ) {
         return Threading.runOnMainThreadSync {
@@ -60,7 +61,7 @@ object TrackUtils {
             if (id == null || id.isEmpty()) {
                 trackSelector.setTrackTypeDisabled(type, true)
                 player.trackSelectionParameters = trackSelector.build()
-                return@runOnMainThreadSync null
+                return@runOnMainThreadSync
             }
 
             val currentTracks = player.currentTracks
@@ -108,7 +109,7 @@ object TrackUtils {
 
      fun selectTrackByIndex(
         player: ExoPlayer,
-        type: TrackType,
+        type: Int,
         index: Int?
     ) {
         return Threading.runOnMainThreadSync {
@@ -117,7 +118,7 @@ object TrackUtils {
             if (index == null) {
                 trackSelector.setTrackTypeDisabled(type, true)
                 player.trackSelectionParameters = trackSelector.build()
-                return@runOnMainThreadSync null
+                return@runOnMainThreadSync
             }
 
             val currentTracks = player.currentTracks
@@ -165,7 +166,7 @@ object TrackUtils {
                     for (trackIndex in 0 until trackGroup.length) {
                         if (trackGroup.isTrackSelected(trackIndex)) {
                             val format = trackGroup.getTrackFormat(trackIndex)
-                            val trackId = format.id ?: "track-${C.}-$globalTrackIndex"
+                            val trackId = format.id ?: "track-${C.TRACK_TYPE_TEXT}-$globalTrackIndex"
                             val label = format.label ?: "Unknown ${globalTrackIndex + 1}"
                             val language = format.language
 

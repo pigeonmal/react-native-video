@@ -19,7 +19,14 @@ const val DEFAULT_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleW
 
 fun buildBaseDataSourceFactory(context: Context, source: HybridVideoPlayerSourceSpec): DefaultDataSource.Factory {
   return if (source.uri.startsWith("http")) {
-    DefaultDataSource.Factory(context, source.config.forceOkhttp == true ? buildHttpDataSourceFactory(context, source) : buildCronetHttpDataSourceFactory(source))
+  DefaultDataSource.Factory(
+    context,
+    if (source.config.forceOkhttp == true) {
+      buildHttpDataSourceFactory(context, source)
+    } else {
+      buildCronetHttpDataSourceFactory(source)
+    }
+  )
   } else {
     DefaultDataSource.Factory(context)
   }
@@ -53,7 +60,7 @@ fun buildHttpDataSourceFactory(context: Context, source: HybridVideoPlayerSource
 fun buildCronetHttpDataSourceFactory(source: HybridVideoPlayerSourceSpec): CronetDataSource.Factory {
   // Get Cronet engine and executor from NitroFetch
   // used before NitroFetch.ioExecutor , but cause blocking thread
-  val cronetDataSourceFactory = CronetDataSource.Factory(NitroFetch.getEngine(), Executors.newSingleThreadExecutor())
+  val factory = CronetDataSource.Factory(NitroFetch.getEngine(), Executors.newSingleThreadExecutor())
     .setConnectionTimeoutMs(10_000)
     .setReadTimeoutMs(10_000)
     .setResetTimeoutOnRedirects(true)
