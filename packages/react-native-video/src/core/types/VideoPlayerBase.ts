@@ -43,6 +43,11 @@ export interface VideoPlayerBase {
   currentTime: number;
 
   /**
+   * Subtitle delay (milliseconds) negative or positive number
+   */
+  subtitleDelay: bigint;
+
+  /**
    * Whether the player is muted.
    */
   muted: boolean;

@@ -128,6 +128,11 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
     set = { value -> runOnMainThread { player.seekTo((value * 1000).toLong()) } }
   )
 
+  override var subtitleDelay: Long by mainThreadProperty(
+    get = { renderersFactory.getTextOffset() },
+    set = { value -> runOnMainThread { renderersFactory.setTextOffset(value * 1_000L) } }
+  )
+
   // volume defined by user
   var userVolume: Double = 1.0
 

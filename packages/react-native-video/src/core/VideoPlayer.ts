@@ -120,6 +120,14 @@ class VideoPlayer extends VideoPlayerEvents implements VideoPlayerBase {
     this.player.currentTime = value;
   }
 
+  get subtitleDelay(): bigint {
+    return this.player.subtitleDelay;
+  }
+
+  set subtitleDelay(value: bigint) {
+    this.player.subtitleDelay = value;
+  }
+
   // Muted
   get muted(): boolean {
     return this.player.muted;
