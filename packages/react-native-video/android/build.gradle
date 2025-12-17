@@ -186,6 +186,7 @@ android {
       if (!ExoplayerDependencies.useExoplayerHls) {
         java.srcDirs += ["src/stubs/hls"]
       }
+      java.srcDirs += ["src/stubs/subs"]
     }
   }
 }
