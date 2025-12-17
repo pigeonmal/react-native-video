@@ -65,7 +65,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
     return@runOnMainThreadSync ExoPlayer.Builder(context).build()
   }
 
-  private var renderersFactory: MyRenderersFactory? = null
+  private lateinit var renderersFactory: MyRenderersFactory
 
   var loadedWithSource = false
   private var currentPlayerView: WeakReference<PlayerView>? = null
@@ -368,7 +368,6 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
       player.removeListener(playerListener)
       player.removeAnalyticsListener(analyticsListener)
       player.release() // Release player
-      renderersFactory = null
       // Clean Listeners
       audioFocusChangedListener.removeEventEmitter()
       audioBecomingNoisyReceiver.removeEventEmitter()

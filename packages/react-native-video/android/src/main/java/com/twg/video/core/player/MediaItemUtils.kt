@@ -21,7 +21,6 @@ import com.twg.video.core.SourceError
 import com.twg.video.core.extensions.toStringExtension
 import com.twg.video.core.plugins.PluginsRegistry
 import com.margelo.nitro.video.ExternalForcedType
-import androidx.media3.common.MimeTypes
 
 private const val TAG = "MediaItemUtils"
 
