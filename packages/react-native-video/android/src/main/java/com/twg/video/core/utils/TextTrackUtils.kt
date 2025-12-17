@@ -50,25 +50,15 @@ object TextTrackUtils {
     fun selectTextTrack(
         player: ExoPlayer,
         textTrack: TextTrack?,
-        source: HybridVideoPlayerSourceSpec,
-        onTrackChange: (TextTrack?) -> Unit,
+        source: HybridVideoPlayerSourceSpec
     ): Int? {
         return Threading.runOnMainThreadSync {
             val trackSelector = player.trackSelectionParameters.buildUpon()
 
             // If textTrack is null, disable all text tracks
-            if (textTrack == null) {
+            if (textTrack == null || textTrack.id.isEmpty()) {
                 trackSelector.setTrackTypeDisabled(C.TRACK_TYPE_TEXT, true)
                 player.trackSelectionParameters = trackSelector.build()
-                onTrackChange(null)
-                return@runOnMainThreadSync null
-            }
-
-            if (textTrack.id.isEmpty()) {
-                // Disable all text tracks
-                trackSelector.setTrackTypeDisabled(C.TRACK_TYPE_TEXT, true)
-                player.trackSelectionParameters = trackSelector.build()
-                onTrackChange(null)
                 return@runOnMainThreadSync null
             }
 
@@ -107,7 +97,6 @@ object TextTrackUtils {
                                 null
                             }
 
-                            onTrackChange(textTrack)
                             trackFound = true
                             break
                         }

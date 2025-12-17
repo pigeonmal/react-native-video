@@ -85,9 +85,6 @@ class HybridVideoPlayerEventEmitter : HybridVideoPlayerEventEmitterSpec() {
   override fun addOnTextTrackDataChangedListener(listener: (Array<String>) -> Unit) =
     addListener("onTextTrackDataChanged", listener)
 
-  override fun addOnTrackChangeListener(listener: (Variant_NullType_TextTrack?) -> Unit) =
-    addListener("onTrackChange", listener)
-
   override fun addOnVolumeChangeListener(listener: (onVolumeChangeData) -> Unit) =
     addListener("onVolumeChange", listener)
 
@@ -144,15 +141,6 @@ class HybridVideoPlayerEventEmitter : HybridVideoPlayerEventEmitterSpec() {
 
   fun onTextTrackDataChanged(tracks: Array<String>) =
     emitEvent<(Array<String>) -> Unit>("onTextTrackDataChanged") { it(tracks) }
-
-  fun onTrackChange(track: TextTrack?) {
-    val param = if (track == null) {
-      Variant_NullType_TextTrack.create(NullType.NULL)
-    } else {
-      Variant_NullType_TextTrack.create(track)
-    }
-    emitEvent<(Variant_NullType_TextTrack?) -> Unit>("onTrackChange") { it(param) }
-  }
 
   fun onVolumeChange(data: onVolumeChangeData) =
     emitEvent<(onVolumeChangeData) -> Unit>("onVolumeChange") { it(data) }

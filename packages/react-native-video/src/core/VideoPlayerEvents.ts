@@ -119,10 +119,6 @@ export class VideoPlayerEvents {
         return this.eventEmitter.addOnTextTrackDataChangedListener(
           callback as PlayerEvents['onTextTrackDataChanged']
         );
-      case 'onTrackChange':
-        return this.eventEmitter.addOnTrackChangeListener(
-          callback as PlayerEvents['onTrackChange']
-        );
       case 'onVolumeChange':
         return this.eventEmitter.addOnVolumeChangeListener(
           callback as PlayerEvents['onVolumeChange']

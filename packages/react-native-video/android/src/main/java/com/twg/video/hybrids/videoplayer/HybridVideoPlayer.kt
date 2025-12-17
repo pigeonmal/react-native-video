@@ -610,8 +610,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
     selectedExternalTrackIndex = TextTrackUtils.selectTextTrack(
       player = player,
       textTrack = textTrack?.asSecondOrNull(),
-      source = source,
-      onTrackChange = { track -> eventEmitter.onTrackChange(track) }
+      source = source
     )
   }
 

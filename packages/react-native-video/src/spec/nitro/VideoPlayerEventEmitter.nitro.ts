@@ -8,7 +8,6 @@ import type {
   onVolumeChangeData,
   TimedMetadata,
 } from '../../core/types/Events';
-import type { TextTrack } from '../../core/types/TextTrack';
 import type { VideoPlayerStatus } from '../../core/types/VideoPlayerStatus';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -178,16 +177,6 @@ export interface VideoPlayerEventEmitter
    */
   addOnTextTrackDataChangedListener(
     listener: (data: string[]) => void
-  ): ListenerSubscription;
-
-  /**
-   * Adds a listener for the `onTrackChange` event.
-   * @see {@link VideoPlayerEvents.onTrackChange}
-   * @param listener - The listener to add.
-   * @returns A subscription object that can be used to remove the listener.
-   */
-  addOnTrackChangeListener(
-    listener: (track: TextTrack | null) => void
   ): ListenerSubscription;
 
   /**
