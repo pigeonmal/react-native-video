@@ -14,6 +14,7 @@ class HybridVideoPlayerSourceFactory: HybridVideoPlayerSourceFactorySpec() {
       metadata = null,
       initializeOnCreation = true,
       forceType = null,
+      forceOkhttp = null,
       externalAudios = null,
       initialSubtitleDelay = null
     )
