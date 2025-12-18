@@ -1,7 +1,7 @@
 {
   "name": "react-native-video-monorepo",
   "packageManager": "bun@1.1.42",
-  "version": "7.0.0-beta.1",
+  "version": "7.0.0-beta.2",
   "private": true,
   "repository": "https://github.com/TheWidlarzGroup/react-native-video",
   "author": "TheWidlarzGroup <hi@thewidlarzgroup.com> (https://github.com/TheWidlarzGroup)",
@@ -23,7 +23,7 @@
     "docs": "bun run --cwd docs",
     "postinstall": "patch-package --patch-dir example/patches",
     "release:github": "release-it --preRelease beta",
-    "release": "./scripts/release.sh"
+    "release": "./scripts/release.sh --skip drm-plugin"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^17.0.2",

@@ -1,6 +1,6 @@
 {
-  "name": "react-native-video",
-  "version": "7.0.0-beta.1",
+  "name": "@pigeonmal/react-native-video",
+  "version": "7.0.0-beta.2",
   "description": "<Video /> Component for React Native",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
@@ -71,7 +71,8 @@
   },
   "homepage": "https://github.com/TheWidlarzGroup/react-native-video#readme",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "devDependencies": {
     "@expo/config-plugins": "^10.0.2",
@@ -92,7 +93,8 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "react-native-nitro-modules": ">=0.27.2"
+    "react-native-nitro-modules": ">=0.27.2",
+    "react-native-nitro-fetch": ">=0.1.6"
   },
   "release-it": {
     "npm": {
