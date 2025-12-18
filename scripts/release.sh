@@ -21,17 +21,6 @@ else
   cd ../..
 fi
 
-# Check if options include --skip drm-plugin
-if [[ " $@ " =~ " --skip " ]] && [[ " $@ " =~ " drm-plugin " ]]; then
-  echo "[DRM Plugin] Skipping drm plugin release"
-else
-  echo "[DRM Plugin] Publishing drm plugin"
-
-  cd packages/drm-plugin
-  bun run release $@
-  cd ../..
-fi
-
 # Check if options include --skip github
 if [[ " $@ " =~ " --skip " ]] && [[ " $@ " =~ " github " ]]; then
   echo "[React Native Video] Skipping GitHub release"
