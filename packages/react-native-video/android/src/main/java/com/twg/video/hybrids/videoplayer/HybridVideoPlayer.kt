@@ -637,6 +637,15 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
     TrackUtils.selectTrackByIndex(player, type.value, index?.toInt())
   }
 
+  override fun resetForReuse() {
+    runOnMainThread {
+      if (player.playbackState != Player.STATE_IDLE) {
+        player.stop()
+      }
+      player.clearMediaItems()
+    }
+  }
+
   override val selectedTrack: PlayerTrack?
     get() = TrackUtils.getTextSelectedTrack(player, source)
 }

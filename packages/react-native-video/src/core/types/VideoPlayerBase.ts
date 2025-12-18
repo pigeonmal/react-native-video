@@ -186,6 +186,26 @@ export interface VideoPlayerBase {
   selectTrackByIndex(type: TrackType, index?: number): void;
 
   /**
+   * Stops playback and clears all media items so the Player can be safely reused.
+   *
+   * This function:
+   * - Stops playback if currently playing or buffering
+   * - Cancels any ongoing loading
+   * - Clears the playlist/timeline
+   * - Keeps the Player instance and its resources alive
+   *
+   * After calling this function, the Player will be in [Player.STATE_IDLE]
+   * with an empty playlist.
+   *
+   * Use this when:
+   * - Reusing a single Player instance for multiple media items
+   * - Switching videos frequently (e.g. feeds, previews, RecyclerView)
+   *
+   * Do NOT use this when you are done with playback permanently.
+   * In that case, call [Player.release] instead.
+   */
+  resetForReuse(): void;
+  /**
    * Get the currently selected text track.
    * @returns The currently selected text track, or undefined if none is selected
    */

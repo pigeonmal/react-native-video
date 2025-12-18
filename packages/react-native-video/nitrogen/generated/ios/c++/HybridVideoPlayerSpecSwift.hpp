@@ -257,6 +257,12 @@ namespace margelo::nitro::video {
         std::rethrow_exception(__result.error());
       }
     }
+    inline void resetForReuse() override {
+      auto __result = _swiftPart.resetForReuse();
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+    }
 
   private:
     ReactNativeVideo::HybridVideoPlayerSpec_cxx _swiftPart;

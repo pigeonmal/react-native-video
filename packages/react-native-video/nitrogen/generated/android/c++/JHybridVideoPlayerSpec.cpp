@@ -303,5 +303,9 @@ namespace margelo::nitro::video {
     static const auto method = javaClassStatic()->getMethod<void(jni::alias_ref<JTrackType> /* type */, jni::alias_ref<jni::JDouble> /* index */)>("selectTrackByIndex");
     method(_javaPart, JTrackType::fromCpp(type), index.has_value() ? jni::JDouble::valueOf(index.value()) : nullptr);
   }
+  void JHybridVideoPlayerSpec::resetForReuse() {
+    static const auto method = javaClassStatic()->getMethod<void()>("resetForReuse");
+    method(_javaPart);
+  }
 
 } // namespace margelo::nitro::video

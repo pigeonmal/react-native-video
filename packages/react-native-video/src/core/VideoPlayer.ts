@@ -317,6 +317,14 @@ class VideoPlayer extends VideoPlayerEvents implements VideoPlayerBase {
     }
   }
 
+  resetForReuse(): void {
+    try {
+      this.player.resetForReuse();
+    } catch (error) {
+      this.throwError(error);
+    }
+  }
+
   // Selected Text Track
   get selectedTrack(): PlayerTrack | undefined {
     return this.player.selectedTrack;

@@ -472,4 +472,15 @@ open class HybridVideoPlayerSpec_cxx {
       return bridge.create_Result_void_(__exceptionPtr)
     }
   }
+  
+  @inline(__always)
+  public final func resetForReuse() -> bridge.Result_void_ {
+    do {
+      try self.__implementation.resetForReuse()
+      return bridge.create_Result_void_()
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_void_(__exceptionPtr)
+    }
+  }
 }

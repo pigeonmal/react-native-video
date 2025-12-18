@@ -92,6 +92,7 @@ namespace margelo::nitro::video {
     AllPlayerTracks getAllPlayerTracks() override;
     void selectTrackById(TrackType type, const std::optional<std::string>& id) override;
     void selectTrackByIndex(TrackType type, std::optional<double> index) override;
+    void resetForReuse() override;
 
   private:
     friend HybridBase;

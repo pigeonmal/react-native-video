@@ -178,6 +178,10 @@ abstract class HybridVideoPlayerSpec: HybridObject() {
   @DoNotStrip
   @Keep
   abstract fun selectTrackByIndex(type: TrackType, index: Double?): Unit
+  
+  @DoNotStrip
+  @Keep
+  abstract fun resetForReuse(): Unit
 
   private external fun initHybrid(): HybridData
 
