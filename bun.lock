@@ -54,7 +54,6 @@
       "version": "7.0.0-beta.2",
       "dependencies": {
         "@react-native-community/slider": "^4.5.6",
-        "@react-native-video/drm": "^7.0.0-alpha.9",
         "react": "18.3.1",
         "react-native": "^0.77.0",
         "react-native-nitro-fetch": "^0.1.6",
@@ -798,8 +797,6 @@
     "@react-native-community/slider": ["@react-native-community/slider@4.5.7", "", {}, "sha512-WMDDZjNF2Bd8M8TrSqKf5xhM9ikdfCHtSPur64Ow3bB/OVrKufUQZ59NmYdNZNeGPvcHHTsafuYTY8zfZfbchQ=="],
 
     "@react-native-video/docs": ["@react-native-video/docs@workspace:docs"],
-
-    "@react-native-video/drm": ["@react-native-video/drm@7.0.0-alpha.9", "", { "peerDependencies": { "react": "*", "react-native": "*", "react-native-nitro-modules": ">=0.27.2", "react-native-video": ">=7.0.0-alpha.3" } }, "sha512-KbSiKl6UHmT4lXntJXpqmqBYrsA8dmjwcexsLzztp4kJe7BclhoEiSQI4Oo0NeapxksQTM10v6Bhxpkb1zpiXQ=="],
 
     "@react-native/assets-registry": ["@react-native/assets-registry@0.77.3", "", {}, "sha512-kLocY1mlQjCdrX0y4eYQblub9NDdX+rkNii3F2rumri532ILjMAvkdpehf2PwQDj0X6PZYF1XFjszPw5uzq0Aw=="],
 
@@ -3806,8 +3803,6 @@
     "@react-native-community/cli-tools/ora": ["ora@5.4.1", "", { "dependencies": { "bl": "^4.1.0", "chalk": "^4.1.0", "cli-cursor": "^3.1.0", "cli-spinners": "^2.5.0", "is-interactive": "^1.0.0", "is-unicode-supported": "^0.1.0", "log-symbols": "^4.1.0", "strip-ansi": "^6.0.0", "wcwidth": "^1.0.1" } }, "sha512-5b6Y85tPxZZ7QytO+BQzysW31HJku27cRIlkbAXaNx+BdcVi+LlRFmVXzeF6a7JCwJpyw5c4b+YSVImQIrBpuQ=="],
 
     "@react-native-video/docs/react": ["react@19.2.0", "", {}, "sha512-tmbWg6W31tQLeB5cdIBOicJDJRR2KzXsV7uSK9iNfLWQ5bIZfxuPEHp7M8wiHyHnn0DD1i7w3Zmin0FtkrwoCQ=="],
-
-    "@react-native-video/drm/react-native-video": ["react-native-video@7.0.0-beta.1", "", { "peerDependencies": { "react": "*", "react-native": "*", "react-native-nitro-modules": ">=0.27.2" } }, "sha512-ZzplecWwCoCqqiLIK5vi72/jw23mOMTrpiBWWSkxsObRmq4QEmJVJcYPrce4zL5tmBS8TLwT4epYTRD5BEQGEw=="],
 
     "@react-native/community-cli-plugin/debug": ["debug@2.6.9", "", { "dependencies": { "ms": "2.0.0" } }, "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="],
 

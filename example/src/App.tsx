@@ -208,7 +208,7 @@ const VideoDemo = () => {
         </View>
         <Text style={styles.subSectionTitle}>Video Type</Text>
         <View style={styles.buttonGroup}>
-          {(['hls', 'mp4', 'drm'] as const).map((mode) => (
+          {(['hls', 'mp4'] as const).map((mode) => (
             <ToggleButton
               key={mode}
               label={mode}

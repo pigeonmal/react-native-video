@@ -6,7 +6,7 @@ import type {
 
 export interface VideoSettings {
   show: boolean;
-  videoType: 'hls' | 'mp4' | 'drm';
+  videoType: 'hls' | 'mp4';
   volume: number;
   muted: boolean;
   rate: number;
