@@ -289,7 +289,7 @@ object TrackUtils {
                 }
             }
 
-            AllPlayerTracks(
+        return AllPlayerTracks(
                 audios = audioTracks.toTypedArray(),
                 videos = videoTracks.toTypedArray(),
                 texts = textTracks.toTypedArray()
