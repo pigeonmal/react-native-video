@@ -65,7 +65,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
     return@runOnMainThreadSync ExoPlayer.Builder(context).build()
   }
 
-  private lateinit var renderersFactory: MyRenderersFactory
+  private var renderersFactory: MyRenderersFactory?
 
   var loadedWithSource = false
   private var currentPlayerView: WeakReference<PlayerView>? = null
@@ -129,8 +129,8 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
   )
 
   override var subtitleDelay: Long by mainThreadProperty(
-    get = { renderersFactory.getTextOffset() },
-    set = { value -> runOnMainThread { renderersFactory.setTextOffset(value * 1_000L) } }
+    get = { renderersFactory?.getTextOffset() ?: 0L },
+    set = { value -> runOnMainThread { renderersFactory?.setTextOffset(value * 1_000L) } }
   )
 
   // volume defined by user
@@ -258,14 +258,20 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
     player = ExoPlayer.Builder(context)
       .setLoadControl(loadControl)
       .setLooper(Looper.getMainLooper())
-      .setRenderersFactory(renderersFactory)
+      .setRenderersFactory(renderersFactory!!)
       .build()
 
     loadedWithSource = true
 
     player.addListener(playerListener)
     player.addAnalyticsListener(analyticsListener)
-    player.setMediaSource(hybridSource.mediaSource)
+    
+    val startPosition = hybridSource.config.startPosition
+    if (startPosition != null && startPosition > 0L) {
+      player.setMediaSource(hybridSource.mediaSource, startPosition)
+    } else {
+      player.setMediaSource(hybridSource.mediaSource)
+    }
 
     // Emit onLoadStart
     val sourceType = if (hybridSource.uri.startsWith("http")) SourceType.NETWORK else SourceType.LOCAL
@@ -333,7 +339,13 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
       runOnMainThreadSync {
         // Update source
         this.source = source
-        player.setMediaSource(hybridSource.mediaSource)
+        renderersFactory?.setTextOffset((hybridSource.config.initialSubtitleDelay ?: 0L) * 1_000L)
+        val startPosition = hybridSource.config.startPosition
+        if (startPosition != null && startPosition > 0L) {
+          player.setMediaSource(hybridSource.mediaSource, startPosition)
+        } else {
+          player.setMediaSource(hybridSource.mediaSource)
+        }
 
         // Prepare player
         player.prepare()

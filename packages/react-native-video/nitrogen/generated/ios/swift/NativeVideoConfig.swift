@@ -19,7 +19,7 @@ public extension NativeVideoConfig {
   /**
    * Create a new instance of `NativeVideoConfig`.
    */
-  init(uri: String, externalSubtitles: [NativeExternalSubtitle]?, drm: NativeDrmParams?, headers: Dictionary<String, String>?, bufferConfig: BufferConfig?, metadata: CustomVideoMetadata?, externalAudios: [ExternalAudio]?, initialSubtitleDelay: Int64?, forceOkhttp: Bool?, initializeOnCreation: Bool?, forceType: ExternalForcedType?) {
+  init(uri: String, externalSubtitles: [NativeExternalSubtitle]?, drm: NativeDrmParams?, headers: Dictionary<String, String>?, bufferConfig: BufferConfig?, metadata: CustomVideoMetadata?, externalAudios: [ExternalAudio]?, initialSubtitleDelay: Int64?, forceOkhttp: Bool?, startPosition: Int64?, initializeOnCreation: Bool?, forceType: ExternalForcedType?) {
     self.init(std.string(uri), { () -> bridge.std__optional_std__vector_NativeExternalSubtitle__ in
       if let __unwrappedValue = externalSubtitles {
         return bridge.create_std__optional_std__vector_NativeExternalSubtitle__({ () -> bridge.std__vector_NativeExternalSubtitle_ in
@@ -83,6 +83,12 @@ public extension NativeVideoConfig {
     }(), { () -> bridge.std__optional_bool_ in
       if let __unwrappedValue = forceOkhttp {
         return bridge.create_std__optional_bool_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_int64_t_ in
+      if let __unwrappedValue = startPosition {
+        return bridge.create_std__optional_int64_t_(__unwrappedValue)
       } else {
         return .init()
       }
@@ -295,6 +301,23 @@ public extension NativeVideoConfig {
       self.__forceOkhttp = { () -> bridge.std__optional_bool_ in
         if let __unwrappedValue = newValue {
           return bridge.create_std__optional_bool_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
+    }
+  }
+  
+  var startPosition: Int64? {
+    @inline(__always)
+    get {
+      return self.__startPosition.value
+    }
+    @inline(__always)
+    set {
+      self.__startPosition = { () -> bridge.std__optional_int64_t_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_int64_t_(__unwrappedValue)
         } else {
           return .init()
         }

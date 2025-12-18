@@ -63,12 +63,13 @@ namespace margelo::nitro::video {
     std::optional<std::vector<ExternalAudio>> externalAudios     SWIFT_PRIVATE;
     std::optional<int64_t> initialSubtitleDelay     SWIFT_PRIVATE;
     std::optional<bool> forceOkhttp     SWIFT_PRIVATE;
+    std::optional<int64_t> startPosition     SWIFT_PRIVATE;
     std::optional<bool> initializeOnCreation     SWIFT_PRIVATE;
     std::optional<ExternalForcedType> forceType     SWIFT_PRIVATE;
 
   public:
     NativeVideoConfig() = default;
-    explicit NativeVideoConfig(std::string uri, std::optional<std::vector<NativeExternalSubtitle>> externalSubtitles, std::optional<NativeDrmParams> drm, std::optional<std::unordered_map<std::string, std::string>> headers, std::optional<BufferConfig> bufferConfig, std::optional<CustomVideoMetadata> metadata, std::optional<std::vector<ExternalAudio>> externalAudios, std::optional<int64_t> initialSubtitleDelay, std::optional<bool> forceOkhttp, std::optional<bool> initializeOnCreation, std::optional<ExternalForcedType> forceType): uri(uri), externalSubtitles(externalSubtitles), drm(drm), headers(headers), bufferConfig(bufferConfig), metadata(metadata), externalAudios(externalAudios), initialSubtitleDelay(initialSubtitleDelay), forceOkhttp(forceOkhttp), initializeOnCreation(initializeOnCreation), forceType(forceType) {}
+    explicit NativeVideoConfig(std::string uri, std::optional<std::vector<NativeExternalSubtitle>> externalSubtitles, std::optional<NativeDrmParams> drm, std::optional<std::unordered_map<std::string, std::string>> headers, std::optional<BufferConfig> bufferConfig, std::optional<CustomVideoMetadata> metadata, std::optional<std::vector<ExternalAudio>> externalAudios, std::optional<int64_t> initialSubtitleDelay, std::optional<bool> forceOkhttp, std::optional<int64_t> startPosition, std::optional<bool> initializeOnCreation, std::optional<ExternalForcedType> forceType): uri(uri), externalSubtitles(externalSubtitles), drm(drm), headers(headers), bufferConfig(bufferConfig), metadata(metadata), externalAudios(externalAudios), initialSubtitleDelay(initialSubtitleDelay), forceOkhttp(forceOkhttp), startPosition(startPosition), initializeOnCreation(initializeOnCreation), forceType(forceType) {}
   };
 
 } // namespace margelo::nitro::video
@@ -90,6 +91,7 @@ namespace margelo::nitro {
         JSIConverter<std::optional<std::vector<margelo::nitro::video::ExternalAudio>>>::fromJSI(runtime, obj.getProperty(runtime, "externalAudios")),
         JSIConverter<std::optional<int64_t>>::fromJSI(runtime, obj.getProperty(runtime, "initialSubtitleDelay")),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "forceOkhttp")),
+        JSIConverter<std::optional<int64_t>>::fromJSI(runtime, obj.getProperty(runtime, "startPosition")),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, "initializeOnCreation")),
         JSIConverter<std::optional<margelo::nitro::video::ExternalForcedType>>::fromJSI(runtime, obj.getProperty(runtime, "forceType"))
       );
@@ -105,6 +107,7 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "externalAudios", JSIConverter<std::optional<std::vector<margelo::nitro::video::ExternalAudio>>>::toJSI(runtime, arg.externalAudios));
       obj.setProperty(runtime, "initialSubtitleDelay", JSIConverter<std::optional<int64_t>>::toJSI(runtime, arg.initialSubtitleDelay));
       obj.setProperty(runtime, "forceOkhttp", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.forceOkhttp));
+      obj.setProperty(runtime, "startPosition", JSIConverter<std::optional<int64_t>>::toJSI(runtime, arg.startPosition));
       obj.setProperty(runtime, "initializeOnCreation", JSIConverter<std::optional<bool>>::toJSI(runtime, arg.initializeOnCreation));
       obj.setProperty(runtime, "forceType", JSIConverter<std::optional<margelo::nitro::video::ExternalForcedType>>::toJSI(runtime, arg.forceType));
       return obj;
@@ -126,6 +129,7 @@ namespace margelo::nitro {
       if (!JSIConverter<std::optional<std::vector<margelo::nitro::video::ExternalAudio>>>::canConvert(runtime, obj.getProperty(runtime, "externalAudios"))) return false;
       if (!JSIConverter<std::optional<int64_t>>::canConvert(runtime, obj.getProperty(runtime, "initialSubtitleDelay"))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "forceOkhttp"))) return false;
+      if (!JSIConverter<std::optional<int64_t>>::canConvert(runtime, obj.getProperty(runtime, "startPosition"))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, "initializeOnCreation"))) return false;
       if (!JSIConverter<std::optional<margelo::nitro::video::ExternalForcedType>>::canConvert(runtime, obj.getProperty(runtime, "forceType"))) return false;
       return true;

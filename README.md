@@ -19,6 +19,7 @@ Features:
 - videoconfig: forceType 'm3u8' or 'mpd' if url not have explicit extension
 - videoconfig: forceOkhttp cronet by default but still okhttp work
 - videoconfig: initialSubtitleDelay (ms positive or negative)
+- videoconfig: startPosition (in ms)
 - player.subtitleDelay for subtitle delay adjust (ms positive or negative)
 - player.getAllPlayerTracks() for get all current tracks (audios, videos, texts)
 - player.selectTrackById and selectTrackByIndex for select video or audio or text
