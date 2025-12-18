@@ -4,7 +4,7 @@ import com.margelo.nitro.video.VideoOrientation
 
 object VideoOrientationUtils {
   fun fromWHR(width: Double?, height: Double?, rotation: Int?): VideoOrientation {
-    if (width == 0 || height == 0 || height == null || width == null) return VideoOrientation.UNKNOWN
+    if (width == 0.0 || height == 0.0 || height == null || width == null) return VideoOrientation.UNKNOWN
 
     if (width == height) return VideoOrientation.SQUARE
 
