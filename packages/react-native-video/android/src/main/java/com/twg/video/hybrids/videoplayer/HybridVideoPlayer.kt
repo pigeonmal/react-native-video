@@ -466,27 +466,32 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
           status = VideoPlayerStatus.READYTOPLAY
           eventEmitter.onBuffer(false)
 
-          val generalVideoFormat = player.videoFormat
-          val currentTracks = player.currentTracks
-
-          val selectedVideoTrackGroup = currentTracks.groups.find { group -> group.type == C.TRACK_TYPE_VIDEO && group.isSelected }
-          val selectedVideoTrackFormat = if (selectedVideoTrackGroup != null && selectedVideoTrackGroup.length > 0) {
-            selectedVideoTrackGroup.getTrackFormat(0)
-          } else {
-            null
-          }
-
-          val width = selectedVideoTrackFormat?.width ?: generalVideoFormat?.width ?: 0
-          val height = selectedVideoTrackFormat?.height ?: generalVideoFormat?.height ?: 0
-          val rotationDegrees = selectedVideoTrackFormat?.rotationDegrees ?: generalVideoFormat?.rotationDegrees
+          val allTracks = TrackUtils.getAllPlayerTracksInternal(player)
+          val selectedVideo: VideoPlayerTrack? =
+            allTracks.videos.firstOrNull { it.selected }
+              ?: player.videoFormat?.let { format ->
+                VideoPlayerTrack(
+                  width = format.width.toDouble(),
+                  height = format.height.toDouble(),
+                  // We don't care for the true information, we use only width and height
+                  id = "general", 
+                  label = "General",
+                  selected = true,
+                  language = null
+                )
+              }
+          val width = selectedVideo?.width ?: 0.0
+          val height = selectedVideo?.height ?: 0.0
+//          val rotationDegrees = selectedVideoTrackFormat?.rotationDegrees ?: generalVideoFormat?.rotationDegrees
 
           eventEmitter.onLoad(
             onLoadData(
               currentTime = player.currentPosition / 1000.0,
               duration = if (player.duration == C.TIME_UNSET) Double.NaN else player.duration / 1000.0,
-              width = width.toDouble(),
-              height = height.toDouble(),
-              orientation = VideoOrientationUtils.fromWHR(width, height, rotationDegrees)
+              width = width,
+              height = height,
+              orientation = VideoOrientationUtils.fromWHR(width, height, null),
+              allPlayerTracks = allTracks
             )
           )
           // If player becomes ready and is set to play, start progress updates

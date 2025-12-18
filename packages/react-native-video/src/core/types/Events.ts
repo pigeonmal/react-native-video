@@ -1,4 +1,5 @@
 import type { VideoPlayerSource } from '../../spec/nitro/VideoPlayerSource.nitro';
+import type { AllPlayerTracks } from './PlayerTrack';
 import type { VideoRuntimeError } from './VideoError';
 import type { VideoOrientation } from './VideoOrientation';
 import type { VideoPlayerStatus } from './VideoPlayerStatus';
@@ -161,6 +162,10 @@ export interface onLoadData {
    * The orientation of the video.
    */
   orientation: VideoOrientation;
+  /**
+   * All user player tracks like player.getAllPlayerTracks()
+   */
+  allPlayerTracks: AllPlayerTracks;
 }
 
 export type SourceType = 'local' | 'network';

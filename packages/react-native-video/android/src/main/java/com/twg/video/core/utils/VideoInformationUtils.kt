@@ -59,7 +59,7 @@ object VideoInformationUtils {
       fileSize = fileSize,
       isHDR = isHDR,
       isLive = isLive,
-      orientation = VideoOrientationUtils.fromWHR(width.toInt(), height.toInt(), rotation)
+      orientation = VideoOrientationUtils.fromWHR(width, height, rotation)
     )
 
     return videoInfo

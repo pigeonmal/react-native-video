@@ -10,8 +10,17 @@
 #include <fbjni/fbjni.h>
 #include "onLoadData.hpp"
 
+#include "AllPlayerTracks.hpp"
+#include "JAllPlayerTracks.hpp"
+#include "JPlayerTrack.hpp"
 #include "JVideoOrientation.hpp"
+#include "JVideoPlayerTrack.hpp"
+#include "PlayerTrack.hpp"
 #include "VideoOrientation.hpp"
+#include "VideoPlayerTrack.hpp"
+#include <optional>
+#include <string>
+#include <vector>
 
 namespace margelo::nitro::video {
 
@@ -42,12 +51,15 @@ namespace margelo::nitro::video {
       double width = this->getFieldValue(fieldWidth);
       static const auto fieldOrientation = clazz->getField<JVideoOrientation>("orientation");
       jni::local_ref<JVideoOrientation> orientation = this->getFieldValue(fieldOrientation);
+      static const auto fieldAllPlayerTracks = clazz->getField<JAllPlayerTracks>("allPlayerTracks");
+      jni::local_ref<JAllPlayerTracks> allPlayerTracks = this->getFieldValue(fieldAllPlayerTracks);
       return onLoadData(
         currentTime,
         duration,
         height,
         width,
-        orientation->toCpp()
+        orientation->toCpp(),
+        allPlayerTracks->toCpp()
       );
     }
 
@@ -57,7 +69,7 @@ namespace margelo::nitro::video {
      */
     [[maybe_unused]]
     static jni::local_ref<JonLoadData::javaobject> fromCpp(const onLoadData& value) {
-      using JSignature = JonLoadData(double, double, double, double, jni::alias_ref<JVideoOrientation>);
+      using JSignature = JonLoadData(double, double, double, double, jni::alias_ref<JVideoOrientation>, jni::alias_ref<JAllPlayerTracks>);
       static const auto clazz = javaClassStatic();
       static const auto create = clazz->getStaticMethod<JSignature>("fromCpp");
       return create(
@@ -66,7 +78,8 @@ namespace margelo::nitro::video {
         value.duration,
         value.height,
         value.width,
-        JVideoOrientation::fromCpp(value.orientation)
+        JVideoOrientation::fromCpp(value.orientation),
+        JAllPlayerTracks::fromCpp(value.allPlayerTracks)
       );
     }
   };

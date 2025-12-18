@@ -20,6 +20,12 @@ namespace margelo::nitro::video { struct BandwidthData; }
 namespace margelo::nitro::video { struct onLoadData; }
 // Forward declaration of `VideoOrientation` to properly resolve imports.
 namespace margelo::nitro::video { enum class VideoOrientation; }
+// Forward declaration of `AllPlayerTracks` to properly resolve imports.
+namespace margelo::nitro::video { struct AllPlayerTracks; }
+// Forward declaration of `PlayerTrack` to properly resolve imports.
+namespace margelo::nitro::video { struct PlayerTrack; }
+// Forward declaration of `VideoPlayerTrack` to properly resolve imports.
+namespace margelo::nitro::video { struct VideoPlayerTrack; }
 // Forward declaration of `onLoadStartData` to properly resolve imports.
 namespace margelo::nitro::video { struct onLoadStartData; }
 // Forward declaration of `SourceType` to properly resolve imports.
@@ -45,6 +51,11 @@ namespace margelo::nitro::video { struct onVolumeChangeData; }
 #include <optional>
 #include "onLoadData.hpp"
 #include "VideoOrientation.hpp"
+#include "AllPlayerTracks.hpp"
+#include "PlayerTrack.hpp"
+#include <vector>
+#include <string>
+#include "VideoPlayerTrack.hpp"
 #include "onLoadStartData.hpp"
 #include "SourceType.hpp"
 #include <memory>
@@ -54,8 +65,6 @@ namespace margelo::nitro::video { struct onVolumeChangeData; }
 #include "VideoPlayerStatus.hpp"
 #include "TimedMetadata.hpp"
 #include "TimedMetadataObject.hpp"
-#include <vector>
-#include <string>
 #include "onVolumeChangeData.hpp"
 
 #include "ReactNativeVideo-Swift-Cxx-Umbrella.hpp"

@@ -15,6 +15,12 @@ namespace margelo::nitro::video { struct BandwidthData; }
 namespace margelo::nitro::video { struct onLoadData; }
 // Forward declaration of `VideoOrientation` to properly resolve imports.
 namespace margelo::nitro::video { enum class VideoOrientation; }
+// Forward declaration of `AllPlayerTracks` to properly resolve imports.
+namespace margelo::nitro::video { struct AllPlayerTracks; }
+// Forward declaration of `PlayerTrack` to properly resolve imports.
+namespace margelo::nitro::video { struct PlayerTrack; }
+// Forward declaration of `VideoPlayerTrack` to properly resolve imports.
+namespace margelo::nitro::video { struct VideoPlayerTrack; }
 // Forward declaration of `onLoadStartData` to properly resolve imports.
 namespace margelo::nitro::video { struct onLoadStartData; }
 // Forward declaration of `SourceType` to properly resolve imports.
@@ -49,6 +55,14 @@ namespace margelo::nitro::video { struct onVolumeChangeData; }
 #include "JonLoadData.hpp"
 #include "VideoOrientation.hpp"
 #include "JVideoOrientation.hpp"
+#include "AllPlayerTracks.hpp"
+#include "JAllPlayerTracks.hpp"
+#include "PlayerTrack.hpp"
+#include <vector>
+#include "JPlayerTrack.hpp"
+#include <string>
+#include "VideoPlayerTrack.hpp"
+#include "JVideoPlayerTrack.hpp"
 #include "onLoadStartData.hpp"
 #include "JFunc_void_onLoadStartData.hpp"
 #include "JonLoadStartData.hpp"
@@ -71,9 +85,7 @@ namespace margelo::nitro::video { struct onVolumeChangeData; }
 #include "JFunc_void_TimedMetadata.hpp"
 #include "JTimedMetadata.hpp"
 #include "TimedMetadataObject.hpp"
-#include <vector>
 #include "JTimedMetadataObject.hpp"
-#include <string>
 #include "JFunc_void_std__vector_std__string_.hpp"
 #include "onVolumeChangeData.hpp"
 #include "JFunc_void_onVolumeChangeData.hpp"

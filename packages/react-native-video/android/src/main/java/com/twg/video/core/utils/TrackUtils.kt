@@ -193,8 +193,7 @@ object TrackUtils {
         }
     }
 
-    fun getAllPlayerTracks(player: ExoPlayer): AllPlayerTracks {
-        return Threading.runOnMainThreadSync {
+    fun getAllPlayerTracksInternal(player: ExoPlayer): AllPlayerTracks {
             val audioTracks = mutableListOf<PlayerTrack>()
             val textTracks = mutableListOf<PlayerTrack>()
             val videoTracks = mutableListOf<VideoPlayerTrack>()
@@ -295,6 +294,11 @@ object TrackUtils {
                 videos = videoTracks.toTypedArray(),
                 texts = textTracks.toTypedArray()
             )
+    }
+
+    fun getAllPlayerTracks(player: ExoPlayer): AllPlayerTracks {
+        return Threading.runOnMainThreadSync {
+            getAllPlayerTracksInternal(player)
         }
     }
 

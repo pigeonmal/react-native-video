@@ -16,6 +16,15 @@
 #include "JonLoadData.hpp"
 #include "VideoOrientation.hpp"
 #include "JVideoOrientation.hpp"
+#include "AllPlayerTracks.hpp"
+#include "JAllPlayerTracks.hpp"
+#include "PlayerTrack.hpp"
+#include <vector>
+#include "JPlayerTrack.hpp"
+#include <string>
+#include <optional>
+#include "VideoPlayerTrack.hpp"
+#include "JVideoPlayerTrack.hpp"
 
 namespace margelo::nitro::video {
 

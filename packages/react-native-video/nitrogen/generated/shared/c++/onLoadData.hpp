@@ -25,8 +25,11 @@
 
 // Forward declaration of `VideoOrientation` to properly resolve imports.
 namespace margelo::nitro::video { enum class VideoOrientation; }
+// Forward declaration of `AllPlayerTracks` to properly resolve imports.
+namespace margelo::nitro::video { struct AllPlayerTracks; }
 
 #include "VideoOrientation.hpp"
+#include "AllPlayerTracks.hpp"
 
 namespace margelo::nitro::video {
 
@@ -40,10 +43,11 @@ namespace margelo::nitro::video {
     double height     SWIFT_PRIVATE;
     double width     SWIFT_PRIVATE;
     VideoOrientation orientation     SWIFT_PRIVATE;
+    AllPlayerTracks allPlayerTracks     SWIFT_PRIVATE;
 
   public:
     onLoadData() = default;
-    explicit onLoadData(double currentTime, double duration, double height, double width, VideoOrientation orientation): currentTime(currentTime), duration(duration), height(height), width(width), orientation(orientation) {}
+    explicit onLoadData(double currentTime, double duration, double height, double width, VideoOrientation orientation, AllPlayerTracks allPlayerTracks): currentTime(currentTime), duration(duration), height(height), width(width), orientation(orientation), allPlayerTracks(allPlayerTracks) {}
   };
 
 } // namespace margelo::nitro::video
@@ -60,7 +64,8 @@ namespace margelo::nitro {
         JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, "duration")),
         JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, "height")),
         JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, "width")),
-        JSIConverter<margelo::nitro::video::VideoOrientation>::fromJSI(runtime, obj.getProperty(runtime, "orientation"))
+        JSIConverter<margelo::nitro::video::VideoOrientation>::fromJSI(runtime, obj.getProperty(runtime, "orientation")),
+        JSIConverter<margelo::nitro::video::AllPlayerTracks>::fromJSI(runtime, obj.getProperty(runtime, "allPlayerTracks"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::video::onLoadData& arg) {
@@ -70,6 +75,7 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "height", JSIConverter<double>::toJSI(runtime, arg.height));
       obj.setProperty(runtime, "width", JSIConverter<double>::toJSI(runtime, arg.width));
       obj.setProperty(runtime, "orientation", JSIConverter<margelo::nitro::video::VideoOrientation>::toJSI(runtime, arg.orientation));
+      obj.setProperty(runtime, "allPlayerTracks", JSIConverter<margelo::nitro::video::AllPlayerTracks>::toJSI(runtime, arg.allPlayerTracks));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -85,6 +91,7 @@ namespace margelo::nitro {
       if (!JSIConverter<double>::canConvert(runtime, obj.getProperty(runtime, "height"))) return false;
       if (!JSIConverter<double>::canConvert(runtime, obj.getProperty(runtime, "width"))) return false;
       if (!JSIConverter<margelo::nitro::video::VideoOrientation>::canConvert(runtime, obj.getProperty(runtime, "orientation"))) return false;
+      if (!JSIConverter<margelo::nitro::video::AllPlayerTracks>::canConvert(runtime, obj.getProperty(runtime, "allPlayerTracks"))) return false;
       return true;
     }
   };

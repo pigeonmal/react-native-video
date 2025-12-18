@@ -19,8 +19,8 @@ public extension onLoadData {
   /**
    * Create a new instance of `onLoadData`.
    */
-  init(currentTime: Double, duration: Double, height: Double, width: Double, orientation: VideoOrientation) {
-    self.init(currentTime, duration, height, width, orientation)
+  init(currentTime: Double, duration: Double, height: Double, width: Double, orientation: VideoOrientation, allPlayerTracks: AllPlayerTracks) {
+    self.init(currentTime, duration, height, width, orientation, allPlayerTracks)
   }
 
   var currentTime: Double {
@@ -75,6 +75,17 @@ public extension onLoadData {
     @inline(__always)
     set {
       self.__orientation = newValue
+    }
+  }
+  
+  var allPlayerTracks: AllPlayerTracks {
+    @inline(__always)
+    get {
+      return self.__allPlayerTracks
+    }
+    @inline(__always)
+    set {
+      self.__allPlayerTracks = newValue
     }
   }
 }
