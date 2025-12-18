@@ -24,6 +24,7 @@ Features:
 - player.getAllPlayerTracks() for get all current tracks (audios, videos, texts)
 - player.selectTrackById and selectTrackByIndex for select video or audio or text
 - player.selectTextTrack removed use selectTrackById(TrackType.TEXT, trackId)
+- player.resetForReuse() stop playback and clear tracks
 - TextTrack type replaced to PlayerTrack
 - removed onTrackChange event
 - allPlayerTracks in onLoadData event directly
