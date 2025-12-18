@@ -11,7 +11,7 @@ import {
   type onVolumeChangeData,
   useEvent,
   useVideoPlayer,
-} from 'react-native-video';
+} from '@pigeonmal/react-native-video';
 import {
   ActionButton,
   ControlButton,

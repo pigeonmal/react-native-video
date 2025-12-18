@@ -66,7 +66,7 @@
     },
     "hooks": {
       "before:release": "bun run --cwd packages/react-native-video build && bun run --cwd packages/drm-plugin build",
-      "before:git": "bun install && bun example bundle-install && bun example pods && git add bun.lock && git add example/ios/Podfile.lock"
+      "before:git": "bun install && bun example bundle-install && git add bun.lock"
     },
     "plugins": {
       "@release-it/bumper": {

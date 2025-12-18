@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import type { VideoConfig } from 'react-native-video';
+import type { VideoConfig } from '@pigeonmal/react-native-video';
 import {
   enable as enableDRMPlugin,
   disable as disableDRMPlugin,

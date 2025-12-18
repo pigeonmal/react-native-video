@@ -5,7 +5,7 @@ import {
   type PlayerTrack,
   type VideoPlayer,
   TrackType,
-} from 'react-native-video';
+} from '@pigeonmal/react-native-video';
 import { styles } from '../styles';
 import { ActionButton } from './Controls';
 

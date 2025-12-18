@@ -2,7 +2,7 @@ import type {
   IgnoreSilentSwitchMode,
   MixAudioMode,
   ResizeMode,
-} from 'react-native-video';
+} from '@pigeonmal/react-native-video';
 
 export interface VideoSettings {
   show: boolean;
