@@ -25,6 +25,8 @@ Features:
 - player.selectTrackById and selectTrackByIndex for select video or audio or text
 - player.selectTextTrack removed use selectTrackById(TrackType.TEXT, trackId)
 - player.resetForReuse() stop playback and clear tracks
+- bugfix: external subtitles in hls/dash
+- nullable video player source : new VideoPlayer(undefined);
 - TextTrack type replaced to PlayerTrack
 - removed onTrackChange event
 - allPlayerTracks in onLoadData event directly
