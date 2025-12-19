@@ -160,7 +160,7 @@ export interface VideoPlayerBase {
   /**
    * Replace the current source of the player.
    * @param source - The new source of the video.
-   * @note If you want to clear the source, you can pass null.
+   * @note If you want to clear the source, you can pass null. It has the same effect as {@link release}.
    * see {@link VideoPlayerSourceBase}
    */
   replaceSourceAsync(source: VideoPlayerSourceBase | null): Promise<void>;
@@ -216,4 +216,9 @@ export interface VideoPlayerBase {
    * @returns The currently selected text track, or undefined if none is selected
    */
   readonly selectedTrack?: PlayerTrack;
+
+  /**
+   * Releases the player's native resources and releases native state.
+   */
+  release(): void;
 }
