@@ -30,3 +30,4 @@ Features:
 - TextTrack type replaced to PlayerTrack
 - removed onTrackChange event
 - allPlayerTracks in onLoadData event directly
+- seekableDuration in onProgressData event (video duration)
