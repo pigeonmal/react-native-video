@@ -9,7 +9,7 @@ Install :
 
 ```
 include ':media3-ffmpeg-decoder'
-project(':media3-ffmpeg-decoder').projectDir = file('../node_modules/react-native-video/android/media3-ffmpeg-decoder')
+project(':media3-ffmpeg-decoder').projectDir = file('../node_modules/@pigeonmal/react-native-video/android/media3-ffmpeg-decoder')
 ```
 
 3. create a patch for react-native-nitro-fetch like in the patches/react-native-nitro-fetch@x.patch
