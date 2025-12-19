@@ -121,6 +121,12 @@ namespace margelo::nitro::video {
     inline void setCurrentTime(double currentTime) noexcept override {
       _swiftPart.setCurrentTime(std::forward<decltype(currentTime)>(currentTime));
     }
+    inline double getProgressEventInterval() noexcept override {
+      return _swiftPart.getProgressEventInterval();
+    }
+    inline void setProgressEventInterval(double progressEventInterval) noexcept override {
+      _swiftPart.setProgressEventInterval(std::forward<decltype(progressEventInterval)>(progressEventInterval));
+    }
     inline int64_t getSubtitleDelay() noexcept override {
       return _swiftPart.getSubtitleDelay();
     }

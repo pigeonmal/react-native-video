@@ -43,6 +43,12 @@ export interface VideoPlayerBase {
   currentTime: number;
 
   /**
+   * Modify the progress event interval (ms)
+   * By default it's 250ms
+   */
+  progressEventInterval: number;
+
+  /**
    * Subtitle delay (milliseconds) negative or positive number
    */
   subtitleDelay: bigint;

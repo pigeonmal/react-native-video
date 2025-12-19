@@ -24,6 +24,8 @@ namespace margelo::nitro::video {
       prototype.registerHybridSetter("volume", &HybridVideoPlayerSpec::setVolume);
       prototype.registerHybridGetter("currentTime", &HybridVideoPlayerSpec::getCurrentTime);
       prototype.registerHybridSetter("currentTime", &HybridVideoPlayerSpec::setCurrentTime);
+      prototype.registerHybridGetter("progressEventInterval", &HybridVideoPlayerSpec::getProgressEventInterval);
+      prototype.registerHybridSetter("progressEventInterval", &HybridVideoPlayerSpec::setProgressEventInterval);
       prototype.registerHybridGetter("subtitleDelay", &HybridVideoPlayerSpec::getSubtitleDelay);
       prototype.registerHybridSetter("subtitleDelay", &HybridVideoPlayerSpec::setSubtitleDelay);
       prototype.registerHybridGetter("muted", &HybridVideoPlayerSpec::getMuted);

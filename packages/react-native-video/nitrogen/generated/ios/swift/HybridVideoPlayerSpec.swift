@@ -18,6 +18,7 @@ public protocol HybridVideoPlayerSpec_protocol: HybridObject {
   var duration: Double { get }
   var volume: Double { get set }
   var currentTime: Double { get set }
+  var progressEventInterval: Double { get set }
   var subtitleDelay: Int64 { get set }
   var muted: Bool { get set }
   var loop: Bool { get set }

@@ -36,10 +36,11 @@ namespace margelo::nitro::video {
   public:
     double currentTime     SWIFT_PRIVATE;
     double bufferDuration     SWIFT_PRIVATE;
+    double seekableDuration     SWIFT_PRIVATE;
 
   public:
     onProgressData() = default;
-    explicit onProgressData(double currentTime, double bufferDuration): currentTime(currentTime), bufferDuration(bufferDuration) {}
+    explicit onProgressData(double currentTime, double bufferDuration, double seekableDuration): currentTime(currentTime), bufferDuration(bufferDuration), seekableDuration(seekableDuration) {}
   };
 
 } // namespace margelo::nitro::video
@@ -53,13 +54,15 @@ namespace margelo::nitro {
       jsi::Object obj = arg.asObject(runtime);
       return margelo::nitro::video::onProgressData(
         JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, "currentTime")),
-        JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, "bufferDuration"))
+        JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, "bufferDuration")),
+        JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, "seekableDuration"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::video::onProgressData& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "currentTime", JSIConverter<double>::toJSI(runtime, arg.currentTime));
       obj.setProperty(runtime, "bufferDuration", JSIConverter<double>::toJSI(runtime, arg.bufferDuration));
+      obj.setProperty(runtime, "seekableDuration", JSIConverter<double>::toJSI(runtime, arg.seekableDuration));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -72,6 +75,7 @@ namespace margelo::nitro {
       }
       if (!JSIConverter<double>::canConvert(runtime, obj.getProperty(runtime, "currentTime"))) return false;
       if (!JSIConverter<double>::canConvert(runtime, obj.getProperty(runtime, "bufferDuration"))) return false;
+      if (!JSIConverter<double>::canConvert(runtime, obj.getProperty(runtime, "seekableDuration"))) return false;
       return true;
     }
   };

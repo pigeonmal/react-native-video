@@ -125,6 +125,14 @@ class VideoPlayer extends VideoPlayerEvents implements VideoPlayerBase {
     this.player.currentTime = value;
   }
 
+  get progressEventInterval(): number {
+    return this.player.progressEventInterval;
+  }
+
+  set progressEventInterval(value: number) {
+    this.player.progressEventInterval = value;
+  }
+
   get subtitleDelay(): bigint {
     return this.player.subtitleDelay;
   }

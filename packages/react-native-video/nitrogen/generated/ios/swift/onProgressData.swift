@@ -19,8 +19,8 @@ public extension onProgressData {
   /**
    * Create a new instance of `onProgressData`.
    */
-  init(currentTime: Double, bufferDuration: Double) {
-    self.init(currentTime, bufferDuration)
+  init(currentTime: Double, bufferDuration: Double, seekableDuration: Double) {
+    self.init(currentTime, bufferDuration, seekableDuration)
   }
 
   var currentTime: Double {
@@ -42,6 +42,17 @@ public extension onProgressData {
     @inline(__always)
     set {
       self.__bufferDuration = newValue
+    }
+  }
+  
+  var seekableDuration: Double {
+    @inline(__always)
+    get {
+      return self.__seekableDuration
+    }
+    @inline(__always)
+    set {
+      self.__seekableDuration = newValue
     }
   }
 }

@@ -22,7 +22,10 @@ data class onProgressData(
   val currentTime: Double,
   @DoNotStrip
   @Keep
-  val bufferDuration: Double
+  val bufferDuration: Double,
+  @DoNotStrip
+  @Keep
+  val seekableDuration: Double
 ) {
   /* primary constructor */
 
@@ -34,8 +37,8 @@ data class onProgressData(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(currentTime: Double, bufferDuration: Double): onProgressData {
-      return onProgressData(currentTime, bufferDuration)
+    private fun fromCpp(currentTime: Double, bufferDuration: Double, seekableDuration: Double): onProgressData {
+      return onProgressData(currentTime, bufferDuration, seekableDuration)
     }
   }
 }

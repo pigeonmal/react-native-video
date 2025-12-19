@@ -131,6 +131,15 @@ namespace margelo::nitro::video {
     static const auto method = javaClassStatic()->getMethod<void(double /* currentTime */)>("setCurrentTime");
     method(_javaPart, currentTime);
   }
+  double JHybridVideoPlayerSpec::getProgressEventInterval() {
+    static const auto method = javaClassStatic()->getMethod<double()>("getProgressEventInterval");
+    auto __result = method(_javaPart);
+    return __result;
+  }
+  void JHybridVideoPlayerSpec::setProgressEventInterval(double progressEventInterval) {
+    static const auto method = javaClassStatic()->getMethod<void(double /* progressEventInterval */)>("setProgressEventInterval");
+    method(_javaPart, progressEventInterval);
+  }
   int64_t JHybridVideoPlayerSpec::getSubtitleDelay() {
     static const auto method = javaClassStatic()->getMethod<int64_t()>("getSubtitleDelay");
     auto __result = method(_javaPart);

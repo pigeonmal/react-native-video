@@ -88,7 +88,6 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
   private val videoPlaybackServiceConnection = VideoPlaybackServiceConnection(WeakReference(this))
 
   private companion object {
-    const val PROGRESS_UPDATE_INTERVAL_MS = 250L
     private const val TAG = "HybridVideoPlayer"
     private const val DEFAULT_MIN_BUFFER_DURATION_MS = 5000
     private const val DEFAULT_MAX_BUFFER_DURATION_MS = 10000
@@ -104,6 +103,8 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
       }
       field = value
     }
+
+  override var progressEventInterval = 250L
 
   override var showNotificationControls: Boolean = false
     set(value) {
@@ -428,7 +429,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
               seekableDuration = player.duration.toSecondsOrNaN()
             )
           )
-          progressHandler.postDelayed(this, PROGRESS_UPDATE_INTERVAL_MS)
+          progressHandler.postDelayed(this, progressEventInterval)
         }
       }
     }

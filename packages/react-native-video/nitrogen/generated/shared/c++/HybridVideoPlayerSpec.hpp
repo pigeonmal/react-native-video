@@ -83,6 +83,8 @@ namespace margelo::nitro::video {
       virtual void setVolume(double volume) = 0;
       virtual double getCurrentTime() = 0;
       virtual void setCurrentTime(double currentTime) = 0;
+      virtual double getProgressEventInterval() = 0;
+      virtual void setProgressEventInterval(double progressEventInterval) = 0;
       virtual int64_t getSubtitleDelay() = 0;
       virtual void setSubtitleDelay(int64_t subtitleDelay) = 0;
       virtual bool getMuted() = 0;

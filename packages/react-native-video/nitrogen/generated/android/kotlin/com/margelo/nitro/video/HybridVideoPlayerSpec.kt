@@ -82,6 +82,12 @@ abstract class HybridVideoPlayerSpec: HybridObject() {
   @get:Keep
   @set:DoNotStrip
   @set:Keep
+  abstract var progressEventInterval: Double
+  
+  @get:DoNotStrip
+  @get:Keep
+  @set:DoNotStrip
+  @set:Keep
   abstract var subtitleDelay: Long
   
   @get:DoNotStrip

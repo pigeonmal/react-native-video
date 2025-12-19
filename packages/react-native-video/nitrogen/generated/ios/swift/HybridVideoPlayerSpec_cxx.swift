@@ -181,6 +181,17 @@ open class HybridVideoPlayerSpec_cxx {
     }
   }
   
+  public final var progressEventInterval: Double {
+    @inline(__always)
+    get {
+      return self.__implementation.progressEventInterval
+    }
+    @inline(__always)
+    set {
+      self.__implementation.progressEventInterval = newValue
+    }
+  }
+  
   public final var subtitleDelay: Int64 {
     @inline(__always)
     get {

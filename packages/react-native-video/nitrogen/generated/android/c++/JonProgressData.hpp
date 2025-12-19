@@ -35,9 +35,12 @@ namespace margelo::nitro::video {
       double currentTime = this->getFieldValue(fieldCurrentTime);
       static const auto fieldBufferDuration = clazz->getField<double>("bufferDuration");
       double bufferDuration = this->getFieldValue(fieldBufferDuration);
+      static const auto fieldSeekableDuration = clazz->getField<double>("seekableDuration");
+      double seekableDuration = this->getFieldValue(fieldSeekableDuration);
       return onProgressData(
         currentTime,
-        bufferDuration
+        bufferDuration,
+        seekableDuration
       );
     }
 
@@ -47,13 +50,14 @@ namespace margelo::nitro::video {
      */
     [[maybe_unused]]
     static jni::local_ref<JonProgressData::javaobject> fromCpp(const onProgressData& value) {
-      using JSignature = JonProgressData(double, double);
+      using JSignature = JonProgressData(double, double, double);
       static const auto clazz = javaClassStatic();
       static const auto create = clazz->getStaticMethod<JSignature>("fromCpp");
       return create(
         clazz,
         value.currentTime,
-        value.bufferDuration
+        value.bufferDuration,
+        value.seekableDuration
       );
     }
   };

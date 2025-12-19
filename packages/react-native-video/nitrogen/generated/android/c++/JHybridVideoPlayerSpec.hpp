@@ -60,6 +60,8 @@ namespace margelo::nitro::video {
     void setVolume(double volume) override;
     double getCurrentTime() override;
     void setCurrentTime(double currentTime) override;
+    double getProgressEventInterval() override;
+    void setProgressEventInterval(double progressEventInterval) override;
     int64_t getSubtitleDelay() override;
     void setSubtitleDelay(int64_t subtitleDelay) override;
     bool getMuted() override;
