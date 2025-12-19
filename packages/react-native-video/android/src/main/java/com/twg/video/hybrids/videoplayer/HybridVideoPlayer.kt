@@ -146,8 +146,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
 
   override val duration: Double by mainThreadProperty(
     get = {
-      val duration = player.duration
-      return@mainThreadProperty if (duration == C.TIME_UNSET) Double.NaN else duration.toDouble() / 1000.0
+      return@mainThreadProperty player.duration.toSecondsOrNaN()
     }
   )
 
@@ -425,7 +424,8 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
           eventEmitter.onProgress(
             onProgressData(
               currentTime = currentTimeSeconds,
-              bufferDuration = playableDurationFromNow
+              bufferDuration = playableDurationFromNow,
+              seekableDuration = player.duration.toSecondsOrNaN()
             )
           )
           progressHandler.postDelayed(this, PROGRESS_UPDATE_INTERVAL_MS)
@@ -504,7 +504,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
           eventEmitter.onLoad(
             onLoadData(
               currentTime = player.currentPosition / 1000.0,
-              duration = if (player.duration == C.TIME_UNSET) Double.NaN else player.duration / 1000.0,
+              duration = player.duration.toSecondsOrNaN(),
               width = width,
               height = height,
               orientation = VideoOrientationUtils.fromWHR(width, height, null),
@@ -564,7 +564,8 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
        eventEmitter.onProgress(
          onProgressData(
            currentTime = currentTimeSeconds,
-           bufferDuration = max(0.0, bufferedDurationSeconds - currentTimeSeconds)
+           bufferDuration = max(0.0, bufferedDurationSeconds - currentTimeSeconds),
+           seekableDuration = player.duration.toSecondsOrNaN()
          )
        )
     }
@@ -654,3 +655,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
   override val selectedTrack: PlayerTrack?
     get() = TrackUtils.getTextSelectedTrack(player)
 }
+
+
+fun Long.toSecondsOrNaN(): Double =
+    if (this == C.TIME_UNSET) Double.NaN else this.toDouble() / 1000.0

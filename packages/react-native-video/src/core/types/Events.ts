@@ -202,6 +202,10 @@ export interface onProgressData {
    * The time that player is able to play with only buffer.
    */
   bufferDuration: number;
+  /**
+   * The duration of the video in seconds
+   */
+  seekableDuration: number;
 }
 
 export type TimedMetadataObject = {
