@@ -289,16 +289,17 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
     }
   }
 
-  constructor(source: HybridVideoPlayerSource) : this() {
-    this.source = source
+  constructor(source: HybridVideoPlayerSource?) : this() {
+    if (source != null) {
+      this.source = source
 
-    runOnMainThread {
-      if (source.config.initializeOnCreation == true) {
-        initializePlayer()
-        player.prepare()
+      runOnMainThread {
+        if (source.config.initializeOnCreation == true) {
+          initializePlayer()
+          player.prepare()
+        }
       }
     }
-
     VideoManager.registerPlayer(this)
   }
 
@@ -339,14 +340,18 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
       runOnMainThreadSync {
         // Update source
         this.source = source
-        renderersFactory?.setTextOffset((hybridSource.config.initialSubtitleDelay ?: 0L) * 1_000L)
-        val startPosition = hybridSource.config.startPosition
-        if (startPosition != null && startPosition > 0L) {
-          player.setMediaSource(hybridSource.mediaSource, startPosition)
+        if (!loadedWithSource) {
+          initializePlayer()
         } else {
-          player.setMediaSource(hybridSource.mediaSource)
+          renderersFactory?.setTextOffset((hybridSource.config.initialSubtitleDelay ?: 0L) * 1_000L)
+          val startPosition = hybridSource.config.startPosition
+          if (startPosition != null && startPosition > 0L) {
+            player.setMediaSource(hybridSource.mediaSource, startPosition)
+          } else {
+            player.setMediaSource(hybridSource.mediaSource)
+          }
         }
-
+        
         // Prepare player
         player.prepare()
       }

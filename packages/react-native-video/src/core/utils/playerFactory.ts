@@ -19,14 +19,16 @@ const VideoPlayerFactory =
  * @returns The Native VideoPlayer instance
  */
 export const createPlayer = (
-  source: VideoSource | VideoConfig | VideoPlayerSource
+  source?: VideoSource | VideoConfig | VideoPlayerSource
 ): VideoPlayer => {
   try {
-    if (isVideoPlayerSource(source)) {
-      return VideoPlayerFactory.createPlayer(source);
-    }
-
-    return VideoPlayerFactory.createPlayer(createSource(source));
+    return VideoPlayerFactory.createPlayer(
+      source == null
+        ? undefined
+        : isVideoPlayerSource(source)
+          ? source
+          : createSource(source)
+    );
   } catch (error) {
     throw tryParseNativeVideoError(error);
   }

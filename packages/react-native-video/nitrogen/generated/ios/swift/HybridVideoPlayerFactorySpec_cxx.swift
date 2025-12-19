@@ -118,12 +118,19 @@ open class HybridVideoPlayerFactorySpec_cxx {
 
   // Methods
   @inline(__always)
-  public final func createPlayer(source: bridge.std__shared_ptr_HybridVideoPlayerSourceSpec_) -> bridge.Result_std__shared_ptr_HybridVideoPlayerSpec__ {
+  public final func createPlayer(source: bridge.std__optional_std__shared_ptr_HybridVideoPlayerSourceSpec__) -> bridge.Result_std__shared_ptr_HybridVideoPlayerSpec__ {
     do {
-      let __result = try self.__implementation.createPlayer(source: { () -> HybridVideoPlayerSourceSpec in
-        let __unsafePointer = bridge.get_std__shared_ptr_HybridVideoPlayerSourceSpec_(source)
-        let __instance = HybridVideoPlayerSourceSpec_cxx.fromUnsafe(__unsafePointer)
-        return __instance.getHybridVideoPlayerSourceSpec()
+      let __result = try self.__implementation.createPlayer(source: { () -> (any HybridVideoPlayerSourceSpec)? in
+        if bridge.has_value_std__optional_std__shared_ptr_HybridVideoPlayerSourceSpec__(source) {
+          let __unwrapped = bridge.get_std__optional_std__shared_ptr_HybridVideoPlayerSourceSpec__(source)
+          return { () -> HybridVideoPlayerSourceSpec in
+            let __unsafePointer = bridge.get_std__shared_ptr_HybridVideoPlayerSourceSpec_(__unwrapped)
+            let __instance = HybridVideoPlayerSourceSpec_cxx.fromUnsafe(__unsafePointer)
+            return __instance.getHybridVideoPlayerSourceSpec()
+          }()
+        } else {
+          return nil
+        }
       }())
       let __resultCpp = { () -> bridge.std__shared_ptr_HybridVideoPlayerSpec_ in
         let __cxxWrapped = __result.getCxxWrapper()

@@ -20,6 +20,7 @@ namespace margelo::nitro::video { class HybridVideoPlayerSourceSpec; }
 #include <memory>
 #include "HybridVideoPlayerSpec.hpp"
 #include "HybridVideoPlayerSourceSpec.hpp"
+#include <optional>
 
 #include "ReactNativeVideo-Swift-Cxx-Umbrella.hpp"
 
@@ -65,7 +66,7 @@ namespace margelo::nitro::video {
 
   public:
     // Methods
-    inline std::shared_ptr<HybridVideoPlayerSpec> createPlayer(const std::shared_ptr<HybridVideoPlayerSourceSpec>& source) override {
+    inline std::shared_ptr<HybridVideoPlayerSpec> createPlayer(const std::optional<std::shared_ptr<HybridVideoPlayerSourceSpec>>& source) override {
       auto __result = _swiftPart.createPlayer(source);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());

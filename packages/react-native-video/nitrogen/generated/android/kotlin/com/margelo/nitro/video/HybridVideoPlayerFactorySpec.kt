@@ -47,7 +47,7 @@ abstract class HybridVideoPlayerFactorySpec: HybridObject() {
   // Methods
   @DoNotStrip
   @Keep
-  abstract fun createPlayer(source: HybridVideoPlayerSourceSpec): HybridVideoPlayerSpec
+  abstract fun createPlayer(source: HybridVideoPlayerSourceSpec?): HybridVideoPlayerSpec
 
   private external fun initHybrid(): HybridData
 

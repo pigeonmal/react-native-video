@@ -14,7 +14,7 @@ public protocol HybridVideoPlayerFactorySpec_protocol: HybridObject {
   
 
   // Methods
-  func createPlayer(source: (any HybridVideoPlayerSourceSpec)) throws -> (any HybridVideoPlayerSpec)
+  func createPlayer(source: (any HybridVideoPlayerSourceSpec)?) throws -> (any HybridVideoPlayerSpec)
 }
 
 public extension HybridVideoPlayerFactorySpec_protocol {

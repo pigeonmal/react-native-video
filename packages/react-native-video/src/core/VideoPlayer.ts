@@ -24,9 +24,10 @@ import type {
 class VideoPlayer extends VideoPlayerEvents implements VideoPlayerBase {
   protected player: VideoPlayerImpl;
 
-  constructor(source: VideoSource | VideoConfig | VideoPlayerSource) {
-    const hybridSource = createSource(source);
-    const player = createPlayer(hybridSource);
+  constructor(source?: VideoSource | VideoConfig | VideoPlayerSource) {
+    const player = createPlayer(
+      source != null ? createSource(source) : undefined
+    );
 
     // Initialize events
     super(player.eventEmitter);

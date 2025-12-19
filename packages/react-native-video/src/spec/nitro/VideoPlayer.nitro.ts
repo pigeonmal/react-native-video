@@ -34,5 +34,5 @@ export interface VideoPlayer
 
 export interface VideoPlayerFactory
   extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
-  createPlayer(source: VideoPlayerSource): VideoPlayer;
+  createPlayer(source?: VideoPlayerSource): VideoPlayer;
 }
