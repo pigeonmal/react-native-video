@@ -188,6 +188,10 @@ abstract class HybridVideoPlayerSpec: HybridObject() {
   @DoNotStrip
   @Keep
   abstract fun resetForReuse(): Unit
+  
+  @DoNotStrip
+  @Keep
+  abstract fun release(): Unit
 
   private external fun initHybrid(): HybridData
 

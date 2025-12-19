@@ -118,6 +118,7 @@ namespace margelo::nitro::video {
       virtual void selectTrackById(TrackType type, const std::optional<std::string>& id) = 0;
       virtual void selectTrackByIndex(TrackType type, std::optional<double> index) = 0;
       virtual void resetForReuse() = 0;
+      virtual void release() = 0;
 
     protected:
       // Hybrid Setup

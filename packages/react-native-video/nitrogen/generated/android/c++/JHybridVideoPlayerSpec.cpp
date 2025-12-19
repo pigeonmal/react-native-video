@@ -316,5 +316,9 @@ namespace margelo::nitro::video {
     static const auto method = javaClassStatic()->getMethod<void()>("resetForReuse");
     method(_javaPart);
   }
+  void JHybridVideoPlayerSpec::release() {
+    static const auto method = javaClassStatic()->getMethod<void()>("release");
+    method(_javaPart);
+  }
 
 } // namespace margelo::nitro::video

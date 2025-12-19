@@ -43,6 +43,7 @@ public protocol HybridVideoPlayerSpec_protocol: HybridObject {
   func selectTrackById(type: TrackType, id: String?) throws -> Void
   func selectTrackByIndex(type: TrackType, index: Double?) throws -> Void
   func resetForReuse() throws -> Void
+  func release() throws -> Void
 }
 
 public extension HybridVideoPlayerSpec_protocol {

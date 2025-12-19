@@ -56,6 +56,7 @@ namespace margelo::nitro::video {
       prototype.registerHybridMethod("selectTrackById", &HybridVideoPlayerSpec::selectTrackById);
       prototype.registerHybridMethod("selectTrackByIndex", &HybridVideoPlayerSpec::selectTrackByIndex);
       prototype.registerHybridMethod("resetForReuse", &HybridVideoPlayerSpec::resetForReuse);
+      prototype.registerHybridMethod("release", &HybridVideoPlayerSpec::release);
     });
   }
 
