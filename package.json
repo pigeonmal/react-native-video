@@ -7,8 +7,7 @@
   "author": "TheWidlarzGroup <hi@thewidlarzgroup.com> (https://github.com/TheWidlarzGroup)",
   "workspaces": [
     "packages/react-native-video",
-    "example",
-    "docs"
+    "example"
   ],
   "scripts": {
     "build": "bun --filter=\"./packages/**\" run build",
@@ -18,7 +17,6 @@
     "clean": "git clean -xdf",
     "react-native-video": "bun run --cwd packages/react-native-video",
     "example": "bun run --cwd example",
-    "docs": "bun run --cwd docs",
     "postinstall": "patch-package --patch-dir example/patches",
     "release:github": "release-it --preRelease beta",
     "release": "./scripts/release.sh"
