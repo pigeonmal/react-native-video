@@ -16,8 +16,7 @@
     "react": "18.3.1",
     "react-native": "^0.77.0",
     "react-native-nitro-fetch": "^0.1.6",
-    "react-native-nitro-modules": "^0.31.10",
-    "react-native-video": "*"
+    "react-native-nitro-modules": "^0.31.10"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
