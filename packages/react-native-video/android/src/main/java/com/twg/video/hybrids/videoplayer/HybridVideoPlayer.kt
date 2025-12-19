@@ -652,5 +652,5 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec() {
   }
 
   override val selectedTrack: PlayerTrack?
-    get() = TrackUtils.getTextSelectedTrack(player, source)
+    get() = TrackUtils.getTextSelectedTrack(player)
 }

@@ -155,7 +155,7 @@ object TrackUtils {
         }
     }
 
-    fun getTextSelectedTrack(player: ExoPlayer, source: HybridVideoPlayerSourceSpec): PlayerTrack? {
+    fun getTextSelectedTrack(player: ExoPlayer): PlayerTrack? {
         return Threading.runOnMainThreadSync {
             val currentTracks = player.currentTracks
             var globalTrackIndex = 0
