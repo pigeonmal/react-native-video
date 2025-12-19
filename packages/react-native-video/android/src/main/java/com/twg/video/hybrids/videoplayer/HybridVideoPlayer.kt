@@ -65,7 +65,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
     return@runOnMainThreadSync ExoPlayer.Builder(context).build()
   }
 
-  private var renderersFactory: MyRenderersFactory?
+  private var renderersFactory: MyRenderersFactory? = null
 
   var loadedWithSource = false
   private var currentPlayerView: WeakReference<PlayerView>? = null
@@ -104,7 +104,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
       field = value
     }
 
-  override var progressEventInterval = 250L
+  override var progressEventInterval = 250.0
 
   override var showNotificationControls: Boolean = false
     set(value) {
@@ -437,7 +437,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
               seekableDuration = player.duration.toSecondsOrNaN()
             )
           )
-          progressHandler.postDelayed(this, progressEventInterval)
+          progressHandler.postDelayed(this, progressEventInterval.toLong())
         }
       }
     }
