@@ -74,7 +74,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
 
   // Buffer Config
   private var bufferConfig: BufferConfig? = null
-    get() = source?.config.bufferConfig
+    get() = source?.config?.bufferConfig
 
   // Time updates
   private val progressHandler = Handler(Looper.getMainLooper())
