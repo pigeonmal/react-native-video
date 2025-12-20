@@ -27,13 +27,9 @@ object TrackUtils {
                         val language = format.language
                         val isSelected = trackGroup.isTrackSelected(trackIndex)
 
-                        val isExternal = trackId.startsWith("external-") == true
-
-                        val finalTrackId = if (isExternal) "external-$globalTrackIndex" else trackId
-
                         tracks.add(
                             PlayerTrack(
-                                id = finalTrackId,
+                                id = trackId,
                                 label = label,
                                 language = language,
                                 selected = isSelected
@@ -74,12 +70,7 @@ object TrackUtils {
                         val currentTrackId = format.id ?: "track-$type-$globalTrackIndex"
                         //val label = format.label ?: "Unknown ${globalTrackIndex + 1}"
 
-                        val isExternal = currentTrackId.startsWith("external-") == true
-
-                        val finalTrackId =
-                            if (isExternal) "external-$globalTrackIndex" else currentTrackId
-
-                        if (finalTrackId == id) {
+                        if (currentTrackId == id) {
                             // Enable this specific track
                             trackSelector.setTrackTypeDisabled(type, false)
                             trackSelector.setOverrideForType(
@@ -169,12 +160,8 @@ object TrackUtils {
                             val label = format.label ?: "Unknown ${globalTrackIndex + 1}"
                             val language = format.language
 
-                            val isExternal = trackId.startsWith("external-") == true
-
-                            val finalTrackId = if (isExternal) "external-$globalTrackIndex" else trackId
-
                             return@runOnMainThreadSync PlayerTrack(
-                                id = finalTrackId,
+                                id = trackId,
                                 label = label,
                                 language = language,
                                 selected = true
@@ -210,8 +197,6 @@ object TrackUtils {
                             val format = trackGroup.getTrackFormat(trackIndex)
 
                             val rawId = format.id ?: "track-${C.TRACK_TYPE_AUDIO}-$globalAudioIndex"
-                            val isExternal = rawId.startsWith("external-")
-                            val finalId = if (isExternal) "external-$globalAudioIndex" else rawId
 
                             val label = format.label ?: "Unknown ${globalAudioIndex + 1}"
                             val language = format.language
@@ -219,7 +204,7 @@ object TrackUtils {
 
                             audioTracks.add(
                                 PlayerTrack(
-                                    id = finalId,
+                                    id = rawId,
                                     label = label,
                                     language = language,
                                     selected = isSelected
@@ -234,8 +219,6 @@ object TrackUtils {
                             val format = trackGroup.getTrackFormat(trackIndex)
 
                             val rawId = format.id ?: "track-${C.TRACK_TYPE_TEXT}-$globalTextIndex"
-                            val isExternal = rawId.startsWith("external-")
-                            val finalId = if (isExternal) "external-$globalTextIndex" else rawId
 
                             val label = format.label ?: "Unknown ${globalTextIndex + 1}"
                             val language = format.language
@@ -243,7 +226,7 @@ object TrackUtils {
 
                             textTracks.add(
                                 PlayerTrack(
-                                    id = finalId,
+                                    id = rawId,
                                     label = label,
                                     language = language,
                                     selected = isSelected
@@ -259,8 +242,6 @@ object TrackUtils {
                             val format = trackGroup.getTrackFormat(trackIndex)
 
                             val rawId = format.id ?: "track-${C.TRACK_TYPE_VIDEO}-$globalVideoIndex"
-                            val isExternal = rawId.startsWith("external-")
-                            val finalId = if (isExternal) "external-$globalVideoIndex" else rawId
 
                             val label = format.label ?: "Unknown ${globalVideoIndex + 1}"
                             val language = format.language
@@ -273,7 +254,7 @@ object TrackUtils {
                                 VideoPlayerTrack(
                                     width = width,
                                     height = height,
-                                    id = finalId,
+                                    id = rawId,
                                     label = label,
                                     language = language,
                                     selected = isSelected

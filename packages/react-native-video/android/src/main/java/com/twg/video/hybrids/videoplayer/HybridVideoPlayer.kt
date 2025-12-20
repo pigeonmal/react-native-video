@@ -261,18 +261,27 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
       .setRenderersFactory(renderersFactory!!)
       .build()
 
+    currentPlayerView?.player = player
+
     loadedWithSource = true
 
     player.addListener(playerListener)
     player.addAnalyticsListener(analyticsListener)
     
-    val startPosition = hybridSource.config.startPosition
+    setPlayerMediaSource(hybridSource)
+  }
+
+  fun setPlayerMediaSource(hybridSource: HybridVideoPlayerSource) {
+   val startPosition = hybridSource.config.startPosition
     if (startPosition != null && startPosition > 0L) {
       player.setMediaSource(hybridSource.mediaSource, startPosition)
     } else {
       player.setMediaSource(hybridSource.mediaSource)
     }
+  }
 
+  fun preparePlayer() {
+    player.prepare()
     // Emit onLoadStart
     val sourceType = if (hybridSource.uri.startsWith("http")) SourceType.NETWORK else SourceType.LOCAL
     eventEmitter.onLoadStart(onLoadStartData(sourceType = sourceType, source = hybridSource))
@@ -284,7 +293,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
     return Promise.async {
       return@async runOnMainThreadSync {
         initializePlayer()
-        player.prepare()
+        preparePlayer()
       }
     }
   }
@@ -295,7 +304,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
       runOnMainThread {
         if (source.config.initializeOnCreation == true) {
           initializePlayer()
-          player.prepare()
+          preparePlayer()
         }
       }
     }
@@ -343,16 +352,11 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
           initializePlayer()
         } else {
           renderersFactory?.setTextOffset((hybridSource.config.initialSubtitleDelay ?: 0L) * 1_000L)
-          val startPosition = hybridSource.config.startPosition
-          if (startPosition != null && startPosition > 0L) {
-            player.setMediaSource(hybridSource.mediaSource, startPosition)
-          } else {
-            player.setMediaSource(hybridSource.mediaSource)
-          }
+          setPlayerMediaSource(hybridSource)
         }
         
         // Prepare player
-        player.prepare()
+        preparePlayer()
       }
     }
   }
@@ -368,7 +372,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
           return@runOnMainThreadSync
         }
 
-        player.prepare()
+        preparePlayer()
       }
     }
   }
@@ -492,9 +496,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
           eventEmitter.onBuffer(false)
 
           val allTracks = TrackUtils.getAllPlayerTracksInternal(player)
-          val selectedVideo: VideoPlayerTrack? =
-            allTracks.videos.firstOrNull { it.selected }
-              ?: player.videoFormat?.let { format ->
+          val selectedVideo: VideoPlayerTrack? = player.videoFormat?.let { format ->
                 VideoPlayerTrack(
                   width = format.width.toDouble(),
                   height = format.height.toDouble(),
@@ -504,7 +506,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
                   selected = true,
                   language = null
                 )
-              }
+              } ?: allTracks.videos.firstOrNull { it.selected }
           val width = selectedVideo?.width ?: 0.0
           val height = selectedVideo?.height ?: 0.0
 //          val rotationDegrees = selectedVideoTrackFormat?.rotationDegrees ?: generalVideoFormat?.rotationDegrees
@@ -653,6 +655,8 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
 
   override fun resetForReuse() {
     runOnMainThread {
+      stopProgressUpdates()
+      this.source = null
       if (player.playbackState != Player.STATE_IDLE) {
         player.stop()
       }
