@@ -6,5 +6,4 @@ include ':app'
 includeBuild('../../node_modules/@react-native/gradle-plugin')
 
 include ':media3-ffmpeg-decoder'
-
-project(':media3-ffmpeg-decoder').projectDir = file('../../node_modules/react-native-video/android/media3-ffmpeg-decoder')
+project(':media3-ffmpeg-decoder').projectDir = file('../../node_modules/@pigeonmal/eact-native-video/android/media3-ffmpeg-decoder')
