@@ -13,7 +13,7 @@ export interface VideoPlayerBase {
    * Source is immutable. To change the source, you need to call {@link replaceSourceAsync} method.
    * see {@link VideoPlayerSourceBase}
    */
-  readonly source: VideoPlayerSourceBase;
+  readonly source?: VideoPlayerSourceBase;
 
   /**
    * The status of the player.

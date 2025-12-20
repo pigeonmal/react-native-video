@@ -114,12 +114,18 @@ open class HybridVideoPlayerSpec_cxx {
   }
 
   // Properties
-  public final var source: bridge.std__shared_ptr_HybridVideoPlayerSourceSpec_ {
+  public final var source: bridge.std__optional_std__shared_ptr_HybridVideoPlayerSourceSpec__ {
     @inline(__always)
     get {
-      return { () -> bridge.std__shared_ptr_HybridVideoPlayerSourceSpec_ in
-        let __cxxWrapped = self.__implementation.source.getCxxWrapper()
-        return __cxxWrapped.getCxxPart()
+      return { () -> bridge.std__optional_std__shared_ptr_HybridVideoPlayerSourceSpec__ in
+        if let __unwrappedValue = self.__implementation.source {
+          return bridge.create_std__optional_std__shared_ptr_HybridVideoPlayerSourceSpec__({ () -> bridge.std__shared_ptr_HybridVideoPlayerSourceSpec_ in
+            let __cxxWrapped = __unwrappedValue.getCxxWrapper()
+            return __cxxWrapped.getCxxPart()
+          }())
+        } else {
+          return .init()
+        }
       }()
     }
   }

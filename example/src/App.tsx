@@ -402,7 +402,7 @@ const VideoDemo = () => {
             label="Get Source Asset Info"
             onPress={() => {
               player.source
-                .getAssetInformationAsync()
+                ?.getAssetInformationAsync()
                 .then((info) => {
                   console.log('Asset info:', info);
                 })

@@ -28,6 +28,7 @@ namespace margelo::nitro::video { enum class TrackType; }
 
 #include <memory>
 #include "HybridVideoPlayerSourceSpec.hpp"
+#include <optional>
 #include "JHybridVideoPlayerSourceSpec.hpp"
 #include "HybridVideoPlayerEventEmitterSpec.hpp"
 #include "JHybridVideoPlayerEventEmitterSpec.hpp"
@@ -38,7 +39,6 @@ namespace margelo::nitro::video { enum class TrackType; }
 #include "IgnoreSilentSwitchMode.hpp"
 #include "JIgnoreSilentSwitchMode.hpp"
 #include "PlayerTrack.hpp"
-#include <optional>
 #include "JPlayerTrack.hpp"
 #include <string>
 #include <NitroModules/Promise.hpp>
@@ -84,10 +84,10 @@ namespace margelo::nitro::video {
   }
 
   // Properties
-  std::shared_ptr<HybridVideoPlayerSourceSpec> JHybridVideoPlayerSpec::getSource() {
+  std::optional<std::shared_ptr<HybridVideoPlayerSourceSpec>> JHybridVideoPlayerSpec::getSource() {
     static const auto method = javaClassStatic()->getMethod<jni::local_ref<JHybridVideoPlayerSourceSpec::javaobject>()>("getSource");
     auto __result = method(_javaPart);
-    return __result->cthis()->shared_cast<JHybridVideoPlayerSourceSpec>();
+    return __result != nullptr ? std::make_optional(__result->cthis()->shared_cast<JHybridVideoPlayerSourceSpec>()) : std::nullopt;
   }
   std::shared_ptr<HybridVideoPlayerEventEmitterSpec> JHybridVideoPlayerSpec::getEventEmitter() {
     static const auto method = javaClassStatic()->getMethod<jni::local_ref<JHybridVideoPlayerEventEmitterSpec::javaobject>()>("getEventEmitter");

@@ -8,7 +8,7 @@ export interface VideoPlayer
   extends HybridObject<{ ios: 'swift'; android: 'kotlin' }>,
     VideoPlayerBase {
   // Override with (hybrid) VideoPlayerSource
-  readonly source: VideoPlayerSource;
+  readonly source?: VideoPlayerSource;
 
   // Holder of the video player events.
   readonly eventEmitter: VideoPlayerEventEmitter;

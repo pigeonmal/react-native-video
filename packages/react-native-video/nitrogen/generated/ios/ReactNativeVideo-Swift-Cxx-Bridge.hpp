@@ -156,6 +156,21 @@ namespace margelo::nitro::video::bridge::swift {
   using std__weak_ptr_HybridVideoPlayerSourceSpec_ = std::weak_ptr<HybridVideoPlayerSourceSpec>;
   inline std__weak_ptr_HybridVideoPlayerSourceSpec_ weakify_std__shared_ptr_HybridVideoPlayerSourceSpec_(const std::shared_ptr<HybridVideoPlayerSourceSpec>& strong) noexcept { return strong; }
   
+  // pragma MARK: std::optional<std::shared_ptr<HybridVideoPlayerSourceSpec>>
+  /**
+   * Specialized version of `std::optional<std::shared_ptr<HybridVideoPlayerSourceSpec>>`.
+   */
+  using std__optional_std__shared_ptr_HybridVideoPlayerSourceSpec__ = std::optional<std::shared_ptr<HybridVideoPlayerSourceSpec>>;
+  inline std::optional<std::shared_ptr<HybridVideoPlayerSourceSpec>> create_std__optional_std__shared_ptr_HybridVideoPlayerSourceSpec__(const std::shared_ptr<HybridVideoPlayerSourceSpec>& value) noexcept {
+    return std::optional<std::shared_ptr<HybridVideoPlayerSourceSpec>>(value);
+  }
+  inline bool has_value_std__optional_std__shared_ptr_HybridVideoPlayerSourceSpec__(const std::optional<std::shared_ptr<HybridVideoPlayerSourceSpec>>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline std::shared_ptr<HybridVideoPlayerSourceSpec> get_std__optional_std__shared_ptr_HybridVideoPlayerSourceSpec__(const std::optional<std::shared_ptr<HybridVideoPlayerSourceSpec>>& optional) noexcept {
+    return *optional;
+  }
+  
   // pragma MARK: std::shared_ptr<HybridVideoPlayerEventEmitterSpec>
   /**
    * Specialized version of `std::shared_ptr<HybridVideoPlayerEventEmitterSpec>`.
@@ -381,21 +396,6 @@ namespace margelo::nitro::video::bridge::swift {
   }
   inline Result_AllPlayerTracks_ create_Result_AllPlayerTracks_(const std::exception_ptr& error) noexcept {
     return Result<AllPlayerTracks>::withError(error);
-  }
-  
-  // pragma MARK: std::optional<std::shared_ptr<HybridVideoPlayerSourceSpec>>
-  /**
-   * Specialized version of `std::optional<std::shared_ptr<HybridVideoPlayerSourceSpec>>`.
-   */
-  using std__optional_std__shared_ptr_HybridVideoPlayerSourceSpec__ = std::optional<std::shared_ptr<HybridVideoPlayerSourceSpec>>;
-  inline std::optional<std::shared_ptr<HybridVideoPlayerSourceSpec>> create_std__optional_std__shared_ptr_HybridVideoPlayerSourceSpec__(const std::shared_ptr<HybridVideoPlayerSourceSpec>& value) noexcept {
-    return std::optional<std::shared_ptr<HybridVideoPlayerSourceSpec>>(value);
-  }
-  inline bool has_value_std__optional_std__shared_ptr_HybridVideoPlayerSourceSpec__(const std::optional<std::shared_ptr<HybridVideoPlayerSourceSpec>>& optional) noexcept {
-    return optional.has_value();
-  }
-  inline std::shared_ptr<HybridVideoPlayerSourceSpec> get_std__optional_std__shared_ptr_HybridVideoPlayerSourceSpec__(const std::optional<std::shared_ptr<HybridVideoPlayerSourceSpec>>& optional) noexcept {
-    return *optional;
   }
   
   // pragma MARK: std::shared_ptr<HybridVideoPlayerFactorySpec>

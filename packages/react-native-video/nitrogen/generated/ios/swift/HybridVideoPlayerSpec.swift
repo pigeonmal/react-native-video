@@ -11,7 +11,7 @@ import NitroModules
 /// See ``HybridVideoPlayerSpec``
 public protocol HybridVideoPlayerSpec_protocol: HybridObject {
   // Properties
-  var source: (any HybridVideoPlayerSourceSpec) { get }
+  var source: (any HybridVideoPlayerSourceSpec)? { get }
   var eventEmitter: (any HybridVideoPlayerEventEmitterSpec) { get }
   var showNotificationControls: Bool { get set }
   var status: VideoPlayerStatus { get }

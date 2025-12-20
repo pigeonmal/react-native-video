@@ -111,7 +111,8 @@ class VideoPlayer extends VideoPlayerEvents implements VideoPlayerBase {
    */
   private updateMemorySize() {
     NitroModules.updateMemorySize(this.player);
-    NitroModules.updateMemorySize(this.player.source);
+    const source = this.player.source;
+    if (source != null) NitroModules.updateMemorySize(source);
   }
 
   /**
@@ -127,7 +128,7 @@ class VideoPlayer extends VideoPlayerEvents implements VideoPlayerBase {
   }
 
   // Source
-  get source(): VideoPlayerSource {
+  get source(): VideoPlayerSource | undefined {
     return this.player.source;
   }
 

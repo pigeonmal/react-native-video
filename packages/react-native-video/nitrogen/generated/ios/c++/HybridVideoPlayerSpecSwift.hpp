@@ -33,12 +33,12 @@ namespace margelo::nitro::video { enum class TrackType; }
 
 #include <memory>
 #include "HybridVideoPlayerSourceSpec.hpp"
+#include <optional>
 #include "HybridVideoPlayerEventEmitterSpec.hpp"
 #include "VideoPlayerStatus.hpp"
 #include "MixAudioMode.hpp"
 #include "IgnoreSilentSwitchMode.hpp"
 #include "PlayerTrack.hpp"
-#include <optional>
 #include <string>
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/Null.hpp>
@@ -88,7 +88,7 @@ namespace margelo::nitro::video {
 
   public:
     // Properties
-    inline std::shared_ptr<HybridVideoPlayerSourceSpec> getSource() noexcept override {
+    inline std::optional<std::shared_ptr<HybridVideoPlayerSourceSpec>> getSource() noexcept override {
       auto __result = _swiftPart.getSource();
       return __result;
     }

@@ -46,7 +46,7 @@ abstract class HybridVideoPlayerSpec: HybridObject() {
   // Properties
   @get:DoNotStrip
   @get:Keep
-  abstract val source: HybridVideoPlayerSourceSpec
+  abstract val source: HybridVideoPlayerSourceSpec?
   
   @get:DoNotStrip
   @get:Keep

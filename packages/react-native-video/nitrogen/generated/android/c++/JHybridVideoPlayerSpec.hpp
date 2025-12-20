@@ -50,7 +50,7 @@ namespace margelo::nitro::video {
 
   public:
     // Properties
-    std::shared_ptr<HybridVideoPlayerSourceSpec> getSource() override;
+    std::optional<std::shared_ptr<HybridVideoPlayerSourceSpec>> getSource() override;
     std::shared_ptr<HybridVideoPlayerEventEmitterSpec> getEventEmitter() override;
     bool getShowNotificationControls() override;
     void setShowNotificationControls(bool showNotificationControls) override;

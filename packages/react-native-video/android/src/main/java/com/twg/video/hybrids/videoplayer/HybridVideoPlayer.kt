@@ -44,7 +44,7 @@ import kotlin.math.max
 @UnstableApi
 @DoNotStrip
 class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
-  override lateinit var source: HybridVideoPlayerSourceSpec
+  override var source: HybridVideoPlayerSourceSpec?
   override var eventEmitter = HybridVideoPlayerEventEmitter()
     set(value) {
       if (field != value) {
@@ -74,7 +74,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
 
   // Buffer Config
   private var bufferConfig: BufferConfig? = null
-    get() = source.config.bufferConfig
+    get() = source?.config.bufferConfig
 
   // Time updates
   private val progressHandler = Handler(Looper.getMainLooper())
@@ -290,9 +290,8 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
   }
 
   constructor(source: HybridVideoPlayerSource?) : this() {
+    this.source = source
     if (source != null) {
-      this.source = source
-
       runOnMainThread {
         if (source.config.initializeOnCreation == true) {
           initializePlayer()
@@ -383,7 +382,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
       VideoManager.unregisterPlayer(this)
       stopProgressUpdates()
       loadedWithSource = false
-
+      source = null
       eventEmitter.clearAllListeners()
 
       player.removeListener(playerListener)
