@@ -375,7 +375,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
           return@runOnMainThreadSync
         }
 
-        preparePlayer(source)
+        preparePlayer(hybridSource)
       }
     }
   }
