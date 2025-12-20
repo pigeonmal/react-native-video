@@ -92,6 +92,7 @@ fun getSubtitlesConfiguration(
           .setSelectionFlags(0) //  C.SELECTION_FLAG_DEFAULT
           .setRoleFlags(C.ROLE_FLAG_SUBTITLE)
           .setLabel(subtitle.label)
+          .setLanguage(subtitle.language)
           .build()
         subtitlesConfiguration.add(subtitleConfig)
       } catch (e: Exception) {
