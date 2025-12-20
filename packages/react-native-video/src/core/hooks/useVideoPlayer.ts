@@ -41,8 +41,11 @@ export const useVideoPlayer = (
         if (setup === undefined) {
           return player;
         }
-
-        if (player.source?.config.initializeOnCreation !== false) {
+        const playerSource = player.source;
+        if (
+          playerSource != null &&
+          playerSource.config.initializeOnCreation !== false
+        ) {
           // if source is small video, it can happen that onLoadStart is called before we set event from JS
           // Thats why we adding event listener and calling setup once if player is loading or ready to play
           // That way we ensure that setup is always called
