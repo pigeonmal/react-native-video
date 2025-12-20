@@ -291,9 +291,10 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
 
   override fun initialize(): Promise<Unit> {
     return Promise.async {
+      val hybridSource = source as? HybridVideoPlayerSource ?: throw PlayerError.InvalidSource
       return@async runOnMainThreadSync {
         initializePlayer()
-        preparePlayer(source)
+        preparePlayer(hybridSource)
       }
     }
   }
@@ -363,6 +364,8 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
 
   override fun preload(): Promise<Unit> {
     return Promise.async {
+      val hybridSource = source as? HybridVideoPlayerSource ?: throw PlayerError.InvalidSource
+
       runOnMainThreadSync {
         if (!loadedWithSource) {
           initializePlayer()
