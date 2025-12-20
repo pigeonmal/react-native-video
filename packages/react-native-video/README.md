@@ -31,6 +31,8 @@ Features:
 - player.resetForReuse() stop playback and clear tracks
 - player.progressEventInterval change the progress event interval
 - bugfix: external subtitles in hls/dash
+- bugfix: add langs to external subs
+- bugfix: onloadstart
 - nullable video player source : new VideoPlayer(undefined);
 - TextTrack type replaced to PlayerTrack
 - removed onTrackChange event
