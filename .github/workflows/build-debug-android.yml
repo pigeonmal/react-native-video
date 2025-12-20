@@ -18,17 +18,6 @@ jobs:
 
       - uses: ./.github/actions/setup-bun
 
-      # Cache Bun dependencies
-      - name: Cache Bun
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.bun
-            node_modules
-          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-bun-
-
       - name: Install npm dependencies (bun)
         run: bun install
 
@@ -42,7 +31,7 @@ jobs:
 
       - name: Run Gradle Build for example/android/
         working-directory: example/android
-        run: ./gradlew assembleDebug --no-daemon --build-cache -PreactNativeArchitectures=arm64-v8a
+        run: ./gradlew assembleDebug --no-daemon --build-cache  --stacktrace --info
 
       - name: Stop Gradle Daemon
         working-directory: example/android
