@@ -32,7 +32,8 @@
     "@types/react": "^18.2.44",
     "eslint": "^8.51.0",
     "prettier": "^3.0.3",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "@pigeonmal/react-native-video": "*"
   },
   "engines": {
     "node": ">=18"

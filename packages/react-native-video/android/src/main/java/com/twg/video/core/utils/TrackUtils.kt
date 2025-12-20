@@ -5,14 +5,13 @@ import androidx.media3.common.C
 import androidx.media3.common.TrackSelectionOverride
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
-import com.margelo.nitro.video.HybridVideoPlayerSourceSpec
 import com.margelo.nitro.video.PlayerTrack
 import com.margelo.nitro.video.AllPlayerTracks
 import com.margelo.nitro.video.VideoPlayerTrack
 
 @UnstableApi
 object TrackUtils {
-    fun getAvailableTextTracks(player: ExoPlayer, source: HybridVideoPlayerSourceSpec): Array<PlayerTrack> {
+    fun getAvailableTextTracks(player: ExoPlayer): Array<PlayerTrack> {
         return Threading.runOnMainThreadSync {
             val tracks = mutableListOf<PlayerTrack>()
             val currentTracks = player.currentTracks

@@ -44,7 +44,7 @@ import kotlin.math.max
 @UnstableApi
 @DoNotStrip
 class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
-  override var source: HybridVideoPlayerSourceSpec?
+  override var source: HybridVideoPlayerSourceSpec? = null
   override var eventEmitter = HybridVideoPlayerEventEmitter()
     set(value) {
       if (field != value) {
@@ -636,7 +636,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
   // MARK: - Text Track Management
 
   override fun getAvailableTextTracks(): Array<PlayerTrack> {
-    return TrackUtils.getAvailableTextTracks(player, source)
+    return TrackUtils.getAvailableTextTracks(player)
   }
 
   override fun getAllPlayerTracks(): AllPlayerTracks {
