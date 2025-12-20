@@ -261,7 +261,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
       .setRenderersFactory(renderersFactory!!)
       .build()
 
-    currentPlayerView?.player = player
+    currentPlayerView?.get()?.player = player
 
     loadedWithSource = true
 
@@ -280,7 +280,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
     }
   }
 
-  fun preparePlayer() {
+  fun preparePlayer(hybridSource: HybridVideoPlayerSource) {
     player.prepare()
     // Emit onLoadStart
     val sourceType = if (hybridSource.uri.startsWith("http")) SourceType.NETWORK else SourceType.LOCAL
@@ -293,7 +293,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
     return Promise.async {
       return@async runOnMainThreadSync {
         initializePlayer()
-        preparePlayer()
+        preparePlayer(source)
       }
     }
   }
@@ -304,7 +304,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
       runOnMainThread {
         if (source.config.initializeOnCreation == true) {
           initializePlayer()
-          preparePlayer()
+          preparePlayer(source)
         }
       }
     }
@@ -356,7 +356,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
         }
         
         // Prepare player
-        preparePlayer()
+        preparePlayer(hybridSource)
       }
     }
   }
@@ -372,7 +372,7 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
           return@runOnMainThreadSync
         }
 
-        preparePlayer()
+        preparePlayer(source)
       }
     }
   }
