@@ -499,19 +499,12 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
           eventEmitter.onBuffer(false)
 
           val allTracks = TrackUtils.getAllPlayerTracksInternal(player)
-          val selectedVideo: VideoPlayerTrack? = player.videoFormat?.let { format ->
-                VideoPlayerTrack(
-                  width = format.width.toDouble(),
-                  height = format.height.toDouble(),
-                  // We don't care for the true information, we use only width and height
-                  id = "general", 
-                  label = "General",
-                  selected = true,
-                  language = null
-                )
-              } ?: allTracks.videos.firstOrNull { it.selected }
-          val width = selectedVideo?.width ?: 0.0
-          val height = selectedVideo?.height ?: 0.0
+          val (width, height) = player.videoFormat?.let { format ->
+              format.width.toDouble() to format.height.toDouble()
+          } ?: allTracks.videos.firstOrNull { it.selected }?.let {
+              it.width to it.height
+          } ?: (0.0 to 0.0)
+
 //          val rotationDegrees = selectedVideoTrackFormat?.rotationDegrees ?: generalVideoFormat?.rotationDegrees
 
           eventEmitter.onLoad(
