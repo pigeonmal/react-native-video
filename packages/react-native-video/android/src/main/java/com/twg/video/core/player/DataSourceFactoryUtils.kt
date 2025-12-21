@@ -60,7 +60,7 @@ fun buildHttpDataSourceFactory(context: Context, source: HybridVideoPlayerSource
 fun buildCronetHttpDataSourceFactory(source: HybridVideoPlayerSourceSpec): CronetDataSource.Factory {
   // Get Cronet engine and executor from NitroFetch
   // used before NitroFetch.ioExecutor , but cause blocking thread
-  val factory = CronetDataSource.Factory(NitroFetch.getEngine(), Executors.newSingleThreadExecutor())
+  val factory = CronetDataSource.Factory(NitroFetch.getEngine(), NitroFetch.ioExecutor)
     .setConnectionTimeoutMs(10_000)
     .setReadTimeoutMs(10_000)
     .setResetTimeoutOnRedirects(true)
