@@ -31,7 +31,7 @@ jobs:
 
       - name: Run Gradle Build for example/android/
         working-directory: example/android
-        run: ./gradlew assembleDebug --no-daemon --build-cache  --stacktrace --info
+        run: ./gradlew assembleDebug --no-daemon --build-cache
 
       - name: Stop Gradle Daemon
         working-directory: example/android
