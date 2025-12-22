@@ -148,7 +148,7 @@ class HybridVideoPlayerEventEmitter : HybridVideoPlayerEventEmitterSpec() {
     emitEvent<(onProgressData) -> Unit>("onProgress") { it(data) }
 
   fun onPlayerError(message: String) =
-    emitEvent<(String) -> Unit>("onPlayerError") { it(data) }
+    emitEvent<(String) -> Unit>("onPlayerError") { it(message) }
 
   fun onReadyToDisplay() =
     emitEvent<() -> Unit>("onReadyToDisplay") { it() }
