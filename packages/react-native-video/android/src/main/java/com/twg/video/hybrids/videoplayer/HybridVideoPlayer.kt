@@ -651,12 +651,14 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
 
   override fun resetForReuse() {
     runOnMainThread {
-      stopProgressUpdates()
-      this.source = null
-      if (player.playbackState != Player.STATE_IDLE) {
-        player.stop()
+      if (this.source != null) {
+        stopProgressUpdates()
+        this.source = null
+        if (player.playbackState != Player.STATE_IDLE) {
+          player.stop()
+        }
+        player.clearMediaItems()
       }
-      player.clearMediaItems()
     }
   }
 
