@@ -234,7 +234,7 @@ dependencies {
   implementation "androidx.media3:media3-session:$media3_version"
 
   api project(':media3-ffmpeg-decoder')
-  implementation project(':@pigeonmal/react-native-nitro-fetch')
+  implementation project(':pigeonmal_react-native-nitro-fetch')
 
   if (ExoplayerDependencies.useExoplayerDash) {
     implementation "androidx.media3:media3-exoplayer-dash:$media3_version"
