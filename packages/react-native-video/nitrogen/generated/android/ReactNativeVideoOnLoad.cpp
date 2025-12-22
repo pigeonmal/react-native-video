@@ -26,6 +26,7 @@
 #include "JFunc_void_onPlaybackStateChangeData.hpp"
 #include "JFunc_void_double.hpp"
 #include "JFunc_void_onProgressData.hpp"
+#include "JFunc_void_std__string.hpp"
 #include "JFunc_void_VideoPlayerStatus.hpp"
 #include "JFunc_void_TimedMetadata.hpp"
 #include "JFunc_void_std__vector_std__string_.hpp"
@@ -57,6 +58,7 @@ int initialize(JavaVM* vm) {
     margelo::nitro::video::JFunc_void_onPlaybackStateChangeData_cxx::registerNatives();
     margelo::nitro::video::JFunc_void_double_cxx::registerNatives();
     margelo::nitro::video::JFunc_void_onProgressData_cxx::registerNatives();
+    margelo::nitro::video::JFunc_void_std__string_cxx::registerNatives();
     margelo::nitro::video::JFunc_void_VideoPlayerStatus_cxx::registerNatives();
     margelo::nitro::video::JFunc_void_TimedMetadata_cxx::registerNatives();
     margelo::nitro::video::JFunc_void_std__vector_std__string__cxx::registerNatives();

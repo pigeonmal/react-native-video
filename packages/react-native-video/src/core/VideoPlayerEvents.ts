@@ -7,6 +7,7 @@ import {
   type JSVideoPlayerEvents,
   type AllPlayerEvents as PlayerEvents,
 } from './types/Events';
+import { VideoError } from './types/VideoError';
 
 export class VideoPlayerEvents {
   protected eventEmitter: VideoPlayerEventEmitter;
@@ -48,11 +49,20 @@ export class VideoPlayerEvents {
         this.jsEventListeners.onError.add(
           callback as JSVideoPlayerEvents['onError']
         );
+        const nativeCallback = (message: string) =>
+          (callback as JSVideoPlayerEvents['onError'])(
+            new VideoError('player/playback-exception', message)
+          );
+
+        const removeNative =
+          this.eventEmitter.addOnPlayerErrorListener(nativeCallback);
         return {
-          remove: () =>
+          remove: () => {
             this.jsEventListeners.onError?.delete(
               callback as JSVideoPlayerEvents['onError']
-            ),
+            );
+            removeNative.remove();
+          },
         };
       // ----------------- Native Events -----------------
       case 'onAudioBecomingNoisy':

@@ -82,6 +82,9 @@ class HybridVideoPlayerEventEmitter : HybridVideoPlayerEventEmitterSpec() {
   override fun addOnProgressListener(listener: (onProgressData) -> Unit) =
     addListener("onProgress", listener)
 
+  override fun addOnPlayerErrorListener(listener: (String) -> Unit) =
+    addListener("onPlayerError", listener)
+
   override fun addOnReadyToDisplayListener(listener: () -> Unit) =
     addListener("onReadyToDisplay", listener)
 
@@ -143,6 +146,9 @@ class HybridVideoPlayerEventEmitter : HybridVideoPlayerEventEmitterSpec() {
 
   fun onProgress(data: onProgressData) =
     emitEvent<(onProgressData) -> Unit>("onProgress") { it(data) }
+
+  fun onPlayerError(message: String) =
+    emitEvent<(String) -> Unit>("onPlayerError") { it(data) }
 
   fun onReadyToDisplay() =
     emitEvent<() -> Unit>("onReadyToDisplay") { it() }

@@ -6,7 +6,8 @@ export type PlayerError =
   | 'player/released'
   | 'player/not-initialized'
   | 'player/asset-not-initialized'
-  | 'player/invalid-source';
+  | 'player/invalid-source'
+  | 'player/playback-exception';
 
 export type SourceError =
   | 'source/invalid-uri'

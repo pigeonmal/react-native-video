@@ -554,6 +554,13 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
     override fun onPlayerError(error: PlaybackException) {
       status = VideoPlayerStatus.ERROR
       stopProgressUpdates()
+      val errorMessage = buildString {
+        append(error.errorCodeName)
+        error.message?.let { append(": $it") }
+        error.cause?.message?.let { append(" | Cause: $it") }
+      }
+
+      eventEmitter.onPlayerError(errorMessage)
     }
 
     override fun onPositionDiscontinuity(

@@ -322,6 +322,23 @@ open class HybridVideoPlayerEventEmitterSpec_cxx {
   }
   
   @inline(__always)
+  public final func addOnPlayerErrorListener(listener: bridge.Func_void_std__string) -> bridge.Result_ListenerSubscription_ {
+    do {
+      let __result = try self.__implementation.addOnPlayerErrorListener(listener: { () -> (String) -> Void in
+        let __wrappedFunction = bridge.wrap_Func_void_std__string(listener)
+        return { (__message: String) -> Void in
+          __wrappedFunction.call(std.string(__message))
+        }
+      }())
+      let __resultCpp = __result
+      return bridge.create_Result_ListenerSubscription_(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_ListenerSubscription_(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
   public final func addOnReadyToDisplayListener(listener: bridge.Func_void) -> bridge.Result_ListenerSubscription_ {
     do {
       let __result = try self.__implementation.addOnReadyToDisplayListener(listener: { () -> () -> Void in

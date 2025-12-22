@@ -78,6 +78,7 @@ namespace margelo::nitro::video { struct onVolumeChangeData; }
 #include "onProgressData.hpp"
 #include "JFunc_void_onProgressData.hpp"
 #include "JonProgressData.hpp"
+#include "JFunc_void_std__string.hpp"
 #include "VideoPlayerStatus.hpp"
 #include "JFunc_void_VideoPlayerStatus.hpp"
 #include "JVideoPlayerStatus.hpp"
@@ -181,6 +182,11 @@ namespace margelo::nitro::video {
   ListenerSubscription JHybridVideoPlayerEventEmitterSpec::addOnProgressListener(const std::function<void(const onProgressData& /* data */)>& listener) {
     static const auto method = javaClassStatic()->getMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<JFunc_void_onProgressData::javaobject> /* listener */)>("addOnProgressListener_cxx");
     auto __result = method(_javaPart, JFunc_void_onProgressData_cxx::fromCpp(listener));
+    return __result->toCpp();
+  }
+  ListenerSubscription JHybridVideoPlayerEventEmitterSpec::addOnPlayerErrorListener(const std::function<void(const std::string& /* message */)>& listener) {
+    static const auto method = javaClassStatic()->getMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<JFunc_void_std__string::javaobject> /* listener */)>("addOnPlayerErrorListener_cxx");
+    auto __result = method(_javaPart, JFunc_void_std__string_cxx::fromCpp(listener));
     return __result->toCpp();
   }
   ListenerSubscription JHybridVideoPlayerEventEmitterSpec::addOnReadyToDisplayListener(const std::function<void()>& listener) {

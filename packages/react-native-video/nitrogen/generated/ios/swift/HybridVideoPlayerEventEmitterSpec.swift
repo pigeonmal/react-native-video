@@ -26,6 +26,7 @@ public protocol HybridVideoPlayerEventEmitterSpec_protocol: HybridObject {
   func addOnPlaybackStateChangeListener(listener: @escaping (_ data: onPlaybackStateChangeData) -> Void) throws -> ListenerSubscription
   func addOnPlaybackRateChangeListener(listener: @escaping (_ rate: Double) -> Void) throws -> ListenerSubscription
   func addOnProgressListener(listener: @escaping (_ data: onProgressData) -> Void) throws -> ListenerSubscription
+  func addOnPlayerErrorListener(listener: @escaping (_ message: String) -> Void) throws -> ListenerSubscription
   func addOnReadyToDisplayListener(listener: @escaping () -> Void) throws -> ListenerSubscription
   func addOnSeekListener(listener: @escaping (_ position: Double) -> Void) throws -> ListenerSubscription
   func addOnStatusChangeListener(listener: @escaping (_ status: VideoPlayerStatus) -> Void) throws -> ListenerSubscription

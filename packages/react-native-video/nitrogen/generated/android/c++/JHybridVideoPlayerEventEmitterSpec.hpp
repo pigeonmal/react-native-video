@@ -66,6 +66,7 @@ namespace margelo::nitro::video {
     ListenerSubscription addOnPlaybackStateChangeListener(const std::function<void(const onPlaybackStateChangeData& /* data */)>& listener) override;
     ListenerSubscription addOnPlaybackRateChangeListener(const std::function<void(double /* rate */)>& listener) override;
     ListenerSubscription addOnProgressListener(const std::function<void(const onProgressData& /* data */)>& listener) override;
+    ListenerSubscription addOnPlayerErrorListener(const std::function<void(const std::string& /* message */)>& listener) override;
     ListenerSubscription addOnReadyToDisplayListener(const std::function<void()>& listener) override;
     ListenerSubscription addOnSeekListener(const std::function<void(double /* position */)>& listener) override;
     ListenerSubscription addOnStatusChangeListener(const std::function<void(VideoPlayerStatus /* status */)>& listener) override;

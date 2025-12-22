@@ -39,9 +39,9 @@ namespace margelo::nitro::video { struct onVolumeChangeData; }
 #include "onLoadStartData.hpp"
 #include "onPlaybackStateChangeData.hpp"
 #include "onProgressData.hpp"
+#include <string>
 #include "VideoPlayerStatus.hpp"
 #include "TimedMetadata.hpp"
-#include <string>
 #include <vector>
 #include "onVolumeChangeData.hpp"
 
@@ -88,6 +88,7 @@ namespace margelo::nitro::video {
       virtual ListenerSubscription addOnPlaybackStateChangeListener(const std::function<void(const onPlaybackStateChangeData& /* data */)>& listener) = 0;
       virtual ListenerSubscription addOnPlaybackRateChangeListener(const std::function<void(double /* rate */)>& listener) = 0;
       virtual ListenerSubscription addOnProgressListener(const std::function<void(const onProgressData& /* data */)>& listener) = 0;
+      virtual ListenerSubscription addOnPlayerErrorListener(const std::function<void(const std::string& /* message */)>& listener) = 0;
       virtual ListenerSubscription addOnReadyToDisplayListener(const std::function<void()>& listener) = 0;
       virtual ListenerSubscription addOnSeekListener(const std::function<void(double /* position */)>& listener) = 0;
       virtual ListenerSubscription addOnStatusChangeListener(const std::function<void(VideoPlayerStatus /* status */)>& listener) = 0;

@@ -134,6 +134,15 @@ export interface VideoPlayerEventEmitter
   ): ListenerSubscription;
 
   /**
+   * Adds a listener for the `onPlayerError` event.
+   * @param listener - The listener to add.
+   * @returns A subscription object that can be used to remove the listener.
+   */
+  addOnPlayerErrorListener(
+    listener: (message: string) => void
+  ): ListenerSubscription;
+
+  /**
    * Adds a listener for the `onReadyToDisplay` event.
    * @see {@link VideoPlayerEvents.onReadyToDisplay}
    * @param listener - The listener to add.

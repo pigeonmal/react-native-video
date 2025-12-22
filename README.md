@@ -31,6 +31,7 @@ Features:
 - bugfix: external subtitles in hls/dash
 - bugfix: add langs to external subs
 - bugfix: onloadstart
+- bugfix: onError also catch playback exception 'player/playback-exception'
 - nullable video player source : new VideoPlayer(undefined);
 - TextTrack type replaced to PlayerTrack
 - removed onTrackChange event
