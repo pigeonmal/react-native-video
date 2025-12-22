@@ -4,15 +4,13 @@ Date: 19/12/2025
 (Only android)
 Install :
 
-1. npm install @pigeonmal/react-native-video@beta react-native-nitro-fetch
+1. npm install @pigeonmal/react-native-video@beta @pigeonmal/react-native-nitro-fetch
 2. Add this to android/app/settings.gradle
 
 ```
 include ':media3-ffmpeg-decoder'
 project(':media3-ffmpeg-decoder').projectDir = file('../node_modules/@pigeonmal/react-native-video/android/media3-ffmpeg-decoder')
 ```
-
-3. create a patch for react-native-nitro-fetch like in the patches/react-native-nitro-fetch@x.patch
 
 ---
 
