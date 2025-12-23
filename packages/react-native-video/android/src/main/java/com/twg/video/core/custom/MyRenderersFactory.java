@@ -3,9 +3,16 @@ package com.twg.video.core.custom;
 import androidx.media3.exoplayer.DefaultRenderersFactory;
 import androidx.media3.exoplayer.Renderer;
 import androidx.media3.exoplayer.text.TextOutput;
-
+import android.os.Handler;
+import androidx.media3.common.util.Log;
+import androidx.media3.exoplayer.audio.AudioRendererEventListener;
+import androidx.media3.exoplayer.audio.AudioSink;
+import androidx.media3.exoplayer.mediacodec.MediaCodecSelector;
+import androidx.media3.exoplayer.video.VideoRendererEventListener;
 import android.content.Context;
 import android.os.Looper;
+import io.github.anilbeesetti.nextlib.media3ext.ffdecoder.FfmpegAudioRenderer;
+import io.github.anilbeesetti.nextlib.media3ext.ffdecoder.FfmpegVideoRenderer;
 
 import java.util.ArrayList;
 
@@ -13,10 +20,12 @@ public class MyRenderersFactory extends DefaultRenderersFactory implements TextS
 
  private MyTextRenderer textRenderer;
  private long defaultOffsetUs;
+ private boolean isTv;
 
-  public MyRenderersFactory(Context context, long defaultDelaySub) {
+  public MyRenderersFactory(Context context, long defaultDelaySub, boolean isTv) {
     super(context);
     textRenderer = null;
+    isTv = isTv;
     defaultOffsetUs = defaultDelaySub;
   }
 
@@ -74,5 +83,85 @@ public class MyRenderersFactory extends DefaultRenderersFactory implements TextS
     if (textRenderer != null)
       textRenderer.addTextFilters(textFilters);
   }
+
+ @Override
+    protected void buildAudioRenderers(
+            Context context,
+            int extensionRendererMode,
+            MediaCodecSelector mediaCodecSelector,
+            boolean enableDecoderFallback,
+            AudioSink audioSink,
+            Handler eventHandler,
+            AudioRendererEventListener eventListener,
+            ArrayList<Renderer> out) {
+
+        super.buildAudioRenderers(
+                context,
+                extensionRendererMode,
+                mediaCodecSelector,
+                enableDecoderFallback,
+                audioSink,
+                eventHandler,
+                eventListener,
+                out
+        );
+
+        if (extensionRendererMode == EXTENSION_RENDERER_MODE_OFF) return;
+
+        int extensionRendererIndex = out.size();
+        if (extensionRendererMode == EXTENSION_RENDERER_MODE_PREFER) {
+            extensionRendererIndex--;
+        }
+
+        try {
+            FfmpegAudioRenderer renderer = new FfmpegAudioRenderer(eventHandler, eventListener, audioSink);
+            out.add(extensionRendererIndex++, renderer);
+            Log.i(TAG, "Loaded FfmpegAudioRenderer.");
+        } catch (Exception e) {
+            throw new RuntimeException("Error instantiating Ffmpeg extension", e);
+        }
+    }
+
+    @Override
+    protected void buildVideoRenderers(
+            Context context,
+            int extensionRendererMode,
+            MediaCodecSelector mediaCodecSelector,
+            boolean enableDecoderFallback,
+            Handler eventHandler,
+            VideoRendererEventListener eventListener,
+            long allowedVideoJoiningTimeMs,
+            ArrayList<Renderer> out) {
+
+        super.buildVideoRenderers(
+                context,
+                extensionRendererMode,
+                mediaCodecSelector,
+                enableDecoderFallback,
+                eventHandler,
+                eventListener,
+                allowedVideoJoiningTimeMs,
+                out
+        );
+
+        if (isTv || extensionRendererMode == EXTENSION_RENDERER_MODE_OFF) return;
+
+        int extensionRendererIndex = out.size();
+        if (extensionRendererMode == EXTENSION_RENDERER_MODE_PREFER) {
+            extensionRendererIndex--;
+        }
+
+        try {
+            FfmpegVideoRenderer renderer = new FfmpegVideoRenderer(
+                    allowedVideoJoiningTimeMs, eventHandler, eventListener, MAX_DROPPED_VIDEO_FRAME_COUNT_TO_NOTIFY
+            );
+            out.add(extensionRendererIndex++, renderer);
+            Log.i(TAG, "Loaded FfmpegVideoRenderer.");
+        } catch (Exception e) {
+            throw new RuntimeException("Error instantiating Ffmpeg extension", e);
+        }
+    }
+
+    public static final String TAG = "MyRenderersFactory";
 
 }

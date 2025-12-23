@@ -1,5 +1,5 @@
 package androidx.media3.exoplayer.text;
-// 1.4.1 TextRenderer https://raw.githubusercontent.com/androidx/media/refs/tags/1.4.1/libraries/exoplayer/src/main/java/androidx/media3/exoplayer/text/TextRenderer.java
+// 1.8.0 TextRenderer https://raw.githubusercontent.com/androidx/media/refs/tags/1.8.0/libraries/exoplayer/src/main/java/androidx/media3/exoplayer/text/TextRenderer.java
 
 import static androidx.media3.common.util.Assertions.checkNotNull;
 import static androidx.media3.common.util.Assertions.checkState;
@@ -28,18 +28,19 @@ import androidx.media3.exoplayer.source.MediaSource;
 import androidx.media3.exoplayer.source.SampleStream.ReadDataResult;
 import androidx.media3.extractor.text.CueDecoder;
 import androidx.media3.extractor.text.CuesWithTiming;
+import androidx.media3.extractor.text.Subtitle;
 import androidx.media3.extractor.text.SubtitleDecoder;
 import androidx.media3.extractor.text.SubtitleDecoderException;
 import androidx.media3.extractor.text.SubtitleInputBuffer;
 import androidx.media3.extractor.text.SubtitleOutputBuffer;
 import com.google.common.collect.ImmutableList;
+import java.io.IOException;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.nio.ByteBuffer;
 import java.util.Objects;
-
 
 /**
  * A {@link Renderer} for text.
@@ -103,7 +104,6 @@ public class NonFinalTextRenderer extends BaseRenderer implements Callback {
   private boolean inputStreamEnded;
   private boolean outputStreamEnded;
   @Nullable private Format streamFormat;
-  private long outputStreamOffsetUs;
   private long lastRendererPositionUs;
   private long finalStreamEndPositionUs;
   private boolean legacyDecodingEnabled;
@@ -143,7 +143,6 @@ public class NonFinalTextRenderer extends BaseRenderer implements Callback {
         new DecoderInputBuffer(DecoderInputBuffer.BUFFER_REPLACEMENT_MODE_NORMAL);
     formatHolder = new FormatHolder();
     finalStreamEndPositionUs = C.TIME_UNSET;
-    outputStreamOffsetUs = C.TIME_UNSET;
     lastRendererPositionUs = C.TIME_UNSET;
     legacyDecodingEnabled = false;
   }
@@ -190,7 +189,6 @@ public class NonFinalTextRenderer extends BaseRenderer implements Callback {
       long startPositionUs,
       long offsetUs,
       MediaSource.MediaPeriodId mediaPeriodId) {
-    outputStreamOffsetUs = offsetUs;
     streamFormat = formats[0];
     if (!isCuesWithTiming(streamFormat)) {
       assertLegacyDecodingEnabledIfRequired();
@@ -444,7 +442,6 @@ public class NonFinalTextRenderer extends BaseRenderer implements Callback {
     streamFormat = null;
     finalStreamEndPositionUs = C.TIME_UNSET;
     clearOutput();
-    outputStreamOffsetUs = C.TIME_UNSET;
     lastRendererPositionUs = C.TIME_UNSET;
     if (subtitleDecoder != null) {
       releaseSubtitleDecoder();
@@ -458,9 +455,40 @@ public class NonFinalTextRenderer extends BaseRenderer implements Callback {
 
   @Override
   public boolean isReady() {
-    // Don't block playback whilst subtitles are loading.
+    if (streamFormat == null) {
+      return true;
+    }
+
+    // We don't block playback whilst subtitles are loading.
     // Note: To change this behavior, it will be necessary to consider [Internal: b/12949941].
-    return true;
+    if (isCuesWithTiming(checkNotNull(streamFormat))) {
+      if (checkNotNull(cuesResolver).getNextCueChangeTimeUs(lastRendererPositionUs)
+          != C.TIME_END_OF_SOURCE) {
+        // We have a cue change loaded in the future.
+        return true;
+      } else {
+        // We don't have any future cues, so let's see if there's a loading error, and return
+        // ready=false if so.
+        try {
+          maybeThrowStreamError();
+          return true;
+        } catch (IOException e) {
+          return false;
+        }
+      }
+    } else {
+      return !outputStreamEnded
+          && (!inputStreamEnded
+              || hasEventsAfter(subtitle, lastRendererPositionUs)
+              || hasEventsAfter(nextSubtitle, lastRendererPositionUs)
+              || nextSubtitleInputBuffer == null);
+    }
+  }
+
+  private static boolean hasEventsAfter(@Nullable Subtitle subtitle, long timeUs) {
+    return subtitle != null
+        && subtitle.getEventTimeCount() > 0
+        && subtitle.getEventTime(subtitle.getEventTimeCount() - 1) > timeUs;
   }
 
   private void releaseSubtitleBuffers() {
@@ -558,9 +586,7 @@ public class NonFinalTextRenderer extends BaseRenderer implements Callback {
 
   private long getPresentationTimeUs(long positionUs) {
     checkState(positionUs != C.TIME_UNSET);
-    checkState(outputStreamOffsetUs != C.TIME_UNSET);
-
-    return positionUs - outputStreamOffsetUs;
+    return positionUs - getStreamOffsetUs();
   }
 
   private void assertLegacyDecodingEnabledIfRequired() {

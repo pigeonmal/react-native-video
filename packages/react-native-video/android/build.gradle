@@ -233,8 +233,9 @@ dependencies {
   // For Media Session
   implementation "androidx.media3:media3-session:$media3_version"
 
-  api project(':media3-ffmpeg-decoder')
   implementation project(':pigeonmal_react-native-nitro-fetch')
+  implementation "io.github.anilbeesetti:nextlib-media3ext:1.8.0-0.9.0" // To add media3 software decoders and extensions
+ // implementation "io.github.anilbeesetti:nextlib-mediainfo:1.8.0-0.9.0" // To get media info through ffmpeg
 
   if (ExoplayerDependencies.useExoplayerDash) {
     implementation "androidx.media3:media3-exoplayer-dash:$media3_version"

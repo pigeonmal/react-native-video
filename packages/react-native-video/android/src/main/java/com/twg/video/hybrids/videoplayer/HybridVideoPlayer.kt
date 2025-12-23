@@ -32,6 +32,7 @@ import com.twg.video.core.recivers.AudioBecomingNoisyReceiver
 import com.twg.video.core.services.playback.VideoPlaybackService
 import com.twg.video.core.services.playback.VideoPlaybackServiceConnection
 import com.twg.video.core.utils.TrackUtils
+import com.twg.video.core.utils.TvDetector
 import com.twg.video.core.utils.Threading.mainThreadProperty
 import com.twg.video.core.utils.Threading.runOnMainThread
 import com.twg.video.core.utils.Threading.runOnMainThreadSync
@@ -247,7 +248,8 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
 
     renderersFactory = MyRenderersFactory(
       context,
-      hybridSource.config.initialSubtitleDelay ?: 0L
+      hybridSource.config.initialSubtitleDelay ?: 0L,
+      TvDetector.isTv(context)
     ).apply {
       setExtensionRendererMode(MyRenderersFactory.EXTENSION_RENDERER_MODE_ON)
       forceEnableMediaCodecAsynchronousQueueing()
