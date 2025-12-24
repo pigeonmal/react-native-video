@@ -3,19 +3,12 @@ Date: 19/12/2025
 
 (Only android)
 Install :
-
-1. npm install @pigeonmal/react-native-video@beta @pigeonmal/react-native-nitro-fetch
-2. Add this to android/app/settings.gradle
-
-```
-include ':media3-ffmpeg-decoder'
-project(':media3-ffmpeg-decoder').projectDir = file('../node_modules/@pigeonmal/react-native-video/android/media3-ffmpeg-decoder')
-```
-
+ npm install @pigeonmal/react-native-video@beta @pigeonmal/react-native-nitro-fetch
 ---
 
 Features:
 
+- modern media3 1.8.0
 - ffmpeg fallback
 - videoconfig: externalAudios (array of AudioTrack)
 - videoconfig: forceType 'm3u8' or 'mpd' if url not have explicit extension
@@ -31,6 +24,7 @@ Features:
 - bugfix: external subtitles in hls/dash
 - bugfix: add langs to external subs
 - bugfix: onloadstart
+- bugfix: onError also catch playback exception 'player/playback-exception'
 - nullable video player source : new VideoPlayer(undefined);
 - TextTrack type replaced to PlayerTrack
 - removed onTrackChange event
