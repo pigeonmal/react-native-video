@@ -570,6 +570,9 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
       newPosition: Player.PositionInfo,
       reason: Int
     ) {
+      if (source == null) {
+        return
+      }
       if (reason == Player.DISCONTINUITY_REASON_SEEK || reason == Player.DISCONTINUITY_REASON_SEEK_ADJUSTMENT) {
         eventEmitter.onSeek(newPosition.positionMs / 1000.0)
       }

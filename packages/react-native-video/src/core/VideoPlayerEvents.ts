@@ -7,7 +7,7 @@ import {
   type JSVideoPlayerEvents,
   type AllPlayerEvents as PlayerEvents,
 } from './types/Events';
-import { VideoError } from './types/VideoError';
+import { VideoRuntimeError } from './types/VideoError';
 
 export class VideoPlayerEvents {
   protected eventEmitter: VideoPlayerEventEmitter;
@@ -51,7 +51,7 @@ export class VideoPlayerEvents {
         );
         const nativeCallback = (message: string) =>
           (callback as JSVideoPlayerEvents['onError'])(
-            new VideoError('player/playback-exception', message)
+            new VideoRuntimeError('player/playback-exception', message)
           );
 
         const removeNative =
