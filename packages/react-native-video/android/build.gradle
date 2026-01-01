@@ -187,6 +187,7 @@ android {
         java.srcDirs += ["src/stubs/hls"]
       }
       java.srcDirs += ["src/stubs/subs"]
+      java.srcDirs += ["src/stubs/cronet"]
     }
   }
 }
@@ -226,7 +227,6 @@ dependencies {
   // Common functionality for loading data
   implementation "androidx.media3:media3-datasource:$media3_version"
 
-  implementation "androidx.media3:media3-datasource-cronet:$media3_version"
   implementation "androidx.media3:media3-datasource-okhttp:$media3_version"
 
 

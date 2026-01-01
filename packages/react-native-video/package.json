@@ -94,7 +94,7 @@
     "react": "*",
     "react-native": "*",
     "react-native-nitro-modules": ">=0.27.2",
-    "@pigeonmal/react-native-nitro-fetch": ">=0.1.7"
+    "@pigeonmal/react-native-nitro-fetch": ">=0.2.0"
   },
   "release-it": {
     "npm": {

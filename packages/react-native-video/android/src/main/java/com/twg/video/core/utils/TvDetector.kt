@@ -4,11 +4,16 @@ import android.content.Context
 import android.content.pm.PackageManager
 
 object TvDetector {
-    @Volatile private var cached = false
-    
+
+    @Volatile
+    private var cachedIsTv: Boolean? = null
+
     fun isTv(context: Context): Boolean {
-        if (cached) return true
-        cached = context.packageManager.hasSystemFeature(PackageManager.FEATURE_LEANBACK)
-        return cached
+        return cachedIsTv ?: synchronized(this) {
+            cachedIsTv ?: context.applicationContext
+                .packageManager
+                .hasSystemFeature(PackageManager.FEATURE_LEANBACK)
+                .also { cachedIsTv = it }
+        }
     }
 }

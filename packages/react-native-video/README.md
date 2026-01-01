@@ -1,15 +1,24 @@
 Last commit sync : 605feed68a4be9ff8fcfa2f288d4f0570f044699
 Date: 19/12/2025
 
-(Only android)
-Install :
+Only android !!
+
+New install (custom cronet) :
  npm install @pigeonmal/react-native-video@beta @pigeonmal/react-native-nitro-fetch
+
+Add this in **settings.gradle**
+include ':cronet-release'
+project(':cronet-release').projectDir = file('../../node_modules/@pigeonmal/react-native-nitro-fetch/android/cronet-release')
+
+Old install (playstore cronet +0.1mb apk) :
+ npm i @pigeonmal/react-native-video@7.0.0-beta.17 @pigeonmal/react-native-nitro-fetch@0.1.9
 ---
 
 Features:
 
+- bring custom cronet v143.0.7499.146 with DOH cloudflare
 - modern media3 1.8.0
-- ffmpeg fallback
+- ffmpeg fallback (audios + videos only if device is not tv)
 - videoconfig: externalAudios (array of AudioTrack)
 - videoconfig: forceType 'm3u8' or 'mpd' if url not have explicit extension
 - videoconfig: forceOkhttp cronet by default but still okhttp work
