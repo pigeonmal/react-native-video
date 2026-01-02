@@ -1,23 +1,36 @@
 # @pigeonmal/react-native-video
 
-**Android-only** video player with **custom Cronet v143.0.7499.146** (DoH Cloudflare enabled), **Media3 1.8.0**, and **FFmpeg fallback** and more !
+**Android-only** video player with **custom Cronet v143.0.7499.146** (DoH Cloudflare enabled), **Media3 1.8.0**, and **FFmpeg fallback** and more!
 
 [![npm version](https://img.shields.io/npm/v/@pigeonmal/react-native-video/beta.svg)](https://www.npmjs.com/package/@pigeonmal/react-native-video)
-[![Last Commit](https://img.shields.io/badge/Last%20Commit-605feed68a4be9ff8fcfa2f288d4f0570f044699-brightgreen)](https://github.com/pigeonmal/react-native-video/commit/605feed68a4be9ff8fcfa2f288d4f0570f044699)
-[![Last Sync](https://img.shields.io/badge/Last%20Sync-19%2F12%2F2025-blue.svg)](https://github.com/pigeonmal/react-native-video)
+[![Last Commit](https://img.shields.io/badge/Last%20Commit-605feed68a4be9ff8fcfa2f288d4f0570f044699-brightgreen)](https://github.com/TheWidlarzGroup/react-native-video/commit/605feed68a4be9ff8fcfa2f288d4f0570f044699)
+[![Last Sync](https://img.shields.io/badge/Last%20Sync-19%2F12%2F2025-blue.svg)](https://github.com/TheWidlarzGroup/react-native-video)
+
+---
 
 ## 🚀 Quick Start
 
-### New Install (Custom Cronet - Recommended)
+### Option 1: New Install (Custom Cronet - Recommended)
+
+Install packages:
+```bash
 npm install @pigeonmal/react-native-video@beta @pigeonmal/react-native-nitro-fetch
+```
 
 Add to **`android/settings.gradle`**:
+```gradle
 def cronetReleasePath = new File(["node", "--print", "require.resolve('@pigeonmal/react-native-nitro-fetch/package.json')"].execute(null, rootDir).text.trim(), "../android/cronet-release")
 include ':cronet-release'
 project(':cronet-release').projectDir = file(cronetReleasePath)
+```
 
-### Old Install (Play Store Cronet +0.1MB APK)
+### Option 2: Old Install (Play Store Cronet +0.1MB APK)
+
+```bash
 npm i @pigeonmal/react-native-video@7.0.0-beta.17 @pigeonmal/react-native-nitro-fetch@0.1.9
+```
+
+---
 
 ## ✨ Key Features
 
@@ -29,17 +42,23 @@ npm i @pigeonmal/react-native-video@7.0.0-beta.17 @pigeonmal/react-native-nitro-
 | **VideoConfig** | `externalAudios`, `forceType`, `forceOkhttp`, `initialSubtitleDelay`, `startPosition` |
 | **Player Controls** | `subtitleDelay`, `getAllPlayerTracks()`, `selectTrackById/Index()`, `resetForReuse()` |
 | **Performance** | `progressEventInterval` customization |
-| **Bug Fixes** | External subs, HLS/DASH, onloadstart, playback exceptions |
+| **Bug Fixes** | External subs in HLS/DASH, onloadstart, playback exceptions report, languages in subs |
+
+---
 
 ## 📱 VideoConfig Options
 
+```javascript
 const videoConfig = {
-  externalAudios: [/* Array of ExternalAudio  */],
+  externalAudios: [/* Array of ExternalAudio */],
   forceType: ExternalForcedType.m3u8 || ExternalForcedType.mpd, // Force HLS/DASH if no extension
   forceOkhttp: true, // Use Cronet by default (OkHttp still works)
   initialSubtitleDelay: 500, // ms (positive/negative)
   startPosition: 10000, // ms
 };
+```
+
+---
 
 ## 🎮 Player API
 
@@ -54,7 +73,9 @@ const videoConfig = {
 | `player.resetForReuse()` | Stop + clear tracks for reuse |
 | `player.progressEventInterval` | Customize progress event frequency |
 
-**Note**: `player.selectTextTrack()` → `player.selectTrackById(TrackType.TEXT, trackId)`
+**Migration Note**: `player.selectTextTrack()` → `player.selectTrackById(TrackType.TEXT, trackId)`
+
+---
 
 ## 📊 Event Data
 
@@ -63,12 +84,16 @@ const videoConfig = {
 | `onLoadData` | `allPlayerTracks` included |
 | `onProgressData` | `seekableDuration` (video duration) |
 
+---
+
 ## 🐛 Fixed Issues
 
-- External subtitles in HLS/DASH streams
-- Added language tags to external subtitles
-- `onloadstart` event firing
-- `onError` now catches `'player/playback-exception'`
+- ✅ External subtitles in HLS/DASH streams
+- ✅ Added language tags to external subtitles
+- ✅ `onloadstart` event firing
+- ✅ `onError` now catches `'player/playback-exception'`
+
+---
 
 ## 🔄 Breaking Changes
 
@@ -76,4 +101,11 @@ const videoConfig = {
 - `onTrackChange` event **removed**
 
 ---
-*Last sync: Dec 19, 2025 [605feed68a4be9ff8fcfa2f288d4f0570f044699](https://github.com/pigeonmal/react-native-video/commit/605feed68a4be9ff8fcfa2f288d4f0570f044699)*
+
+## 📦 Related Projects
+
+- **[@pigeonmal/react-native-nitro-fetch](https://github.com/pigeonmal/react-native-nitro-fetch)** - Custom Cronet integration with DoH support
+
+---
+
+*Last sync: Dec 19, 2025 [605feed68a4be9ff8fcfa2f288d4f0570f044699](https://github.com/TheWidlarzGroup/react-native-video/commit/605feed68a4be9ff8fcfa2f288d4f0570f044699)*
