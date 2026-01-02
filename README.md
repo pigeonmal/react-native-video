@@ -1,41 +1,79 @@
-Last commit sync : 605feed68a4be9ff8fcfa2f288d4f0570f044699
-Date: 19/12/2025
+# @pigeonmal/react-native-video
 
-Only android !!
+**Android-only** video player with **custom Cronet v143.0.7499.146** (DoH Cloudflare enabled), **Media3 1.8.0**, and **FFmpeg fallback** and more !
 
-New install (custom cronet) :
- npm install @pigeonmal/react-native-video@beta @pigeonmal/react-native-nitro-fetch
+[![npm version](https://img.shields.io/npm/v/@pigeonmal/react-native-video/beta.svg)](https://www.npmjs.com/package/@pigeonmal/react-native-video)
+[![Last Commit](https://img.shields.io/badge/Last%20Commit-605feed68a4be9ff8fcfa2f288d4f0570f044699-brightgreen)](https://github.com/pigeonmal/react-native-video/commit/605feed68a4be9ff8fcfa2f288d4f0570f044699)
+[![Last Sync](https://img.shields.io/badge/Last%20Sync-19%2F12%2F2025-blue.svg)](https://github.com/pigeonmal/react-native-video)
 
-Add this in **settings.gradle**
+## 🚀 Quick Start
+
+### New Install (Custom Cronet - Recommended)
+npm install @pigeonmal/react-native-video@beta @pigeonmal/react-native-nitro-fetch
+
+Add to **`android/settings.gradle`**:
+def cronetReleasePath = new File(["node", "--print", "require.resolve('@pigeonmal/react-native-nitro-fetch/package.json')"].execute(null, rootDir).text.trim(), "../android/cronet-release")
 include ':cronet-release'
-project(':cronet-release').projectDir = file('../../node_modules/@pigeonmal/react-native-nitro-fetch/android/cronet-release')
+project(':cronet-release').projectDir = file(cronetReleasePath)
 
-Old install (playstore cronet +0.1mb apk) :
- npm i @pigeonmal/react-native-video@7.0.0-beta.17 @pigeonmal/react-native-nitro-fetch@0.1.9
+### Old Install (Play Store Cronet +0.1MB APK)
+npm i @pigeonmal/react-native-video@7.0.0-beta.17 @pigeonmal/react-native-nitro-fetch@0.1.9
+
+## ✨ Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Custom Cronet** | v143.0.7499.146 with **DoH Cloudflare** enabled |
+| **Modern Media3** | **1.8.0** ExoPlayer integration |
+| **FFmpeg Fallback** | Video (non-TV devices only) + Audio |
+| **VideoConfig** | `externalAudios`, `forceType`, `forceOkhttp`, `initialSubtitleDelay`, `startPosition` |
+| **Player Controls** | `subtitleDelay`, `getAllPlayerTracks()`, `selectTrackById/Index()`, `resetForReuse()` |
+| **Performance** | `progressEventInterval` customization |
+| **Bug Fixes** | External subs, HLS/DASH, onloadstart, playback exceptions |
+
+## 📱 VideoConfig Options
+
+const videoConfig = {
+  externalAudios: [/* Array of ExternalAudio  */],
+  forceType: ExternalForcedType.m3u8 || ExternalForcedType.mpd, // Force HLS/DASH if no extension
+  forceOkhttp: true, // Use Cronet by default (OkHttp still works)
+  initialSubtitleDelay: 500, // ms (positive/negative)
+  startPosition: 10000, // ms
+};
+
+## 🎮 Player API
+
+- `new VideoPlayer(undefined)` now supported (nullable source)
+
+| Method/Property | Description |
+|-----------------|-------------|
+| `player.subtitleDelay` | Subtitle delay adjustment (ms, positive/negative) |
+| `player.getAllPlayerTracks()` | Get all current tracks (audio/video/text) |
+| `player.selectTrackById(type, trackId)` | Select track by ID string |
+| `player.selectTrackByIndex(type, index)` | Select track by index number |
+| `player.resetForReuse()` | Stop + clear tracks for reuse |
+| `player.progressEventInterval` | Customize progress event frequency |
+
+**Note**: `player.selectTextTrack()` → `player.selectTrackById(TrackType.TEXT, trackId)`
+
+## 📊 Event Data
+
+| Event | New Data |
+|-------|----------|
+| `onLoadData` | `allPlayerTracks` included |
+| `onProgressData` | `seekableDuration` (video duration) |
+
+## 🐛 Fixed Issues
+
+- External subtitles in HLS/DASH streams
+- Added language tags to external subtitles
+- `onloadstart` event firing
+- `onError` now catches `'player/playback-exception'`
+
+## 🔄 Breaking Changes
+
+- `TextTrack` → `PlayerTrack`
+- `onTrackChange` event **removed**
+
 ---
-
-Features:
-
-- bring custom cronet v143.0.7499.146 with DOH cloudflare
-- modern media3 1.8.0
-- ffmpeg fallback (audios + videos only if device is not tv)
-- videoconfig: externalAudios (array of AudioTrack)
-- videoconfig: forceType 'm3u8' or 'mpd' if url not have explicit extension
-- videoconfig: forceOkhttp cronet by default but still okhttp work
-- videoconfig: initialSubtitleDelay (ms positive or negative)
-- videoconfig: startPosition (in ms)
-- player.subtitleDelay for subtitle delay adjust (ms positive or negative)
-- player.getAllPlayerTracks() for get all current tracks (audios, videos, texts)
-- player.selectTrackById and selectTrackByIndex for select video or audio or text
-- player.selectTextTrack removed use selectTrackById(TrackType.TEXT, trackId)
-- player.resetForReuse() stop playback and clear tracks
-- player.progressEventInterval change the progress event interval
-- bugfix: external subtitles in hls/dash
-- bugfix: add langs to external subs
-- bugfix: onloadstart
-- bugfix: onError also catch playback exception 'player/playback-exception'
-- nullable video player source : new VideoPlayer(undefined);
-- TextTrack type replaced to PlayerTrack
-- removed onTrackChange event
-- allPlayerTracks in onLoadData event directly
-- seekableDuration in onProgressData event (video duration)
+*Last sync: Dec 19, 2025 [605feed68a4be9ff8fcfa2f288d4f0570f044699](https://github.com/pigeonmal/react-native-video/commit/605feed68a4be9ff8fcfa2f288d4f0570f044699)*
