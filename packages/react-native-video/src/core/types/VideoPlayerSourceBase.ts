@@ -1,5 +1,5 @@
-import type { NativeVideoConfig } from './VideoConfig';
-import type { VideoInformation } from './VideoInformation';
+import type { NativeVideoConfig } from "./VideoConfig";
+import type { VideoInformation } from "./VideoInformation";
 
 export interface VideoPlayerSourceBase {
   /**

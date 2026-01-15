@@ -4,7 +4,7 @@ import {
   useRef,
   useState,
   type DependencyList,
-} from 'react';
+} from "react";
 
 /**
  * @internal
@@ -24,7 +24,7 @@ export const useManagedInstance = <T, D extends DependencyList[number]>(
     cleanup: (object: T) => void;
     dependenciesEqualFn?: (a: D, b?: D) => boolean;
   },
-  dependencies: D[]
+  dependencies: D[],
 ): T => {
   const { factory, cleanup, dependenciesEqualFn } = config;
 
@@ -47,7 +47,7 @@ export const useManagedInstance = <T, D extends DependencyList[number]>(
       dependencies.every(
         (value, index) =>
           dependenciesEqualFn?.(value, previousDependencies.current[index]) ??
-          value === previousDependencies.current[index]
+          value === previousDependencies.current[index],
       );
 
     if (!newObject || !dependenciesChanged || released) {

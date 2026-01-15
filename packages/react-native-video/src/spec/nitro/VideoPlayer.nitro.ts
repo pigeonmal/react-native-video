@@ -1,11 +1,11 @@
-import type { HybridObject } from 'react-native-nitro-modules';
-import type { VideoPlayerBase } from '../../core/types/VideoPlayerBase';
-import type { VideoPlayerEventEmitter } from './VideoPlayerEventEmitter.nitro';
-import type { VideoPlayerSource } from './VideoPlayerSource.nitro';
-import type { PlayerTrack } from '../../core/types/PlayerTrack';
+import type { HybridObject } from "react-native-nitro-modules";
+import type { VideoPlayerBase } from "../../core/types/VideoPlayerBase";
+import type { VideoPlayerEventEmitter } from "./VideoPlayerEventEmitter.nitro";
+import type { VideoPlayerSource } from "./VideoPlayerSource.nitro";
+import type { PlayerTrack } from "../../core/types/PlayerTrack";
 
 export interface VideoPlayer
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }>,
+  extends HybridObject<{ ios: "swift"; android: "kotlin" }>,
     VideoPlayerBase {
   // Override with (hybrid) VideoPlayerSource
   readonly source?: VideoPlayerSource;
@@ -33,6 +33,6 @@ export interface VideoPlayer
 }
 
 export interface VideoPlayerFactory
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+  extends HybridObject<{ ios: "swift"; android: "kotlin" }> {
   createPlayer(source?: VideoPlayerSource): VideoPlayer;
 }

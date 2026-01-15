@@ -12,7 +12,7 @@
   "scripts": {
     "build": "bun --filter=\"./packages/**\" run build",
     "specs": "bun --filter=\"./packages/**\" specs",
-    "lint": "bun --filter=\"**\" lint",
+    "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "typecheck": "bun --filter=\"**\" typecheck",
     "clean": "git clean -xdf",
     "react-native-video": "bun run --cwd packages/react-native-video",
@@ -33,7 +33,7 @@
     "@types/eslint__js": "^8.42.3",
     "@types/react": "^19.1.0",
     "commitlint": "^17.0.2",
-    "eslint": "^8.51.0",
+    "eslint": "^9.22.0",
     "eslint-plugin-prettier": "^5.0.1",
     "patch-package": "^8.0.0",
     "prettier": "^3.0.3",
@@ -41,7 +41,10 @@
     "react-native": "^0.81.5",
     "release-it": "^17.10.0",
     "typescript": "^5.2.2",
-    "typescript-eslint": "^8.13.0"
+    "typescript-eslint": "^8.13.0",
+    "@eslint/compat": "^1.2.7",
+    "@eslint/eslintrc": "^3.3.0",
+    "eslint-config-prettier": "^10.1.1"
   },
   "commitlint": {
     "extends": [

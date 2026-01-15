@@ -62,4 +62,4 @@ interface OnGetLicensePayload {
   spc: string;
 }
 
-type DRMType = 'widevine' | 'fairplay' | (string & {});
+type DRMType = "widevine" | "fairplay" | (string & {});

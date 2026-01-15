@@ -1,14 +1,14 @@
-import { useRef } from 'react';
-import type { VideoPlayerSource } from '../../spec/nitro/VideoPlayerSource.nitro';
-import type { NoAutocomplete } from '../types/Utils';
-import type { VideoConfig, VideoSource } from '../types/VideoConfig';
-import { isVideoPlayerSource } from '../utils/sourceFactory';
-import { VideoPlayer } from '../VideoPlayer';
-import { useManagedInstance } from './useManagedInstance';
+import { useRef } from "react";
+import type { VideoPlayerSource } from "../../spec/nitro/VideoPlayerSource.nitro";
+import type { NoAutocomplete } from "../types/Utils";
+import type { VideoConfig, VideoSource } from "../types/VideoConfig";
+import { isVideoPlayerSource } from "../utils/sourceFactory";
+import { VideoPlayer } from "../VideoPlayer";
+import { useManagedInstance } from "./useManagedInstance";
 
 const sourceEqual = <T extends VideoConfig | VideoSource | VideoPlayerSource>(
   a: T,
-  b?: T
+  b?: T,
 ) => {
   if (isVideoPlayerSource(a) && isVideoPlayerSource(b)) {
     return a.equals(b);
@@ -29,7 +29,7 @@ const sourceEqual = <T extends VideoConfig | VideoSource | VideoPlayerSource>(
  */
 export const useVideoPlayer = (
   source: VideoConfig | VideoSource | NoAutocomplete<VideoPlayerSource>,
-  setup?: (player: VideoPlayer) => void
+  setup?: (player: VideoPlayer) => void,
 ) => {
   const setupCalled = useRef(false);
 
@@ -57,8 +57,8 @@ export const useVideoPlayer = (
             }
           };
 
-          player.addEventListener('onLoadStart', callSetupOnce);
-          player.addEventListener('onStatusChange', callSetupOnce);
+          player.addEventListener("onLoadStart", callSetupOnce);
+          player.addEventListener("onStatusChange", callSetupOnce);
         } else {
           setup?.(player);
         }
@@ -71,6 +71,6 @@ export const useVideoPlayer = (
       },
       dependenciesEqualFn: sourceEqual,
     },
-    [JSON.stringify(source)]
+    [JSON.stringify(source)],
   );
 };

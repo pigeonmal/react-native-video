@@ -1,21 +1,21 @@
-import * as React from 'react';
-import type { ViewProps, ViewStyle } from 'react-native';
-import { NitroModules } from 'react-native-nitro-modules';
-import type { ListenerSubscription } from '../../spec/nitro/VideoPlayerEventEmitter.nitro';
+import * as React from "react";
+import type { ViewProps, ViewStyle } from "react-native";
+import { NitroModules } from "react-native-nitro-modules";
+import type { ListenerSubscription } from "../../spec/nitro/VideoPlayerEventEmitter.nitro";
 import type {
   SurfaceType,
   VideoViewViewManager,
   VideoViewViewManagerFactory,
-} from '../../spec/nitro/VideoViewViewManager.nitro';
-import { type VideoViewEvents } from '../types/Events';
-import type { ResizeMode } from '../types/ResizeMode';
+} from "../../spec/nitro/VideoViewViewManager.nitro";
+import { type VideoViewEvents } from "../types/Events";
+import type { ResizeMode } from "../types/ResizeMode";
 import {
   tryParseNativeVideoError,
   VideoComponentError,
   VideoError,
-} from '../types/VideoError';
-import type { VideoPlayer } from '../VideoPlayer';
-import { NativeVideoView } from './NativeVideoView';
+} from "../types/VideoError";
+import type { VideoPlayer } from "../VideoPlayer";
+import { NativeVideoView } from "./NativeVideoView";
 
 export interface VideoViewProps extends Partial<VideoViewEvents>, ViewProps {
   /**
@@ -94,23 +94,23 @@ export interface VideoViewRef {
    */
   addEventListener: <Event extends keyof VideoViewEvents>(
     event: Event,
-    callback: VideoViewEvents[Event]
+    callback: VideoViewEvents[Event],
   ) => ListenerSubscription;
 }
 
 let nitroIdCounter = 1;
 const VideoViewViewManagerFactory =
   NitroModules.createHybridObject<VideoViewViewManagerFactory>(
-    'VideoViewViewManagerFactory'
+    "VideoViewViewManagerFactory",
   );
 
 const wrapNativeViewManagerFunction = <T,>(
   manager: VideoViewViewManager | null,
-  func: (manager: VideoViewViewManager) => T
+  func: (manager: VideoViewViewManager) => T,
 ) => {
   try {
     if (manager === null) {
-      throw new VideoError('view/not-found', 'View manager not found');
+      throw new VideoError("view/not-found", "View manager not found");
     }
 
     return func(manager);
@@ -124,9 +124,9 @@ const updateProps = (manager: VideoViewViewManager, props: VideoViewProps) => {
   manager.controls = props.controls ?? false;
   manager.pictureInPicture = props.pictureInPicture ?? false;
   manager.autoEnterPictureInPicture = props.autoEnterPictureInPicture ?? false;
-  manager.resizeMode = props.resizeMode ?? 'none';
+  manager.resizeMode = props.resizeMode ?? "none";
   manager.keepScreenAwake = props.keepScreenAwake ?? true;
-  manager.surfaceType = props.surfaceType ?? 'surface';
+  manager.surfaceType = props.surfaceType ?? "surface";
 };
 
 /**
@@ -147,7 +147,7 @@ const VideoView = React.forwardRef<VideoViewRef, VideoViewProps>(
       controls = false,
       pictureInPicture = false,
       autoEnterPictureInPicture = false,
-      resizeMode = 'none',
+      resizeMode = "none",
       onPictureInPictureChange,
       onFullscreenChange,
       willEnterFullscreen,
@@ -156,7 +156,7 @@ const VideoView = React.forwardRef<VideoViewRef, VideoViewProps>(
       willExitPictureInPicture,
       ...props
     },
-    ref
+    ref,
   ) => {
     const nitroId = React.useMemo(() => nitroIdCounter++, []);
     const nitroViewManager = React.useRef<VideoViewViewManager | null>(null);
@@ -172,8 +172,8 @@ const VideoView = React.forwardRef<VideoViewRef, VideoViewProps>(
             // Should never happen
             if (!nitroViewManager.current) {
               throw new VideoError(
-                'view/not-found',
-                'Failed to create View Manager'
+                "view/not-found",
+                "Failed to create View Manager",
               );
             }
           }
@@ -184,7 +184,7 @@ const VideoView = React.forwardRef<VideoViewRef, VideoViewProps>(
 
           if (
             parsedError instanceof VideoComponentError &&
-            parsedError.code === 'view/not-found'
+            parsedError.code === "view/not-found"
           ) {
             // The view was not found, did view get unmounted?
             if (id === nitroId) {
@@ -197,7 +197,7 @@ const VideoView = React.forwardRef<VideoViewRef, VideoViewProps>(
 
               // We don't throw an error here, because it's not an actual error.
               console.warn(
-                '[ReactNativeVideo] VideoView was unmounted before native manager was able to find it. It can happen when the view is quickly mounted and unmounted.'
+                "[ReactNativeVideo] VideoView was unmounted before native manager was able to find it. It can happen when the view is quickly mounted and unmounted.",
               );
 
               return;
@@ -207,14 +207,14 @@ const VideoView = React.forwardRef<VideoViewRef, VideoViewProps>(
           throw parsedError;
         }
       },
-      [nitroId]
+      [nitroId],
     );
 
     const onNitroIdChange = React.useCallback(
       (event: { nativeEvent: { nitroId: number } }) => {
         setupViewManager(event.nativeEvent.nitroId);
       },
-      [setupViewManager]
+      [setupViewManager],
     );
 
     React.useImperativeHandle(
@@ -245,51 +245,51 @@ const VideoView = React.forwardRef<VideoViewRef, VideoViewProps>(
             nitroViewManager.current,
             (manager) => {
               return manager.canEnterPictureInPicture();
-            }
+            },
           );
         },
         addEventListener: <Event extends keyof VideoViewEvents>(
           event: Event,
-          callback: VideoViewEvents[Event]
+          callback: VideoViewEvents[Event],
         ): ListenerSubscription => {
           return wrapNativeViewManagerFunction(
             nitroViewManager.current,
             (manager) => {
               switch (event) {
-                case 'onPictureInPictureChange':
+                case "onPictureInPictureChange":
                   return manager.addOnPictureInPictureChangeListener(
-                    callback as VideoViewEvents['onPictureInPictureChange']
+                    callback as VideoViewEvents["onPictureInPictureChange"],
                   );
-                case 'onFullscreenChange':
+                case "onFullscreenChange":
                   return manager.addOnFullscreenChangeListener(
-                    callback as VideoViewEvents['onFullscreenChange']
+                    callback as VideoViewEvents["onFullscreenChange"],
                   );
-                case 'willEnterFullscreen':
+                case "willEnterFullscreen":
                   return manager.addWillEnterFullscreenListener(
-                    callback as VideoViewEvents['willEnterFullscreen']
+                    callback as VideoViewEvents["willEnterFullscreen"],
                   );
-                case 'willExitFullscreen':
+                case "willExitFullscreen":
                   return manager.addWillExitFullscreenListener(
-                    callback as VideoViewEvents['willExitFullscreen']
+                    callback as VideoViewEvents["willExitFullscreen"],
                   );
-                case 'willEnterPictureInPicture':
+                case "willEnterPictureInPicture":
                   return manager.addWillEnterPictureInPictureListener(
-                    callback as VideoViewEvents['willEnterPictureInPicture']
+                    callback as VideoViewEvents["willEnterPictureInPicture"],
                   );
-                case 'willExitPictureInPicture':
+                case "willExitPictureInPicture":
                   return manager.addWillExitPictureInPictureListener(
-                    callback as VideoViewEvents['willExitPictureInPicture']
+                    callback as VideoViewEvents["willExitPictureInPicture"],
                   );
                 default:
                   throw new Error(
-                    `[React Native Video] Unsupported event: ${event}`
+                    `[React Native Video] Unsupported event: ${event}`,
                   );
               }
-            }
+            },
           );
         },
       }),
-      []
+      [],
     );
 
     // Cleanup all listeners on unmount
@@ -313,43 +313,43 @@ const VideoView = React.forwardRef<VideoViewRef, VideoViewProps>(
       if (onPictureInPictureChange) {
         subscriptions.push(
           nitroViewManager.current.addOnPictureInPictureChangeListener(
-            onPictureInPictureChange
-          )
+            onPictureInPictureChange,
+          ),
         );
       }
       if (onFullscreenChange) {
         subscriptions.push(
           nitroViewManager.current.addOnFullscreenChangeListener(
-            onFullscreenChange
-          )
+            onFullscreenChange,
+          ),
         );
       }
       if (willEnterFullscreen) {
         subscriptions.push(
           nitroViewManager.current.addWillEnterFullscreenListener(
-            willEnterFullscreen
-          )
+            willEnterFullscreen,
+          ),
         );
       }
       if (willExitFullscreen) {
         subscriptions.push(
           nitroViewManager.current.addWillExitFullscreenListener(
-            willExitFullscreen
-          )
+            willExitFullscreen,
+          ),
         );
       }
       if (willEnterPictureInPicture) {
         subscriptions.push(
           nitroViewManager.current.addWillEnterPictureInPictureListener(
-            willEnterPictureInPicture
-          )
+            willEnterPictureInPicture,
+          ),
         );
       }
       if (willExitPictureInPicture) {
         subscriptions.push(
           nitroViewManager.current.addWillExitPictureInPictureListener(
-            willExitPictureInPicture
-          )
+            willExitPictureInPicture,
+          ),
         );
       }
 
@@ -398,9 +398,9 @@ const VideoView = React.forwardRef<VideoViewRef, VideoViewProps>(
         {...props}
       />
     );
-  }
+  },
 );
 
-VideoView.displayName = 'VideoView';
+VideoView.displayName = "VideoView";
 
 export default React.memo(VideoView);

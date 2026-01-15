@@ -1,27 +1,27 @@
 export type LibraryError =
-  | 'library/deallocated'
-  | 'library/application-context-not-found';
+  | "library/deallocated"
+  | "library/application-context-not-found";
 
 export type PlayerError =
-  | 'player/released'
-  | 'player/not-initialized'
-  | 'player/asset-not-initialized'
-  | 'player/invalid-source'
-  | 'player/playback-exception';
+  | "player/released"
+  | "player/not-initialized"
+  | "player/asset-not-initialized"
+  | "player/invalid-source"
+  | "player/playback-exception";
 
 export type SourceError =
-  | 'source/invalid-uri'
-  | 'source/missing-read-file-permission'
-  | 'source/file-does-not-exist'
-  | 'source/failed-to-initialize-asset'
-  | 'source/unsupported-content-type';
+  | "source/invalid-uri"
+  | "source/missing-read-file-permission"
+  | "source/file-does-not-exist"
+  | "source/failed-to-initialize-asset"
+  | "source/unsupported-content-type";
 
 export type VideoViewError =
-  | 'view/not-found'
-  | 'view/deallocated'
-  | 'view/picture-in-picture-not-supported';
+  | "view/not-found"
+  | "view/deallocated"
+  | "view/picture-in-picture-not-supported";
 
-export type UnknownError = 'unknown/unknown';
+export type UnknownError = "unknown/unknown";
 
 export type VideoErrorCode =
   | LibraryError
@@ -75,7 +75,7 @@ export class VideoRuntimeError extends VideoError<
  * Check if the message contains code and message
  */
 const getCodeAndMessage = (
-  message: string
+  message: string,
 ): { code: string; message: string } | null => {
   // (...){%@(match[1])::(match[2]);@%}(...)
   const regex = /\{%@([^:]+)::([^@]+)@%\}/;
@@ -84,8 +84,8 @@ const getCodeAndMessage = (
   if (
     match &&
     match.length === 3 &&
-    typeof match[1] === 'string' &&
-    typeof match[2] === 'string'
+    typeof match[1] === "string" &&
+    typeof match[2] === "string"
   ) {
     return {
       code: match[1],
@@ -101,7 +101,7 @@ const getCodeAndMessage = (
  * and replace it with the proper code and message
  */
 const maybeFixErrorStack = (error: object) => {
-  if ('stack' in error && typeof error.stack === 'string') {
+  if ("stack" in error && typeof error.stack === "string") {
     const stack = error.stack;
 
     // (...){%@(match[1])::(match[2]);@%}(...)
@@ -111,8 +111,8 @@ const maybeFixErrorStack = (error: object) => {
     if (
       match &&
       match.length === 3 &&
-      typeof match[1] === 'string' &&
-      typeof match[2] === 'string'
+      typeof match[1] === "string" &&
+      typeof match[2] === "string"
     ) {
       error.stack = error.stack.replace(regex, `[${match[1]}]: ${match[2]}`);
     }
@@ -120,20 +120,20 @@ const maybeFixErrorStack = (error: object) => {
 };
 
 const isVideoError = (
-  error: unknown
+  error: unknown,
 ): error is { code: string; message: string } =>
-  typeof error === 'object' &&
+  typeof error === "object" &&
   error != null &&
   // @ts-expect-error error is still unknown
-  typeof error.message === 'string' &&
+  typeof error.message === "string" &&
   // @ts-expect-error error is still unknown
   getCodeAndMessage(error.message) != null;
 
 const hasStack = (error: unknown): error is { stack: string } =>
-  typeof error === 'object' &&
+  typeof error === "object" &&
   error != null &&
-  'stack' in error &&
-  typeof error.stack === 'string';
+  "stack" in error &&
+  typeof error.stack === "string";
 
 /**
  * Tries to parse an error coming from native to a typed JS video error.
@@ -142,7 +142,7 @@ const hasStack = (error: unknown): error is { stack: string } =>
  * @method
  */
 export const tryParseNativeVideoError = <T>(
-  nativeError: T
+  nativeError: T,
 ): (VideoRuntimeError | VideoComponentError) | T => {
   if (isVideoError(nativeError)) {
     const result = getCodeAndMessage(nativeError.message);
@@ -155,11 +155,11 @@ export const tryParseNativeVideoError = <T>(
 
     maybeFixErrorStack(nativeError);
 
-    if (code.startsWith('view')) {
+    if (code.startsWith("view")) {
       return new VideoComponentError(
         code as VideoViewError,
         message,
-        hasStack(nativeError) ? nativeError.stack : undefined
+        hasStack(nativeError) ? nativeError.stack : undefined,
       );
     }
 
@@ -167,7 +167,7 @@ export const tryParseNativeVideoError = <T>(
       // @ts-expect-error the code is string, we narrow it down to TS union.
       code,
       message,
-      hasStack(nativeError) ? nativeError.stack : undefined
+      hasStack(nativeError) ? nativeError.stack : undefined,
     );
   }
 

@@ -1,1 +1,1 @@
-module.exports = require('./lib/commonjs/expo-plugins/withReactNativeVideo');
+module.exports = require("./lib/commonjs/expo-plugins/withReactNativeVideo");

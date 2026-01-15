@@ -1,1 +1,1 @@
-export type IgnoreSilentSwitchMode = 'auto' | 'ignore' | 'obey';
+export type IgnoreSilentSwitchMode = "auto" | "ignore" | "obey";

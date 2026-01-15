@@ -1,14 +1,14 @@
-import { withGradleProperties, type ConfigPlugin } from '@expo/config-plugins';
-import type { ConfigProps } from './@types';
+import { withGradleProperties, type ConfigPlugin } from "@expo/config-plugins";
+import type { ConfigProps } from "./@types";
 
 /**
  * Sets the Android extensions for ExoPlayer in `gradle.properties`.
  * You can choose which extensions to include in order to reduce the size of the app.
  */
 export const withAndroidExtensions: ConfigPlugin<
-  ConfigProps['androidExtensions']
+  ConfigProps["androidExtensions"]
 > = (c, androidExtensions) => {
-  const keys = ['RNVideo_useExoplayerDash', 'RNVideo_useExoplayerHls'];
+  const keys = ["RNVideo_useExoplayerDash", "RNVideo_useExoplayerHls"];
 
   if (!androidExtensions) {
     androidExtensions = {
@@ -19,7 +19,7 @@ export const withAndroidExtensions: ConfigPlugin<
 
   return withGradleProperties(c, (config) => {
     config.modResults = config.modResults.filter((item) => {
-      if (item.type === 'property' && keys.includes(item.key)) {
+      if (item.type === "property" && keys.includes(item.key)) {
         return false;
       }
       return true;
@@ -27,15 +27,15 @@ export const withAndroidExtensions: ConfigPlugin<
 
     for (const key of keys) {
       const valueKey = key.replace(
-        'RNVideo_',
-        ''
+        "RNVideo_",
+        "",
       ) as keyof typeof androidExtensions;
       const value = androidExtensions
         ? (androidExtensions[valueKey] ?? false)
         : false;
 
       config.modResults.push({
-        type: 'property',
+        type: "property",
         key,
         value: value.toString(),
       });

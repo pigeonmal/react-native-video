@@ -1,7 +1,7 @@
 export function getPackageInfo(): { name: string; version: string } {
   // src/expo-plugins/getPackageInfo.ts
   try {
-    const packageJson = require('../../package.json');
+    const packageJson = require("../../package.json");
 
     return {
       name: packageJson.name,
@@ -11,7 +11,7 @@ export function getPackageInfo(): { name: string; version: string } {
 
   // lib/commonjs/expo-plugins/getPackageInfo.js
   try {
-    const packageJson = require('../../../package.json');
+    const packageJson = require("../../../package.json");
 
     return {
       name: packageJson.name,
@@ -19,5 +19,5 @@ export function getPackageInfo(): { name: string; version: string } {
     };
   } catch (_) {}
 
-  throw new Error('Failed to get (react-native-video) package info');
+  throw new Error("Failed to get (react-native-video) package info");
 }

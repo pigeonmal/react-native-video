@@ -2,11 +2,11 @@ import {
   AndroidConfig,
   withAndroidManifest,
   type ConfigPlugin,
-} from '@expo/config-plugins';
+} from "@expo/config-plugins";
 
 export const withAndroidPictureInPicture: ConfigPlugin<boolean> = (
   config,
-  enableAndroidPictureInPicture
+  enableAndroidPictureInPicture,
 ) => {
   return withAndroidManifest(config, (_config) => {
     if (!enableAndroidPictureInPicture) {
@@ -14,17 +14,17 @@ export const withAndroidPictureInPicture: ConfigPlugin<boolean> = (
     }
 
     const mainActivity = AndroidConfig.Manifest.getMainActivity(
-      _config.modResults
+      _config.modResults,
     );
 
     if (!mainActivity) {
       console.warn(
-        'AndroidManifest.xml is missing an <activity android:name=".MainActivity" /> element - skipping adding Picture-In-Picture related config.'
+        'AndroidManifest.xml is missing an <activity android:name=".MainActivity" /> element - skipping adding Picture-In-Picture related config.',
       );
       return _config;
     }
 
-    mainActivity.$['android:supportsPictureInPicture'] = 'true';
+    mainActivity.$["android:supportsPictureInPicture"] = "true";
 
     return _config;
   });

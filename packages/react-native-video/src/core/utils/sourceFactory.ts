@@ -1,32 +1,32 @@
-import { Image, Platform } from 'react-native';
-import { NitroModules } from 'react-native-nitro-modules';
+import { Image, Platform } from "react-native";
+import { NitroModules } from "react-native-nitro-modules";
 import type {
   VideoPlayerSource,
   VideoPlayerSourceFactory,
-} from '../../spec/nitro/VideoPlayerSource.nitro';
+} from "../../spec/nitro/VideoPlayerSource.nitro";
 import type {
   ExternalSubtitle,
   NativeVideoConfig,
   SubtitleType,
   VideoConfig,
   VideoSource,
-} from '../types/VideoConfig';
+} from "../types/VideoConfig";
 import {
   tryParseNativeVideoError,
   VideoRuntimeError,
-} from '../types/VideoError';
+} from "../types/VideoError";
 
 const VideoPlayerSourceFactory =
   NitroModules.createHybridObject<VideoPlayerSourceFactory>(
-    'VideoPlayerSourceFactory'
+    "VideoPlayerSourceFactory",
   );
 
 export const isVideoPlayerSource = (obj: any): obj is VideoPlayerSource => {
   return (
     obj && // obj is not null
-    typeof obj === 'object' && // obj is an object
-    'name' in obj && // obj has a name property
-    obj.name === 'VideoPlayerSource' // obj.name is 'VideoPlayerSource'
+    typeof obj === "object" && // obj is an object
+    "name" in obj && // obj has a name property
+    obj.name === "VideoPlayerSource" // obj.name is 'VideoPlayerSource'
   );
 };
 
@@ -37,8 +37,8 @@ export const isVideoPlayerSource = (obj: any): obj is VideoPlayerSource => {
  * @returns The `VideoPlayerSource` instance
  */
 export const createSourceFromUri = (uri: string) => {
-  if (!uri || typeof uri !== 'string') {
-    throw new Error('RNV: Invalid source. The URI must be a non-empty string.');
+  if (!uri || typeof uri !== "string") {
+    throw new Error("RNV: Invalid source. The URI must be a non-empty string.");
   }
 
   try {
@@ -57,10 +57,10 @@ export const createSourceFromUri = (uri: string) => {
  * @returns The `VideoPlayerSource` instance
  */
 export const createSourceFromVideoConfig = (
-  config: VideoConfig & { uri: string }
+  config: VideoConfig & { uri: string },
 ) => {
-  if (!config.uri || typeof config.uri !== 'string') {
-    throw new VideoRuntimeError('source/invalid-uri', 'Invalid source URI');
+  if (!config.uri || typeof config.uri !== "string") {
+    throw new VideoRuntimeError("source/invalid-uri", "Invalid source URI");
   }
 
   if (config.externalSubtitles) {
@@ -70,8 +70,8 @@ export const createSourceFromVideoConfig = (
   // Ensure platform-based default for DRM type if DRM is provided without a type
   if (config.drm && config.drm.type === undefined) {
     const defaultDrmType = Platform.select({
-      android: 'widevine',
-      ios: 'fairplay',
+      android: "widevine",
+      ios: "fairplay",
       default: undefined,
     });
 
@@ -90,7 +90,7 @@ export const createSourceFromVideoConfig = (
 
   try {
     return VideoPlayerSourceFactory.fromVideoConfig(
-      config as NativeVideoConfig
+      config as NativeVideoConfig,
     );
   } catch (error) {
     throw tryParseNativeVideoError(error);
@@ -104,13 +104,13 @@ export const createSourceFromVideoConfig = (
  * @returns The parsed external subtitles
  */
 const parseExternalSubtitles = (
-  externalSubtitles: ExternalSubtitle[]
-): NativeVideoConfig['externalSubtitles'] => {
+  externalSubtitles: ExternalSubtitle[],
+): NativeVideoConfig["externalSubtitles"] => {
   return externalSubtitles.map((subtitle) => ({
     uri: subtitle.uri,
     label: subtitle.label,
-    type: (subtitle.type ?? 'auto') as SubtitleType,
-    language: subtitle.language ?? 'und',
+    type: (subtitle.type ?? "auto") as SubtitleType,
+    language: subtitle.language ?? "und",
   }));
 };
 
@@ -121,7 +121,7 @@ const parseExternalSubtitles = (
  * @returns The `VideoPlayerSource` instance
  */
 export const createSource = (
-  source: VideoSource | VideoConfig | VideoPlayerSource
+  source: VideoSource | VideoConfig | VideoPlayerSource,
 ): VideoPlayerSource => {
   // If source is a VideoPlayerSource, we can directly return it
   if (isVideoPlayerSource(source)) {
@@ -129,31 +129,31 @@ export const createSource = (
   }
 
   // If source is a string, we can directly create the player
-  if (typeof source === 'string') {
+  if (typeof source === "string") {
     return createSourceFromUri(source);
   }
 
   // If source is a number (asset), we need to resolve the asset source and create the player
-  if (typeof source === 'number') {
+  if (typeof source === "number") {
     const resolvedSource = Image.resolveAssetSource(source);
-    if (!resolvedSource?.uri || typeof resolvedSource.uri !== 'string') {
-      throw new VideoRuntimeError('source/invalid-uri', 'Invalid source URI');
+    if (!resolvedSource?.uri || typeof resolvedSource.uri !== "string") {
+      throw new VideoRuntimeError("source/invalid-uri", "Invalid source URI");
     }
     return createSourceFromUri(resolvedSource.uri);
   }
 
   // If source is an object (VideoConfig)
-  if (typeof source === 'object' && source !== null && 'uri' in source) {
-    if (typeof source.uri === 'string') {
+  if (typeof source === "object" && source !== null && "uri" in source) {
+    if (typeof source.uri === "string") {
       return createSourceFromVideoConfig(
-        source as VideoConfig & { uri: string }
+        source as VideoConfig & { uri: string },
       );
     }
 
-    if (typeof source.uri === 'number') {
+    if (typeof source.uri === "number") {
       const resolvedSource = Image.resolveAssetSource(source.uri);
-      if (!resolvedSource?.uri || typeof resolvedSource.uri !== 'string') {
-        throw new VideoRuntimeError('source/invalid-uri', 'Invalid source URI');
+      if (!resolvedSource?.uri || typeof resolvedSource.uri !== "string") {
+        throw new VideoRuntimeError("source/invalid-uri", "Invalid source URI");
       }
 
       const config = {
@@ -164,8 +164,8 @@ export const createSource = (
       return createSourceFromVideoConfig(config);
     }
 
-    throw new VideoRuntimeError('source/invalid-uri', 'Invalid source URI');
+    throw new VideoRuntimeError("source/invalid-uri", "Invalid source URI");
   }
 
-  throw new VideoRuntimeError('player/invalid-source', 'Invalid source');
+  throw new VideoRuntimeError("player/invalid-source", "Invalid source");
 };

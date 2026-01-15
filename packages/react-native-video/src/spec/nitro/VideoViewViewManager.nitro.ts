@@ -1,13 +1,13 @@
-import type { HybridObject } from 'react-native-nitro-modules';
-import type { ResizeMode } from '../../core/types/ResizeMode';
-import type { VideoPlayer } from './VideoPlayer.nitro';
-import type { ListenerSubscription } from './VideoPlayerEventEmitter.nitro';
+import type { HybridObject } from "react-native-nitro-modules";
+import type { ResizeMode } from "../../core/types/ResizeMode";
+import type { VideoPlayer } from "./VideoPlayer.nitro";
+import type { ListenerSubscription } from "./VideoPlayerEventEmitter.nitro";
 
-export type SurfaceType = 'surface' | 'texture';
+export type SurfaceType = "surface" | "texture";
 
 // @internal
 export interface VideoViewViewManager
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+  extends HybridObject<{ ios: "swift"; android: "kotlin" }> {
   player?: VideoPlayer;
   controls: boolean;
   pictureInPicture: boolean;
@@ -30,7 +30,7 @@ export interface VideoViewViewManager
    * @returns A subscription object that can be used to remove the listener.
    */
   addOnPictureInPictureChangeListener(
-    listener: (isInPictureInPicture: boolean) => void
+    listener: (isInPictureInPicture: boolean) => void,
   ): ListenerSubscription;
 
   /**
@@ -40,7 +40,7 @@ export interface VideoViewViewManager
    * @returns A subscription object that can be used to remove the listener.
    */
   addOnFullscreenChangeListener(
-    listener: (fullscreen: boolean) => void
+    listener: (fullscreen: boolean) => void,
   ): ListenerSubscription;
 
   /**
@@ -66,7 +66,7 @@ export interface VideoViewViewManager
    * @returns A subscription object that can be used to remove the listener.
    */
   addWillEnterPictureInPictureListener(
-    listener: () => void
+    listener: () => void,
   ): ListenerSubscription;
 
   /**
@@ -76,7 +76,7 @@ export interface VideoViewViewManager
    * @returns A subscription object that can be used to remove the listener.
    */
   addWillExitPictureInPictureListener(
-    listener: () => void
+    listener: () => void,
   ): ListenerSubscription;
 
   /**
@@ -87,6 +87,6 @@ export interface VideoViewViewManager
 
 // @internal
 export interface VideoViewViewManagerFactory
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+  extends HybridObject<{ ios: "swift"; android: "kotlin" }> {
   createViewManager(nitroId: number): VideoViewViewManager;
 }

@@ -1,5 +1,5 @@
-import type { BufferConfig } from './BufferConfig';
-import type { DrmParams } from './DrmParams';
+import type { BufferConfig } from "./BufferConfig";
+import type { DrmParams } from "./DrmParams";
 
 export type VideoSource = number | string;
 
@@ -95,7 +95,7 @@ export interface ExternalAudio {
  *
  * @note `auto` is not available when uri have no extension.
  */
-export type SubtitleType = 'vtt' | 'srt' | 'ssa' | 'ass' | 'auto';
+export type SubtitleType = "vtt" | "srt" | "ssa" | "ass" | "auto";
 
 interface ExternalSubtitleWithInferredType {
   /**
@@ -131,7 +131,7 @@ interface ExternalSubtitleWithCustomType {
   /**
    * The type of the subtitle.
    */
-  type: Omit<SubtitleType, 'auto'>;
+  type: Omit<SubtitleType, "auto">;
   /**
    * The language code for the subtitle (ISO 639-1 or ISO 639-2).
    * @example 'en', 'es', 'fr', 'de', 'zh-CN'
@@ -140,7 +140,7 @@ interface ExternalSubtitleWithCustomType {
   language?: string;
 }
 
-export type ExternalForcedType = 'm3u8' | 'mpd';
+export type ExternalForcedType = "m3u8" | "mpd";
 
 export type ExternalSubtitle =
   | ExternalSubtitleWithInferredType

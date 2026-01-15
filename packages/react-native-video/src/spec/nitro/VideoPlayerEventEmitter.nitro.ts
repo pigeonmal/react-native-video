@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules';
+import type { HybridObject } from "react-native-nitro-modules";
 import type {
   BandwidthData,
   onLoadData,
@@ -7,18 +7,18 @@ import type {
   onProgressData,
   onVolumeChangeData,
   TimedMetadata,
-} from '../../core/types/Events';
-import type { VideoPlayerStatus } from '../../core/types/VideoPlayerStatus';
+} from "../../core/types/Events";
+import type { VideoPlayerStatus } from "../../core/types/VideoPlayerStatus";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { VideoPlayerEvents } from '../../core/types/Events';
+import type { VideoPlayerEvents } from "../../core/types/Events";
 
 export interface ListenerSubscription {
   remove(): void;
 }
 
 export interface VideoPlayerEventEmitter
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+  extends HybridObject<{ ios: "swift"; android: "kotlin" }> {
   /**
    * Adds a listener for the `onAudioBecomingNoisy` event.
    * @see {@link VideoPlayerEvents.onAudioBecomingNoisy}
@@ -34,7 +34,7 @@ export interface VideoPlayerEventEmitter
    * @returns A subscription object that can be used to remove the listener.
    */
   addOnAudioFocusChangeListener(
-    listener: (hasAudioFocus: boolean) => void
+    listener: (hasAudioFocus: boolean) => void,
   ): ListenerSubscription;
 
   /**
@@ -44,7 +44,7 @@ export interface VideoPlayerEventEmitter
    * @returns A subscription object that can be used to remove the listener.
    */
   addOnBandwidthUpdateListener(
-    listener: (data: BandwidthData) => void
+    listener: (data: BandwidthData) => void,
   ): ListenerSubscription;
 
   /**
@@ -54,7 +54,7 @@ export interface VideoPlayerEventEmitter
    * @returns A subscription object that can be used to remove the listener.
    */
   addOnBufferListener(
-    listener: (buffering: boolean) => void
+    listener: (buffering: boolean) => void,
   ): ListenerSubscription;
 
   /**
@@ -64,7 +64,7 @@ export interface VideoPlayerEventEmitter
    * @returns A subscription object that can be used to remove the listener.
    */
   addOnControlsVisibleChangeListener(
-    listener: (visible: boolean) => void
+    listener: (visible: boolean) => void,
   ): ListenerSubscription;
 
   /**
@@ -82,7 +82,7 @@ export interface VideoPlayerEventEmitter
    * @returns A subscription object that can be used to remove the listener.
    */
   addOnExternalPlaybackChangeListener(
-    listener: (externalPlaybackActive: boolean) => void
+    listener: (externalPlaybackActive: boolean) => void,
   ): ListenerSubscription;
 
   /**
@@ -100,7 +100,7 @@ export interface VideoPlayerEventEmitter
    * @returns A subscription object that can be used to remove the listener.
    */
   addOnLoadStartListener(
-    listener: (data: onLoadStartData) => void
+    listener: (data: onLoadStartData) => void,
   ): ListenerSubscription;
 
   /**
@@ -110,7 +110,7 @@ export interface VideoPlayerEventEmitter
    * @returns A subscription object that can be used to remove the listener.
    */
   addOnPlaybackStateChangeListener(
-    listener: (data: onPlaybackStateChangeData) => void
+    listener: (data: onPlaybackStateChangeData) => void,
   ): ListenerSubscription;
 
   /**
@@ -120,7 +120,7 @@ export interface VideoPlayerEventEmitter
    * @returns A subscription object that can be used to remove the listener.
    */
   addOnPlaybackRateChangeListener(
-    listener: (rate: number) => void
+    listener: (rate: number) => void,
   ): ListenerSubscription;
 
   /**
@@ -130,7 +130,7 @@ export interface VideoPlayerEventEmitter
    * @returns A subscription object that can be used to remove the listener.
    */
   addOnProgressListener(
-    listener: (data: onProgressData) => void
+    listener: (data: onProgressData) => void,
   ): ListenerSubscription;
 
   /**
@@ -139,7 +139,7 @@ export interface VideoPlayerEventEmitter
    * @returns A subscription object that can be used to remove the listener.
    */
   addOnPlayerErrorListener(
-    listener: (message: string) => void
+    listener: (message: string) => void,
   ): ListenerSubscription;
 
   /**
@@ -165,7 +165,7 @@ export interface VideoPlayerEventEmitter
    * @returns A subscription object that can be used to remove the listener.
    */
   addOnStatusChangeListener(
-    listener: (status: VideoPlayerStatus) => void
+    listener: (status: VideoPlayerStatus) => void,
   ): ListenerSubscription;
 
   /**
@@ -175,7 +175,7 @@ export interface VideoPlayerEventEmitter
    * @returns A subscription object that can be used to remove the listener.
    */
   addOnTimedMetadataListener(
-    listener: (data: TimedMetadata) => void
+    listener: (data: TimedMetadata) => void,
   ): ListenerSubscription;
 
   /**
@@ -185,7 +185,7 @@ export interface VideoPlayerEventEmitter
    * @returns A subscription object that can be used to remove the listener.
    */
   addOnTextTrackDataChangedListener(
-    listener: (data: string[]) => void
+    listener: (data: string[]) => void,
   ): ListenerSubscription;
 
   /**
@@ -195,7 +195,7 @@ export interface VideoPlayerEventEmitter
    * @returns A subscription object that can be used to remove the listener.
    */
   addOnVolumeChangeListener(
-    listener: (data: onVolumeChangeData) => void
+    listener: (data: onVolumeChangeData) => void,
   ): ListenerSubscription;
 
   /**

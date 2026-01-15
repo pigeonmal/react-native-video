@@ -1,1 +1,1 @@
-export type MixAudioMode = 'mixWithOthers' | 'doNotMix' | 'duckOthers' | 'auto';
+export type MixAudioMode = "mixWithOthers" | "doNotMix" | "duckOthers" | "auto";

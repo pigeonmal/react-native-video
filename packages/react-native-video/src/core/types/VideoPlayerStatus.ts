@@ -5,4 +5,4 @@
  * @param readyToPlay - The player is ready to play (source is loaded).
  * @param error - The player has an error (source is not loaded).
  */
-export type VideoPlayerStatus = 'idle' | 'loading' | 'readyToPlay' | 'error';
+export type VideoPlayerStatus = "idle" | "loading" | "readyToPlay" | "error";

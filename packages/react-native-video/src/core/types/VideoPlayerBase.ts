@@ -1,11 +1,11 @@
-import type { IgnoreSilentSwitchMode } from './IgnoreSilentSwitchMode';
-import type { MixAudioMode } from './MixAudioMode';
-import type { VideoPlayerSourceBase } from './VideoPlayerSourceBase';
-import type { VideoPlayerStatus } from './VideoPlayerStatus';
+import type { IgnoreSilentSwitchMode } from "./IgnoreSilentSwitchMode";
+import type { MixAudioMode } from "./MixAudioMode";
+import type { VideoPlayerSourceBase } from "./VideoPlayerSourceBase";
+import type { VideoPlayerStatus } from "./VideoPlayerStatus";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { VideoConfig } from './VideoConfig';
-import type { AllPlayerTracks, PlayerTrack, TrackType } from './PlayerTrack';
+import type { VideoConfig } from "./VideoConfig";
+import type { AllPlayerTracks, PlayerTrack, TrackType } from "./PlayerTrack";
 
 export interface VideoPlayerBase {
   /**

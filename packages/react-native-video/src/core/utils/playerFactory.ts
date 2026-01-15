@@ -1,15 +1,15 @@
-import { NitroModules } from 'react-native-nitro-modules';
+import { NitroModules } from "react-native-nitro-modules";
 import type {
   VideoPlayer,
   VideoPlayerFactory,
-} from '../../spec/nitro/VideoPlayer.nitro';
-import type { VideoPlayerSource } from '../../spec/nitro/VideoPlayerSource.nitro';
-import type { VideoConfig, VideoSource } from '../types/VideoConfig';
-import { createSource, isVideoPlayerSource } from './sourceFactory';
-import { tryParseNativeVideoError } from '../types/VideoError';
+} from "../../spec/nitro/VideoPlayer.nitro";
+import type { VideoPlayerSource } from "../../spec/nitro/VideoPlayerSource.nitro";
+import type { VideoConfig, VideoSource } from "../types/VideoConfig";
+import { createSource, isVideoPlayerSource } from "./sourceFactory";
+import { tryParseNativeVideoError } from "../types/VideoError";
 
 const VideoPlayerFactory =
-  NitroModules.createHybridObject<VideoPlayerFactory>('VideoPlayerFactory');
+  NitroModules.createHybridObject<VideoPlayerFactory>("VideoPlayerFactory");
 
 /**
  * @internal
@@ -19,7 +19,7 @@ const VideoPlayerFactory =
  * @returns The Native VideoPlayer instance
  */
 export const createPlayer = (
-  source?: VideoSource | VideoConfig | VideoPlayerSource
+  source?: VideoSource | VideoConfig | VideoPlayerSource,
 ): VideoPlayer => {
   try {
     return VideoPlayerFactory.createPlayer(
@@ -27,7 +27,7 @@ export const createPlayer = (
         ? undefined
         : isVideoPlayerSource(source)
           ? source
-          : createSource(source)
+          : createSource(source),
     );
   } catch (error) {
     throw tryParseNativeVideoError(error);

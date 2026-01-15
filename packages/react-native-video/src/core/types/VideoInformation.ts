@@ -1,4 +1,4 @@
-import type { VideoOrientation } from './VideoOrientation';
+import type { VideoOrientation } from "./VideoOrientation";
 
 export interface VideoInformation {
   /**

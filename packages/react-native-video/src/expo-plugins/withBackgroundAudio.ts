@@ -1,4 +1,4 @@
-import { withInfoPlist, type ConfigPlugin } from '@expo/config-plugins';
+import { withInfoPlist, type ConfigPlugin } from "@expo/config-plugins";
 
 /**
  * Sets `UIBackgroundModes` in `Info.plist` to enable background audio on Apple platforms.
@@ -6,18 +6,18 @@ import { withInfoPlist, type ConfigPlugin } from '@expo/config-plugins';
  */
 export const withBackgroundAudio: ConfigPlugin<boolean> = (
   c,
-  enableBackgroundAudio
+  enableBackgroundAudio,
 ) => {
   return withInfoPlist(c, (config) => {
     const modes = config.modResults.UIBackgroundModes || [];
 
     if (enableBackgroundAudio) {
-      if (!modes.includes('audio')) {
-        config.modResults.UIBackgroundModes = [...modes, 'audio'];
+      if (!modes.includes("audio")) {
+        config.modResults.UIBackgroundModes = [...modes, "audio"];
       }
     } else {
       config.modResults.UIBackgroundModes = modes.filter(
-        (mode: string) => mode !== 'audio'
+        (mode: string) => mode !== "audio",
       );
     }
 

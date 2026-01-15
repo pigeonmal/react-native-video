@@ -6,4 +6,4 @@
  * - 'stretch': Scale the video to fill the entire view without maintaining aspect ratio
  * - 'none': Do not resize the video - it will fallback to default behavior (contain)
  */
-export type ResizeMode = 'contain' | 'cover' | 'stretch' | 'none';
+export type ResizeMode = "contain" | "cover" | "stretch" | "none";
