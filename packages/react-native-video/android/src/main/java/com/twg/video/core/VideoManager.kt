@@ -1,7 +1,13 @@
 package com.twg.video.core
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.annotation.OptIn
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.media3.common.util.UnstableApi
 import com.facebook.react.bridge.LifecycleEventListener
 import com.margelo.nitro.NitroModules
@@ -12,7 +18,7 @@ import com.twg.video.view.VideoView
 import java.lang.ref.WeakReference
 
 @OptIn(UnstableApi::class)
-object VideoManager : LifecycleEventListener {
+object VideoManager {
   private const val TAG = "VideoManager"
   
   // nitroId -> weak VideoView
@@ -30,9 +36,18 @@ object VideoManager : LifecycleEventListener {
   private var lastPlayedNitroId: Int? = null
 
   init {
-    NitroModules.applicationContext?.apply {
-      addLifecycleEventListener(this@VideoManager)
-    }
+      Handler(Looper.getMainLooper()).post {
+          ProcessLifecycleOwner.get().lifecycle.addObserver(object : LifecycleEventObserver {
+              override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                  when (event) {
+                      Lifecycle.Event.ON_RESUME -> onAppEnterForeground()
+                      Lifecycle.Event.ON_PAUSE -> onAppEnterBackground()
+                      Lifecycle.Event.ON_STOP -> forceExitAllPictureInPicture()
+                      else -> {}
+                  }
+              }
+          })
+      }
   }
 
   fun requestPictureInPicture(videoView: VideoView): Boolean {
@@ -228,18 +243,6 @@ object VideoManager : LifecycleEventListener {
         player.pause()
       }
     }
-  }
-
-  override fun onHostResume() {
-    onAppEnterForeground()
-  }
-
-  override fun onHostPause() {
-    onAppEnterBackground()
-  }
-
-  override fun onHostDestroy() {
-    forceExitAllPictureInPicture()
   }
 
   fun pauseOtherPlayers(pipVideoView: VideoView) {

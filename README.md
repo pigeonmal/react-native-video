@@ -13,11 +13,13 @@
 ### Option 1: New Install (Custom Cronet - Recommended)
 
 Install packages:
+
 ```bash
 npm install @pigeonmal/react-native-video@beta @pigeonmal/react-native-nitro-fetch
 ```
 
 Add to **`android/settings.gradle`**:
+
 ```gradle
 def cronetReleasePath = new File(["node", "--print", "require.resolve('@pigeonmal/react-native-nitro-fetch/package.json')"].execute(null, rootDir).text.trim(), "../android/cronet-release")
 include ':cronet-release'
@@ -34,15 +36,15 @@ npm i @pigeonmal/react-native-video@7.0.0-beta.17 @pigeonmal/react-native-nitro-
 
 ## ✨ Key Features
 
-| Feature | Description |
-|---------|-------------|
-| **Custom Cronet** | v143.0.7499.146 with **DoH Cloudflare** enabled |
-| **Modern Media3** | **1.8.0** ExoPlayer integration |
-| **FFmpeg Fallback** | Video (non-TV devices only) + Audio |
-| **VideoConfig** | `externalAudios`, `forceType`, `forceOkhttp`, `initialSubtitleDelay`, `startPosition` |
-| **Player Controls** | `subtitleDelay`, `getAllPlayerTracks()`, `selectTrackById/Index()`, `resetForReuse()` |
-| **Performance** | `progressEventInterval` customization |
-| **Bug Fixes** | External subs in HLS/DASH, onloadstart, playback exceptions report, languages in subs |
+| Feature             | Description                                                                                      |
+| ------------------- | ------------------------------------------------------------------------------------------------ |
+| **Custom Cronet**   | v143.0.7499.146 with **DoH Cloudflare** enabled                                                  |
+| **Modern Media3**   | **1.8.0** ExoPlayer integration                                                                  |
+| **FFmpeg Fallback** | Video (non-TV devices only) + Audio                                                              |
+| **VideoConfig**     | `externalAudios`, `forceType`, `forceOkhttp`, `initialSubtitleDelay`, `startPosition`            |
+| **Player Controls** | `subtitleDelay`, `getAllPlayerTracks()`, `selectTrackById/Index()`, `resetForReuse()`            |
+| **Performance**     | `progressEventInterval` customization                                                            |
+| **Bug Fixes**       | External subs in HLS/DASH, Lifecycle, onloadstart, playback exceptions report, languages in subs |
 
 ---
 
@@ -50,7 +52,9 @@ npm i @pigeonmal/react-native-video@7.0.0-beta.17 @pigeonmal/react-native-nitro-
 
 ```javascript
 const videoConfig = {
-  externalAudios: [/* Array of ExternalAudio */],
+  externalAudios: [
+    /* Array of ExternalAudio */
+  ],
   forceType: ExternalForcedType.m3u8 || ExternalForcedType.mpd, // Force HLS/DASH if no extension
   forceOkhttp: true, // Use Cronet by default (OkHttp still works)
   initialSubtitleDelay: 500, // ms (positive/negative)
@@ -64,14 +68,14 @@ const videoConfig = {
 
 - `new VideoPlayer(undefined)` now supported (nullable source)
 
-| Method/Property | Description |
-|-----------------|-------------|
-| `player.subtitleDelay` | Subtitle delay adjustment (ms, positive/negative) |
-| `player.getAllPlayerTracks()` | Get all current tracks (audio/video/text) |
-| `player.selectTrackById(type, trackId)` | Select track by ID string |
-| `player.selectTrackByIndex(type, index)` | Select track by index number |
-| `player.resetForReuse()` | Stop + clear tracks for reuse |
-| `player.progressEventInterval` | Customize progress event frequency |
+| Method/Property                          | Description                                       |
+| ---------------------------------------- | ------------------------------------------------- |
+| `player.subtitleDelay`                   | Subtitle delay adjustment (ms, positive/negative) |
+| `player.getAllPlayerTracks()`            | Get all current tracks (audio/video/text)         |
+| `player.selectTrackById(type, trackId)`  | Select track by ID string                         |
+| `player.selectTrackByIndex(type, index)` | Select track by index number                      |
+| `player.resetForReuse()`                 | Stop + clear tracks for reuse                     |
+| `player.progressEventInterval`           | Customize progress event frequency                |
 
 **Migration Note**: `player.selectTextTrack()` → `player.selectTrackById(TrackType.TEXT, trackId)`
 
@@ -79,9 +83,9 @@ const videoConfig = {
 
 ## 📊 Event Data
 
-| Event | New Data |
-|-------|----------|
-| `onLoadData` | `allPlayerTracks` included |
+| Event            | New Data                            |
+| ---------------- | ----------------------------------- |
+| `onLoadData`     | `allPlayerTracks` included          |
 | `onProgressData` | `seekableDuration` (video duration) |
 
 ---
@@ -89,6 +93,7 @@ const videoConfig = {
 ## 🐛 Fixed Issues
 
 - ✅ External subtitles in HLS/DASH streams
+- ✅ Fix lifecycle auto pause/play
 - ✅ Added language tags to external subtitles
 - ✅ `onloadstart` event firing
 - ✅ `onError` now catches `'player/playback-exception'`
@@ -108,4 +113,4 @@ const videoConfig = {
 
 ---
 
-*Last sync: Dec 19, 2025 [605feed68a4be9ff8fcfa2f288d4f0570f044699](https://github.com/TheWidlarzGroup/react-native-video/commit/605feed68a4be9ff8fcfa2f288d4f0570f044699)*
+_Last sync: Dec 19, 2025 [605feed68a4be9ff8fcfa2f288d4f0570f044699](https://github.com/TheWidlarzGroup/react-native-video/commit/605feed68a4be9ff8fcfa2f288d4f0570f044699)_
