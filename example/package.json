@@ -12,30 +12,29 @@
     "pods": "cd ios && pod install && cd .."
   },
   "dependencies": {
-    "@react-native-community/slider": "^4.5.6",
-    "react": "18.3.1",
-    "react-native": "^0.77.0",
-    "@pigeonmal/react-native-nitro-fetch": "^0.2.0",
+    "@pigeonmal/react-native-nitro-fetch": "^0.2.2",
+    "react": "19.1.0",
+    "react-native": "^0.81.5",
     "react-native-nitro-modules": "^0.31.10"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
     "@babel/runtime": "^7.25.0",
-    "@react-native-community/cli": "15.0.1",
-    "@react-native-community/cli-platform-android": "15.0.1",
-    "@react-native-community/cli-platform-ios": "15.0.1",
-    "@react-native/babel-preset": "^0.77.0",
-    "@react-native/eslint-config": "^0.77.0",
-    "@react-native/metro-config": "^0.77.0",
-    "@react-native/typescript-config": "^0.77.0",
-    "@types/react": "^18.2.44",
+    "@react-native-community/cli": "20.0.0",
+    "@react-native-community/cli-platform-android": "20.0.0",
+    "@react-native-community/cli-platform-ios": "20.0.0",
+    "@react-native/babel-preset": "0.81.5",
+    "@react-native/eslint-config": "0.81.5",
+    "@react-native/metro-config": "0.81.5",
+    "@react-native/typescript-config": "0.81.5",
+    "@types/react": "^19.1.0",
     "eslint": "^8.51.0",
     "prettier": "^3.0.3",
-    "typescript": "^5.2.2",
+    "typescript": "^5.8.3",
     "@pigeonmal/react-native-video": "*"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   }
 }

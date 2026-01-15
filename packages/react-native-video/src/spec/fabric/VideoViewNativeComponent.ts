@@ -1,4 +1,4 @@
-import type { ViewProps } from 'react-native';
+import type { HostComponent, ViewProps } from 'react-native';
 import type {
   DirectEventHandler,
   Int32,
@@ -14,4 +14,6 @@ export interface ViewViewNativeProps extends ViewProps {
   onNitroIdChange?: DirectEventHandler<OnNitroIdChangeEvent>;
 }
 
-export default codegenNativeComponent<ViewViewNativeProps>('RNCVideoView');
+export default codegenNativeComponent<ViewViewNativeProps>(
+  'RNCVideoView'
+) as HostComponent<ViewViewNativeProps>;
