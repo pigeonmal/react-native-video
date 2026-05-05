@@ -1,9 +1,14 @@
 import { Platform } from "react-native";
-import { NitroModules } from "react-native-nitro-modules";
+import { NitroModules, type Int64 } from "react-native-nitro-modules";
 import { type VideoPlayer as VideoPlayerImpl } from "../spec/nitro/VideoPlayer.nitro";
 import type { VideoPlayerSource } from "../spec/nitro/VideoPlayerSource.nitro";
 import type { IgnoreSilentSwitchMode } from "./types/IgnoreSilentSwitchMode";
 import type { MixAudioMode } from "./types/MixAudioMode";
+import type {
+  AllPlayerTracks,
+  PlayerTrack,
+  TrackType,
+} from "./types/PlayerTrack";
 import type { NoAutocomplete } from "./types/Utils";
 import type { VideoConfig, VideoSource } from "./types/VideoConfig";
 import {
@@ -15,11 +20,6 @@ import type { VideoPlayerStatus } from "./types/VideoPlayerStatus";
 import { createPlayer } from "./utils/playerFactory";
 import { createSource } from "./utils/sourceFactory";
 import { VideoPlayerEvents } from "./VideoPlayerEvents";
-import type {
-  AllPlayerTracks,
-  PlayerTrack,
-  TrackType,
-} from "./types/PlayerTrack";
 
 class VideoPlayer extends VideoPlayerEvents implements VideoPlayerBase {
   private _player: VideoPlayerImpl | undefined;
@@ -168,11 +168,11 @@ class VideoPlayer extends VideoPlayerEvents implements VideoPlayerBase {
     this.player.progressEventInterval = value;
   }
 
-  get subtitleDelay(): bigint {
+  get subtitleDelay(): Int64 {
     return this.player.subtitleDelay;
   }
 
-  set subtitleDelay(value: bigint) {
+  set subtitleDelay(value: Int64) {
     this.player.subtitleDelay = value;
   }
 

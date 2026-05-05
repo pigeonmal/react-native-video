@@ -1,3 +1,4 @@
+import type { Int64 } from "react-native-nitro-modules";
 import type { BufferConfig } from "./BufferConfig";
 import type { DrmParams } from "./DrmParams";
 
@@ -57,9 +58,9 @@ export type VideoConfig = {
   /** Add audios sources in addition of the video source */
   externalAudios?: ExternalAudio[];
   /** Positive or negative delay in millis */
-  initialSubtitleDelay?: bigint;
+  initialSubtitleDelay?: Int64;
   forceOkhttp?: boolean;
-  startPosition?: bigint;
+  startPosition?: Int64;
   /**
    * when the player is created, this flag will determine if native player should be initialized immediately.
    * If set to true, the player will be initialized as soon as player is created

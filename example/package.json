@@ -12,10 +12,10 @@
     "pods": "cd ios && pod install && cd .."
   },
   "dependencies": {
-    "@pigeonmal/react-native-nitro-fetch": "^0.2.2",
+    "@pigeonmal/react-native-nitro-fetch": "^0.2.5",
     "react": "19.1.0",
     "react-native": "^0.81.5",
-    "react-native-nitro-modules": "^0.31.10"
+    "react-native-nitro-modules": "^0.35.2"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

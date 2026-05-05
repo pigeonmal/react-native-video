@@ -3,8 +3,7 @@ import type { MixAudioMode } from "./MixAudioMode";
 import type { VideoPlayerSourceBase } from "./VideoPlayerSourceBase";
 import type { VideoPlayerStatus } from "./VideoPlayerStatus";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { VideoConfig } from "./VideoConfig";
+import type { Int64 } from "react-native-nitro-modules/lib/typescript/Int64";
 import type { AllPlayerTracks, PlayerTrack, TrackType } from "./PlayerTrack";
 
 export interface VideoPlayerBase {
@@ -51,7 +50,7 @@ export interface VideoPlayerBase {
   /**
    * Subtitle delay (milliseconds) negative or positive number
    */
-  subtitleDelay: bigint;
+  subtitleDelay: Int64;
 
   /**
    * Whether the player is muted.
@@ -119,9 +118,6 @@ export interface VideoPlayerBase {
    */
   readonly isPlaying: boolean;
 
-  /**
-   * Manually initialize the player. You don't need to call this method manually, unless you set `initializeOnCreation` to false in {@link VideoConfig}
-   */
   initialize(): Promise<void>;
 
   /**

@@ -31,7 +31,7 @@ export default defineConfig([
     {
         ignores: [
             'node_modules/',
-            'package/lib/',
+            '**/lib/',
             '**/metro.config.js',
             '**/react-native.config.js',
             '**/babel.config.js',

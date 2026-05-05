@@ -1,28 +1,42 @@
 {
   "android": {
     "androidCxxLibName": "ReactNativeVideo",
-    "androidNamespace": [
-      "video"
-    ]
+    "androidNamespace": ["video"]
   },
-  "cxxNamespace": [
-    "video"
-  ],
+  "cxxNamespace": ["video"],
   "ios": {
     "iosModuleName": "ReactNativeVideo"
   },
   "autolinking": {
     "VideoPlayerFactory": {
-      "swift": "HybridVideoPlayerFactory",
-      "kotlin": "HybridVideoPlayerFactory"
+      "ios": {
+        "language": "swift",
+        "implementationClassName": "HybridVideoPlayerFactory"
+      },
+      "android": {
+        "language": "kotlin",
+        "implementationClassName": "HybridVideoPlayerFactory"
+      }
     },
     "VideoPlayerSourceFactory": {
-      "swift": "HybridVideoPlayerSourceFactory",
-      "kotlin": "HybridVideoPlayerSourceFactory"
+      "ios": {
+        "language": "swift",
+        "implementationClassName": "HybridVideoPlayerSourceFactory"
+      },
+      "android": {
+        "language": "kotlin",
+        "implementationClassName": "HybridVideoPlayerSourceFactory"
+      }
     },
     "VideoViewViewManagerFactory": {
-      "swift": "HybridVideoViewViewManagerFactory",
-      "kotlin": "HybridVideoViewViewManagerFactory"
+      "ios": {
+        "language": "swift",
+        "implementationClassName": "HybridVideoViewViewManagerFactory"
+      },
+      "android": {
+        "language": "kotlin",
+        "implementationClassName": "HybridVideoViewViewManagerFactory"
+      }
     }
   }
 }
