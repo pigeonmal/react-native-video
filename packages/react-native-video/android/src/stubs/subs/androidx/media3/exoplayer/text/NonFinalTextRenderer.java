@@ -1,8 +1,8 @@
 package androidx.media3.exoplayer.text;
-// 1.8.0 TextRenderer https://raw.githubusercontent.com/androidx/media/refs/tags/1.8.0/libraries/exoplayer/src/main/java/androidx/media3/exoplayer/text/TextRenderer.java
+// 1.10.0 TextRenderer https://raw.githubusercontent.com/androidx/media/refs/tags/1.10.0/libraries/exoplayer/src/main/java/androidx/media3/exoplayer/text/TextRenderer.java
 
-import static androidx.media3.common.util.Assertions.checkNotNull;
-import static androidx.media3.common.util.Assertions.checkState;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static java.lang.annotation.ElementType.TYPE_USE;
 
 import android.os.Handler;
@@ -16,6 +16,7 @@ import androidx.media3.common.Format;
 import androidx.media3.common.MimeTypes;
 import androidx.media3.common.text.Cue;
 import androidx.media3.common.text.CueGroup;
+import androidx.media3.common.util.ExperimentalApi;
 import androidx.media3.common.util.Log;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.common.util.Util;
@@ -41,6 +42,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.nio.ByteBuffer;
 import java.util.Objects;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.RequiresNonNull;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 
 /**
  * A {@link Renderer} for text.
@@ -85,7 +89,7 @@ public class NonFinalTextRenderer extends BaseRenderer implements Callback {
   // Fields used when handling CuesWithTiming objects from application/x-media3-cues samples.
   private final CueDecoder cueDecoder;
   private final DecoderInputBuffer cueDecoderInputBuffer;
-  private CuesResolver cuesResolver;
+  private @MonotonicNonNull CuesResolver cuesResolver;
 
   // Fields used when handling Subtitle objects from legacy samples.
   private final SubtitleDecoderFactory subtitleDecoderFactory;
@@ -206,7 +210,8 @@ public class NonFinalTextRenderer extends BaseRenderer implements Callback {
   }
 
   @Override
-  protected void onPositionReset(long positionUs, boolean joining) {
+  protected void onPositionReset(
+    long positionUs, boolean joining, boolean sampleStreamIsResetToKeyFrame) {
     lastRendererPositionUs = positionUs;
     if (cuesResolver != null) {
       cuesResolver.clear();
@@ -268,10 +273,12 @@ public class NonFinalTextRenderer extends BaseRenderer implements Callback {
    *     be removed in a future release.
    */
   @Deprecated
+  @ExperimentalApi // TODO: b/289983417 - Remove legacy subtitle decoding paths.
   public void experimentalSetLegacyDecodingEnabled(boolean legacyDecodingEnabled) {
     this.legacyDecodingEnabled = legacyDecodingEnabled;
   }
 
+  @RequiresNonNull("this.cuesResolver")
   private void renderFromCuesWithTiming(long positionUs) {
     boolean outputNeedsUpdating = readAndDecodeCuesWithTiming(positionUs);
 
@@ -298,6 +305,7 @@ public class NonFinalTextRenderer extends BaseRenderer implements Callback {
    *
    * @return true if a {@link CuesWithTiming} was read that changes what should be on screen now.
    */
+  @RequiresNonNull("this.cuesResolver")
   private boolean readAndDecodeCuesWithTiming(long positionUs) {
     if (inputStreamEnded) {
       return false;
@@ -573,6 +581,8 @@ public class NonFinalTextRenderer extends BaseRenderer implements Callback {
     replaceSubtitleDecoder();
   }
 
+  @RequiresNonNull("subtitle")
+  @SideEffectFree
   private long getCurrentEventTimeUs(long positionUs) {
     int nextEventTimeIndex = subtitle.getNextEventTimeIndex(positionUs);
     if (nextEventTimeIndex == 0 || subtitle.getEventTimeCount() == 0) {
@@ -584,25 +594,26 @@ public class NonFinalTextRenderer extends BaseRenderer implements Callback {
         : subtitle.getEventTime(nextEventTimeIndex - 1);
   }
 
+  @SideEffectFree
   private long getPresentationTimeUs(long positionUs) {
     checkState(positionUs != C.TIME_UNSET);
     return positionUs - getStreamOffsetUs();
   }
 
+  @RequiresNonNull("streamFormat")
   private void assertLegacyDecodingEnabledIfRequired() {
     checkState(
         legacyDecodingEnabled
             || Objects.equals(streamFormat.sampleMimeType, MimeTypes.APPLICATION_CEA608)
             || Objects.equals(streamFormat.sampleMimeType, MimeTypes.APPLICATION_MP4CEA608)
             || Objects.equals(streamFormat.sampleMimeType, MimeTypes.APPLICATION_CEA708),
-        "Legacy decoding is disabled, can't handle "
-            + streamFormat.sampleMimeType
-            + " samples (expected "
-            + MimeTypes.APPLICATION_MEDIA3_CUES
-            + ").");
+        "Legacy decoding is disabled, can't handle %s samples (expected %s).",
+        streamFormat.sampleMimeType,
+        MimeTypes.APPLICATION_MEDIA3_CUES);
   }
 
   /** Returns whether {@link Format#sampleMimeType} is {@link MimeTypes#APPLICATION_MEDIA3_CUES}. */
+  @SideEffectFree
   private static boolean isCuesWithTiming(Format format) {
     return Objects.equals(format.sampleMimeType, MimeTypes.APPLICATION_MEDIA3_CUES);
   }
