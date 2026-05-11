@@ -77,6 +77,8 @@ namespace margelo::nitro::video {
       jni::local_ref<jni::JLong> initialSubtitleDelay = this->getFieldValue(fieldInitialSubtitleDelay);
       static const auto fieldForceOkhttp = clazz->getField<jni::JBoolean>("forceOkhttp");
       jni::local_ref<jni::JBoolean> forceOkhttp = this->getFieldValue(fieldForceOkhttp);
+      static const auto fieldUseIvInjectDataSource = clazz->getField<jni::JBoolean>("useIvInjectDataSource");
+      jni::local_ref<jni::JBoolean> useIvInjectDataSource = this->getFieldValue(fieldUseIvInjectDataSource);
       static const auto fieldStartPosition = clazz->getField<jni::JLong>("startPosition");
       jni::local_ref<jni::JLong> startPosition = this->getFieldValue(fieldStartPosition);
       static const auto fieldInitializeOnCreation = clazz->getField<jni::JBoolean>("initializeOnCreation");
@@ -118,6 +120,7 @@ namespace margelo::nitro::video {
         }(externalAudios)) : std::nullopt,
         initialSubtitleDelay != nullptr ? std::make_optional(initialSubtitleDelay->value()) : std::nullopt,
         forceOkhttp != nullptr ? std::make_optional(static_cast<bool>(forceOkhttp->value())) : std::nullopt,
+        useIvInjectDataSource != nullptr ? std::make_optional(static_cast<bool>(useIvInjectDataSource->value())) : std::nullopt,
         startPosition != nullptr ? std::make_optional(startPosition->value()) : std::nullopt,
         initializeOnCreation != nullptr ? std::make_optional(static_cast<bool>(initializeOnCreation->value())) : std::nullopt,
         forceType != nullptr ? std::make_optional(forceType->toCpp()) : std::nullopt
@@ -130,7 +133,7 @@ namespace margelo::nitro::video {
      */
     [[maybe_unused]]
     static jni::local_ref<JNativeVideoConfig::javaobject> fromCpp(const NativeVideoConfig& value) {
-      using JSignature = JNativeVideoConfig(jni::alias_ref<jni::JString>, jni::alias_ref<jni::JArrayClass<JNativeExternalSubtitle>>, jni::alias_ref<JNativeDrmParams>, jni::alias_ref<jni::JMap<jni::JString, jni::JString>>, jni::alias_ref<JBufferConfig>, jni::alias_ref<JCustomVideoMetadata>, jni::alias_ref<jni::JArrayClass<JExternalAudio>>, jni::alias_ref<jni::JLong>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<jni::JLong>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<JExternalForcedType>);
+      using JSignature = JNativeVideoConfig(jni::alias_ref<jni::JString>, jni::alias_ref<jni::JArrayClass<JNativeExternalSubtitle>>, jni::alias_ref<JNativeDrmParams>, jni::alias_ref<jni::JMap<jni::JString, jni::JString>>, jni::alias_ref<JBufferConfig>, jni::alias_ref<JCustomVideoMetadata>, jni::alias_ref<jni::JArrayClass<JExternalAudio>>, jni::alias_ref<jni::JLong>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<jni::JLong>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<JExternalForcedType>);
       static const auto clazz = javaClassStatic();
       static const auto create = clazz->getStaticMethod<JSignature>("fromCpp");
       return create(
@@ -168,6 +171,7 @@ namespace margelo::nitro::video {
         }(value.externalAudios.value()) : nullptr,
         value.initialSubtitleDelay.has_value() ? jni::JLong::valueOf(value.initialSubtitleDelay.value()) : nullptr,
         value.forceOkhttp.has_value() ? jni::JBoolean::valueOf(value.forceOkhttp.value()) : nullptr,
+        value.useIvInjectDataSource.has_value() ? jni::JBoolean::valueOf(value.useIvInjectDataSource.value()) : nullptr,
         value.startPosition.has_value() ? jni::JLong::valueOf(value.startPosition.value()) : nullptr,
         value.initializeOnCreation.has_value() ? jni::JBoolean::valueOf(value.initializeOnCreation.value()) : nullptr,
         value.forceType.has_value() ? JExternalForcedType::fromCpp(value.forceType.value()) : nullptr

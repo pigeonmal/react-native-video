@@ -3,6 +3,7 @@ package com.margelo.nitro.video
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.Metadata
 import androidx.media3.common.PlaybackException
@@ -261,6 +262,14 @@ class HybridVideoPlayer() : HybridVideoPlayerSpec(), AutoCloseable {
       .setLoadControl(loadControl)
       .setLooper(Looper.getMainLooper())
       .setRenderersFactory(renderersFactory!!)
+      .setAudioAttributes(
+        AudioAttributes.Builder()
+          .setUsage(C.USAGE_MEDIA)
+          .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
+          .build(),
+        true,
+      )
+      .setHandleAudioBecomingNoisy(true)
       .build()
 
     currentPlayerView?.get()?.player = player

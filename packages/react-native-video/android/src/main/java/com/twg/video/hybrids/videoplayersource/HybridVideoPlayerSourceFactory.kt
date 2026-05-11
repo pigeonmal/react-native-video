@@ -47,7 +47,8 @@ class HybridVideoPlayerSourceFactory: HybridVideoPlayerSourceFactorySpec() {
       forceOkhttp = null,
       startPosition = null,
       externalAudios = null,
-      initialSubtitleDelay = null
+      initialSubtitleDelay = null,
+      useIvInjectDataSource = null
     )
 
     return HybridVideoPlayerSource(config)

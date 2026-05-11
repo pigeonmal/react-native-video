@@ -47,6 +47,9 @@ data class NativeVideoConfig(
   val forceOkhttp: Boolean?,
   @DoNotStrip
   @Keep
+  val useIvInjectDataSource: Boolean?,
+  @DoNotStrip
+  @Keep
   val startPosition: Long?,
   @DoNotStrip
   @Keep
@@ -69,6 +72,7 @@ data class NativeVideoConfig(
       && Objects.deepEquals(this.externalAudios, other.externalAudios)
       && Objects.deepEquals(this.initialSubtitleDelay, other.initialSubtitleDelay)
       && Objects.deepEquals(this.forceOkhttp, other.forceOkhttp)
+      && Objects.deepEquals(this.useIvInjectDataSource, other.useIvInjectDataSource)
       && Objects.deepEquals(this.startPosition, other.startPosition)
       && Objects.deepEquals(this.initializeOnCreation, other.initializeOnCreation)
       && Objects.deepEquals(this.forceType, other.forceType)
@@ -85,6 +89,7 @@ data class NativeVideoConfig(
       externalAudios,
       initialSubtitleDelay,
       forceOkhttp,
+      useIvInjectDataSource,
       startPosition,
       initializeOnCreation,
       forceType
@@ -99,8 +104,8 @@ data class NativeVideoConfig(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(uri: String, externalSubtitles: Array<NativeExternalSubtitle>?, drm: NativeDrmParams?, headers: Map<String, String>?, bufferConfig: BufferConfig?, metadata: CustomVideoMetadata?, externalAudios: Array<ExternalAudio>?, initialSubtitleDelay: Long?, forceOkhttp: Boolean?, startPosition: Long?, initializeOnCreation: Boolean?, forceType: ExternalForcedType?): NativeVideoConfig {
-      return NativeVideoConfig(uri, externalSubtitles, drm, headers, bufferConfig, metadata, externalAudios, initialSubtitleDelay, forceOkhttp, startPosition, initializeOnCreation, forceType)
+    private fun fromCpp(uri: String, externalSubtitles: Array<NativeExternalSubtitle>?, drm: NativeDrmParams?, headers: Map<String, String>?, bufferConfig: BufferConfig?, metadata: CustomVideoMetadata?, externalAudios: Array<ExternalAudio>?, initialSubtitleDelay: Long?, forceOkhttp: Boolean?, useIvInjectDataSource: Boolean?, startPosition: Long?, initializeOnCreation: Boolean?, forceType: ExternalForcedType?): NativeVideoConfig {
+      return NativeVideoConfig(uri, externalSubtitles, drm, headers, bufferConfig, metadata, externalAudios, initialSubtitleDelay, forceOkhttp, useIvInjectDataSource, startPosition, initializeOnCreation, forceType)
     }
   }
 }

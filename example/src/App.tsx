@@ -3,10 +3,16 @@ import { StyleSheet, View } from "react-native";
 export default function App() {
   const player = useVideoPlayer(
     {
-      uri: "https://github.com/chthomos/video-media-samples/raw/refs/heads/master/big-buck-bunny-1080p-60fps-30sec.mp4",
+      uri: "",
+      forceType: "m3u8",
+      useIvInjectDataSource: true,
+      headers: {},
     },
     (pl) => {
       pl.play();
+      setTimeout(() => {
+        pl.seekTo(300);
+      }, 6000);
     },
   );
   return (
@@ -19,6 +25,11 @@ export default function App() {
 const styles = StyleSheet.create({
   page: {
     flex: 1,
+  },
+  pressable: {
+    width: 100,
+    height: 100,
+    backgroundColor: "red",
   },
   player: {
     width: "100%",

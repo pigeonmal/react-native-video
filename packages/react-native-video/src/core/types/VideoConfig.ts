@@ -60,6 +60,7 @@ export type VideoConfig = {
   /** Positive or negative delay in millis */
   initialSubtitleDelay?: Int64;
   forceOkhttp?: boolean;
+  useIvInjectDataSource?: boolean;
   startPosition?: Int64;
   /**
    * when the player is created, this flag will determine if native player should be initialized immediately.

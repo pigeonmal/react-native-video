@@ -3,6 +3,7 @@ package com.twg.video.core.custom;
 import androidx.annotation.Nullable;
 import androidx.media3.common.text.Cue;
 import androidx.media3.common.text.CueGroup;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.exoplayer.text.NonFinalTextRenderer;
 import androidx.media3.exoplayer.text.SubtitleDecoderFactory;
 import androidx.media3.exoplayer.text.TextOutput;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+@UnstableApi
 public class MyTextRenderer extends NonFinalTextRenderer implements TextSynchronizer, TextFilter {
   private long offsetPositionUs;
   private List<Pattern> regexFilters;

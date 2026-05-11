@@ -18,7 +18,7 @@ public extension NativeVideoConfig {
   /**
    * Create a new instance of `NativeVideoConfig`.
    */
-  init(uri: String, externalSubtitles: [NativeExternalSubtitle]?, drm: NativeDrmParams?, headers: Dictionary<String, String>?, bufferConfig: BufferConfig?, metadata: CustomVideoMetadata?, externalAudios: [ExternalAudio]?, initialSubtitleDelay: Int64?, forceOkhttp: Bool?, startPosition: Int64?, initializeOnCreation: Bool?, forceType: ExternalForcedType?) {
+  init(uri: String, externalSubtitles: [NativeExternalSubtitle]?, drm: NativeDrmParams?, headers: Dictionary<String, String>?, bufferConfig: BufferConfig?, metadata: CustomVideoMetadata?, externalAudios: [ExternalAudio]?, initialSubtitleDelay: Int64?, forceOkhttp: Bool?, useIvInjectDataSource: Bool?, startPosition: Int64?, initializeOnCreation: Bool?, forceType: ExternalForcedType?) {
     self.init(std.string(uri), { () -> bridge.std__optional_std__vector_NativeExternalSubtitle__ in
       if let __unwrappedValue = externalSubtitles {
         return bridge.create_std__optional_std__vector_NativeExternalSubtitle__({ () -> bridge.std__vector_NativeExternalSubtitle_ in
@@ -81,6 +81,12 @@ public extension NativeVideoConfig {
       }
     }(), { () -> bridge.std__optional_bool_ in
       if let __unwrappedValue = forceOkhttp {
+        return bridge.create_std__optional_bool_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_bool_ in
+      if let __unwrappedValue = useIvInjectDataSource {
         return bridge.create_std__optional_bool_(__unwrappedValue)
       } else {
         return .init()
@@ -180,6 +186,18 @@ public extension NativeVideoConfig {
     return { () -> Bool? in
       if bridge.has_value_std__optional_bool_(self.__forceOkhttp) {
         let __unwrapped = bridge.get_std__optional_bool_(self.__forceOkhttp)
+        return __unwrapped
+      } else {
+        return nil
+      }
+    }()
+  }
+  
+  @inline(__always)
+  var useIvInjectDataSource: Bool? {
+    return { () -> Bool? in
+      if bridge.has_value_std__optional_bool_(self.__useIvInjectDataSource) {
+        let __unwrapped = bridge.get_std__optional_bool_(self.__useIvInjectDataSource)
         return __unwrapped
       } else {
         return nil

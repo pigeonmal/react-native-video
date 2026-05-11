@@ -2,52 +2,59 @@ package com.twg.video.core.player
 
 import android.content.Context
 import androidx.annotation.OptIn
-import androidx.media3.common.util.Util
-import androidx.media3.exoplayer.source.MediaSource
-import androidx.core.net.toUri
 import androidx.media3.common.C
-import androidx.media3.datasource.DataSource
 import androidx.media3.common.MediaItem
-import androidx.media3.common.util.UnstableApi
 import androidx.media3.common.MediaMetadata
-import androidx.media3.exoplayer.drm.DrmSessionManager
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.DataSource
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.source.FilteringMediaSource
+import androidx.media3.exoplayer.source.MediaSource
+import androidx.media3.exoplayer.source.MergingMediaSource
+import com.margelo.nitro.video.ExternalAudio
 import com.margelo.nitro.video.HybridVideoPlayerSource
 import com.twg.video.core.LibraryError
 import com.twg.video.core.SourceError
+import com.twg.video.core.custom.IvInjectingDataSource
 import com.twg.video.core.plugins.PluginsRegistry
-import com.margelo.nitro.video.ExternalAudio
-import androidx.media3.exoplayer.source.MergingMediaSource
 
-@OptIn(UnstableApi::class)
+@UnstableApi
 @Throws(SourceError::class)
-fun buildMediaSource(context: Context, source: HybridVideoPlayerSource, mediaItem: MediaItem): MediaSource {
+fun buildMediaSource(
+    context: Context,
+    source: HybridVideoPlayerSource,
+    mediaItem: MediaItem
+): MediaSource {
 
-  val dataSourceFactory = PluginsRegistry.shared.overrideMediaDataSourceFactory(
-    source,
-    buildBaseDataSourceFactory(context, source)
-  )
+    val dataSourceFactory = PluginsRegistry.shared.overrideMediaDataSourceFactory(
+        source,
+        buildBaseDataSourceFactory(context, source)
+    )
 
-  val mediaSourceFactory = DefaultMediaSourceFactory(dataSourceFactory)
+    val mediaSourceFactory = DefaultMediaSourceFactory(
+        if (source.config.useIvInjectDataSource == true) IvInjectingDataSource.Factory(
+            dataSourceFactory
+        ) else dataSourceFactory
+    )
 
-  source.config.drm?.let {
-    val drmSessionManager = source.drmSessionManager ?: throw LibraryError.DRMPluginNotFound
-    mediaSourceFactory.setDrmSessionManagerProvider { drmSessionManager }
-  }
+    source.config.drm?.let {
+        val drmSessionManager = source.drmSessionManager ?: throw LibraryError.DRMPluginNotFound
+        mediaSourceFactory.setDrmSessionManagerProvider { drmSessionManager }
+    }
 
-  val mediasource = PluginsRegistry.shared.overrideMediaSourceFactory(
-    source,
-    mediaSourceFactory,
-    dataSourceFactory
-  ).createMediaSource(mediaItem)
+    val mediasource = PluginsRegistry.shared.overrideMediaSourceFactory(
+        source,
+        mediaSourceFactory,
+        dataSourceFactory
+    ).createMediaSource(mediaItem)
 
-  return source.config.externalAudios
-    ?.takeIf { it.isNotEmpty() }
-    ?.let { configAudioSources(mediasource, it, dataSourceFactory) }
-    ?: mediasource
+    return source.config.externalAudios
+        ?.takeIf { it.isNotEmpty() }
+        ?.let { configAudioSources(mediasource, it, dataSourceFactory) }
+        ?: mediasource
 }
 
+@OptIn(UnstableApi::class)
 fun configAudioSources(
     mediaSource: MediaSource,
     externalAudios: Array<ExternalAudio>,
@@ -67,7 +74,7 @@ fun configAudioSources(
                 )
                 .build()
 
-          // TODO: HEADERS
+            // TODO: HEADERS
             val audioSource = FilteringMediaSource(
                 DefaultMediaSourceFactory(dataSourceFactory).createMediaSource(audioItem),
                 C.TRACK_TYPE_AUDIO

@@ -1,5 +1,8 @@
 package com.twg.video.core.custom;
 
+import androidx.annotation.OptIn;
+import androidx.media3.common.util.ExperimentalApi;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.exoplayer.DefaultRenderersFactory;
 import androidx.media3.exoplayer.Renderer;
 import androidx.media3.exoplayer.text.TextOutput;
@@ -16,6 +19,7 @@ import io.github.anilbeesetti.nextlib.media3ext.ffdecoder.FfmpegVideoRenderer;
 
 import java.util.ArrayList;
 
+@UnstableApi
 public class MyRenderersFactory extends DefaultRenderersFactory implements TextSynchronizer, TextFilter {
 
  private MyTextRenderer textRenderer;
@@ -29,7 +33,8 @@ public class MyRenderersFactory extends DefaultRenderersFactory implements TextS
     defaultOffsetUs = defaultDelaySub;
   }
 
-   protected void buildTextRenderers(
+    @OptIn(markerClass = ExperimentalApi.class)
+    protected void buildTextRenderers(
     Context context,
     TextOutput output,
     Looper outputLooper,
