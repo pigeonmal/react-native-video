@@ -34,7 +34,7 @@
       "name": "react-native-video-example",
       "version": "7.0.0-beta.20",
       "dependencies": {
-        "@pigeonmal/react-native-nitro-fetch": "^0.2.5",
+        "@pigeonmal/react-native-nitro-fetch": "^0.2.7",
         "react": "19.1.0",
         "react-native": "^0.81.5",
         "react-native-nitro-modules": "^0.35.2",
@@ -59,7 +59,7 @@
     },
     "packages/react-native-video": {
       "name": "@pigeonmal/react-native-video",
-      "version": "7.0.0-beta.23",
+      "version": "7.0.0-beta.24",
       "devDependencies": {
         "@expo/config-plugins": "^10.0.2",
         "@react-native/eslint-config": "^0.81.5",
@@ -501,7 +501,7 @@
 
     "@octokit/types": ["@octokit/types@13.10.0", "", { "dependencies": { "@octokit/openapi-types": "^24.2.0" } }, "sha512-ifLaO34EbbPj0Xgro4G5lP5asESjwHracYJvVaPIyXMuiuXLlhic3S47cBdTb+jfODkTE5YtGCLt3Ay3+J97sA=="],
 
-    "@pigeonmal/react-native-nitro-fetch": ["@pigeonmal/react-native-nitro-fetch@0.2.5", "https://npm.pkg.github.com/download/@pigeonmal/react-native-nitro-fetch/0.2.5/b93d5d2752dba29252de6aff35585e7eba54b55b", { "peerDependencies": { "react": "*", "react-native": "*", "react-native-nitro-modules": ">=0.35.0", "react-native-worklets": ">=0.6.0" } }, "sha512-1nb+b0hlQs9Zex6odVIo6ECLsQJVqnIPngKR4AO/LqLtaIh/2EcDWBB4BoTgzOwMClFUlxtzCfdW2AjsB2xd/w=="],
+    "@pigeonmal/react-native-nitro-fetch": ["@pigeonmal/react-native-nitro-fetch@0.2.7", "https://npm.pkg.github.com/download/@pigeonmal/react-native-nitro-fetch/0.2.7/249de7b84469a861dea9dbd58642234596284889", { "peerDependencies": { "react": "*", "react-native": "*", "react-native-nitro-modules": ">=0.35.0", "react-native-worklets": ">=0.8.0" } }, "sha512-A54oDZPMJectSzLJ/PBj5cwONW3Jpv2w7JRAWvixs7kmwwRt2dgVrTK4hHa7yBmtwytzO9tMJqlAAHG+BchcKw=="],
 
     "@pigeonmal/react-native-video": ["@pigeonmal/react-native-video@workspace:packages/react-native-video"],
 
