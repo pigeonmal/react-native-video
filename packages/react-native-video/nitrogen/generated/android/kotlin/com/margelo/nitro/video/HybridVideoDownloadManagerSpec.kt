@@ -31,7 +31,7 @@ abstract class HybridVideoDownloadManagerSpec: HybridObject() {
   // Methods
   @DoNotStrip
   @Keep
-  abstract fun enqueueDownload(config: NativeVideoConfig, options: VideoDownloadOptions): Promise<VideoDownloadTask>
+  abstract fun enqueueDownload(config: NativeVideoConfig, options: VideoDownloadOptions): Promise<String>
   
   @DoNotStrip
   @Keep

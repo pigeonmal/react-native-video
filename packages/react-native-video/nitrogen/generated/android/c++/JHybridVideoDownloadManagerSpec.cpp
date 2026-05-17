@@ -36,15 +36,15 @@ namespace margelo::nitro::video { enum class ExternalForcedType; }
 // Forward declaration of `VideoDownloadOptions` to properly resolve imports.
 namespace margelo::nitro::video { struct VideoDownloadOptions; }
 
-#include "VideoDownloadTask.hpp"
+#include <string>
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/JPromise.hpp>
+#include <NitroModules/JUnit.hpp>
+#include "VideoDownloadTask.hpp"
 #include "JVideoDownloadTask.hpp"
-#include <string>
 #include "VideoDownloadState.hpp"
 #include "JVideoDownloadState.hpp"
 #include <optional>
-#include <NitroModules/JUnit.hpp>
 #include <vector>
 #include "NativeVideoConfig.hpp"
 #include "JNativeVideoConfig.hpp"
@@ -108,14 +108,14 @@ namespace margelo::nitro::video {
   
 
   // Methods
-  std::shared_ptr<Promise<VideoDownloadTask>> JHybridVideoDownloadManagerSpec::enqueueDownload(const NativeVideoConfig& config, const VideoDownloadOptions& options) {
+  std::shared_ptr<Promise<std::string>> JHybridVideoDownloadManagerSpec::enqueueDownload(const NativeVideoConfig& config, const VideoDownloadOptions& options) {
     static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JPromise::javaobject>(jni::alias_ref<JNativeVideoConfig> /* config */, jni::alias_ref<JVideoDownloadOptions> /* options */)>("enqueueDownload");
     auto __result = method(_javaPart, JNativeVideoConfig::fromCpp(config), JVideoDownloadOptions::fromCpp(options));
     return [&]() {
-      auto __promise = Promise<VideoDownloadTask>::create();
+      auto __promise = Promise<std::string>::create();
       __result->cthis()->addOnResolvedListener([=](const jni::alias_ref<jni::JObject>& __boxedResult) {
-        auto __result = jni::static_ref_cast<JVideoDownloadTask>(__boxedResult);
-        __promise->resolve(__result->toCpp());
+        auto __result = jni::static_ref_cast<jni::JString>(__boxedResult);
+        __promise->resolve(__result->toStdString());
       });
       __result->cthis()->addOnRejectedListener([=](const jni::alias_ref<jni::JThrowable>& __throwable) {
         jni::JniException __jniError(__throwable);

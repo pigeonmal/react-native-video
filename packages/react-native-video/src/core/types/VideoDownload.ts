@@ -34,7 +34,7 @@ export interface VideoDownloadManagerBase {
   enqueueDownload(
     config: NativeVideoConfig,
     options: VideoDownloadOptions,
-  ): Promise<VideoDownloadTask>;
+  ): Promise<string>;
   pauseDownload(downloadId: string): Promise<void>;
   resumeDownload(downloadId: string): Promise<void>;
   removeDownload(downloadId: string): Promise<void>;

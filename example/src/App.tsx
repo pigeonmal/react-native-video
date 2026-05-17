@@ -4,8 +4,8 @@ import {
   videoDownloadManager,
   VideoView,
   type VideoConfig,
-} from '@pigeonmal/react-native-video';
-import { useEffect, useMemo, useState } from 'react';
+} from "@pigeonmal/react-native-video";
+import { useEffect, useMemo, useState } from "react";
 import {
   Alert,
   Platform,
@@ -15,37 +15,37 @@ import {
   StyleSheet,
   Text,
   View,
-} from 'react-native';
+} from "react-native";
 
 const HLS_SOURCE: VideoConfig & { uri: string } = {
-  uri: 'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8',
-  forceType: 'm3u8',
+  uri: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8",
+  forceType: "m3u8",
   externalSubtitles: [
     {
-      uri: 'https://raw.githubusercontent.com/andreyvit/subtitle-tool/master/sample.srt',
-      label: 'English (SRT)',
-      type: 'srt',
-      language: 'en',
+      uri: "https://raw.githubusercontent.com/andreyvit/subtitle-tool/master/sample.srt",
+      label: "English (SRT)",
+      type: "srt",
+      language: "en",
     },
   ],
-  offlineDownloadId: 'example-tears-of-steel',
+  offlineDownloadId: "example-tears-of-steel",
 };
 
 export default function App() {
   const [isOfflineMode, setIsOfflineMode] = useState(false);
-  const [downloadStatus, setDownloadStatus] = useState('Not started');
-  const [downloadId] = useState('example-tears-of-steel');
+  const [downloadStatus, setDownloadStatus] = useState("Not started");
+  const [downloadId] = useState("example-tears-of-steel");
 
   const player = useVideoPlayer(HLS_SOURCE, (pl) => {
     pl.play();
   });
 
-  useEvent(player, 'onError', (error) => {
-    Alert.alert('Player Error', `[${error.code}] ${error.message}`);
+  useEvent(player, "onError", (error) => {
+    Alert.alert("Player Error", `[${error.code}] ${error.message}`);
   });
 
   const canUseDownloadApi = useMemo(
-    () => Platform.OS === 'android' && videoDownloadManager != null,
+    () => Platform.OS === "android" && videoDownloadManager != null,
     [],
   );
 
@@ -56,12 +56,12 @@ export default function App() {
       const percent =
         task.percentDownloaded >= 0
           ? `${task.percentDownloaded.toFixed(1)}%`
-          : 'N/A';
+          : "N/A";
       setDownloadStatus(
         `${task.state} | ${percent} | ${Math.round(task.bytesDownloaded / (1024 * 1024))}MB`,
       );
     } catch {
-      setDownloadStatus('Not downloaded');
+      setDownloadStatus("Not downloaded");
     }
   };
 
@@ -75,17 +75,19 @@ export default function App() {
 
   const onStartDownload = async () => {
     if (!canUseDownloadApi || videoDownloadManager == null) {
-      Alert.alert('Android only', 'Offline download is available on Android.');
+      Alert.alert("Android only", "Offline download is available on Android.");
       return;
     }
     try {
-      await videoDownloadManager.enqueueDownload(HLS_SOURCE, {
+      const ldrr = await videoDownloadManager.enqueueDownload(HLS_SOURCE, {
         downloadId,
         downloadExternalSubtitles: true,
       });
+      console.log("Download started", ldrr);
       await refreshStatus();
+      console.log("Download enqueued");
     } catch (error) {
-      Alert.alert('Download failed', String(error));
+      Alert.alert("Download failed", String(error));
     }
   };
 
@@ -120,7 +122,7 @@ export default function App() {
       setIsOfflineMode(true);
       player.play();
     } catch (error) {
-      Alert.alert('Offline source failed', String(error));
+      Alert.alert("Offline source failed", String(error));
     }
   };
 
@@ -135,7 +137,7 @@ export default function App() {
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>React Native Video - Download Example</Text>
         <Text style={styles.subtitle}>
-          Mode: {isOfflineMode ? 'Offline playback' : 'Online playback'}
+          Mode: {isOfflineMode ? "Offline playback" : "Online playback"}
         </Text>
         <Text style={styles.subtitle}>Download: {downloadStatus}</Text>
 
@@ -173,28 +175,28 @@ function ActionButton({
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: '#0f1115' },
+  root: { flex: 1, backgroundColor: "#0f1115" },
   content: { padding: 16, gap: 12 },
-  title: { color: '#fff', fontSize: 20, fontWeight: '700' },
-  subtitle: { color: '#c6ccda', fontSize: 14 },
+  title: { color: "#fff", fontSize: 20, fontWeight: "700" },
+  subtitle: { color: "#c6ccda", fontSize: 14 },
   playerContainer: {
-    width: '100%',
+    width: "100%",
     height: 220,
     borderRadius: 12,
-    overflow: 'hidden',
-    backgroundColor: '#000',
+    overflow: "hidden",
+    backgroundColor: "#000",
   },
-  player: { width: '100%', height: '100%' },
+  player: { width: "100%", height: "100%" },
   row: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     gap: 8,
   },
   button: {
-    backgroundColor: '#2b6cff',
+    backgroundColor: "#2b6cff",
     borderRadius: 8,
     paddingVertical: 10,
     paddingHorizontal: 12,
   },
-  buttonText: { color: '#fff', fontWeight: '600' },
+  buttonText: { color: "#fff", fontWeight: "600" },
 });

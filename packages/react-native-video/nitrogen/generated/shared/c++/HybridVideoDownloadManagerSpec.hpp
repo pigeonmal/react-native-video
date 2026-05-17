@@ -13,18 +13,18 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
-// Forward declaration of `VideoDownloadTask` to properly resolve imports.
-namespace margelo::nitro::video { struct VideoDownloadTask; }
 // Forward declaration of `NativeVideoConfig` to properly resolve imports.
 namespace margelo::nitro::video { struct NativeVideoConfig; }
 // Forward declaration of `VideoDownloadOptions` to properly resolve imports.
 namespace margelo::nitro::video { struct VideoDownloadOptions; }
+// Forward declaration of `VideoDownloadTask` to properly resolve imports.
+namespace margelo::nitro::video { struct VideoDownloadTask; }
 
-#include "VideoDownloadTask.hpp"
+#include <string>
 #include <NitroModules/Promise.hpp>
 #include "NativeVideoConfig.hpp"
 #include "VideoDownloadOptions.hpp"
-#include <string>
+#include "VideoDownloadTask.hpp"
 #include <vector>
 
 namespace margelo::nitro::video {
@@ -58,7 +58,7 @@ namespace margelo::nitro::video {
 
     public:
       // Methods
-      virtual std::shared_ptr<Promise<VideoDownloadTask>> enqueueDownload(const NativeVideoConfig& config, const VideoDownloadOptions& options) = 0;
+      virtual std::shared_ptr<Promise<std::string>> enqueueDownload(const NativeVideoConfig& config, const VideoDownloadOptions& options) = 0;
       virtual std::shared_ptr<Promise<void>> pauseDownload(const std::string& downloadId) = 0;
       virtual std::shared_ptr<Promise<void>> resumeDownload(const std::string& downloadId) = 0;
       virtual std::shared_ptr<Promise<void>> removeDownload(const std::string& downloadId) = 0;

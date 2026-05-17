@@ -54,7 +54,7 @@ namespace margelo::nitro::video {
 
   public:
     // Methods
-    std::shared_ptr<Promise<VideoDownloadTask>> enqueueDownload(const NativeVideoConfig& config, const VideoDownloadOptions& options) override;
+    std::shared_ptr<Promise<std::string>> enqueueDownload(const NativeVideoConfig& config, const VideoDownloadOptions& options) override;
     std::shared_ptr<Promise<void>> pauseDownload(const std::string& downloadId) override;
     std::shared_ptr<Promise<void>> resumeDownload(const std::string& downloadId) override;
     std::shared_ptr<Promise<void>> removeDownload(const std::string& downloadId) override;

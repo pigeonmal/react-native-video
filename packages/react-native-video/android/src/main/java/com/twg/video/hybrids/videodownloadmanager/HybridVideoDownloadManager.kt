@@ -11,7 +11,7 @@ class HybridVideoDownloadManager : HybridVideoDownloadManagerSpec() {
   override fun enqueueDownload(
     config: NativeVideoConfig,
     options: VideoDownloadOptions,
-  ): Promise<VideoDownloadTask> {
+  ): Promise<String> {
     return Promise.async {
       VideoDownloadStore.enqueueDownload(config, options)
     }

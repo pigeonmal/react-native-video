@@ -64,7 +64,7 @@ class VideoDownloadManager {
   async enqueueDownload(
     config: VideoConfig & { uri: string },
     options?: Partial<VideoDownloadOptions>,
-  ): Promise<VideoDownloadTask> {
+  ): Promise<string> {
     const source = createSourceFromVideoConfig(config);
     const nativeConfig = source.config;
     return this.wrapPromise(
