@@ -48,7 +48,8 @@ class HybridVideoPlayerSourceFactory: HybridVideoPlayerSourceFactorySpec() {
       startPosition = null,
       externalAudios = null,
       initialSubtitleDelay = null,
-      useIvInjectDataSource = null
+      useIvInjectDataSource = null,
+      offlineDownloadId = null
     )
 
     return HybridVideoPlayerSource(config)

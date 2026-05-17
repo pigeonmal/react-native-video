@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.media3.common.C
 import androidx.media3.common.MimeTypes
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.database.DatabaseProvider
 import androidx.media3.database.StandaloneDatabaseProvider
 import androidx.media3.datasource.DataSource
@@ -34,6 +35,7 @@ import java.util.concurrent.Executors
 import org.json.JSONArray
 import org.json.JSONObject
 
+@UnstableApi
 object VideoDownloadStore {
   private const val DOWNLOADS_SUBDIR = "rnv-downloads"
   private const val SUBTITLES_SUBDIR = "rnv-subtitles"
@@ -190,7 +192,7 @@ object VideoDownloadStore {
   }
 
   private fun toTask(download: Download): VideoDownloadTask {
-    val percentDownloaded = if (download.percentDownloaded == C.PERCENTAGE_UNSET) {
+    val percentDownloaded = if (download.percentDownloaded == -1.0F) {
       -1.0
     } else {
       download.percentDownloaded.toDouble()

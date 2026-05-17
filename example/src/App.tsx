@@ -5,7 +5,7 @@ import {
   VideoView,
   type VideoConfig,
 } from '@pigeonmal/react-native-video';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Alert,
   Platform,
@@ -22,7 +22,7 @@ const HLS_SOURCE: VideoConfig & { uri: string } = {
   forceType: 'm3u8',
   externalSubtitles: [
     {
-      uri: 'https://raw.githubusercontent.com/andreyvit/subtitle-tools/master/sample.srt',
+      uri: 'https://raw.githubusercontent.com/andreyvit/subtitle-tool/master/sample.srt',
       label: 'English (SRT)',
       type: 'srt',
       language: 'en',
@@ -79,13 +79,10 @@ export default function App() {
       return;
     }
     try {
-      await videoDownloadManager.enqueueDownload(
-        HLS_SOURCE,
-        {
-          downloadId,
-          downloadExternalSubtitles: true,
-        },
-      );
+      await videoDownloadManager.enqueueDownload(HLS_SOURCE, {
+        downloadId,
+        downloadExternalSubtitles: true,
+      });
       await refreshStatus();
     } catch (error) {
       Alert.alert('Download failed', String(error));
