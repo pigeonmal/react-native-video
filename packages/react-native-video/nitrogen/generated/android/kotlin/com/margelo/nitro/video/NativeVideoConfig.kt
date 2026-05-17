@@ -56,7 +56,10 @@ data class NativeVideoConfig(
   val initializeOnCreation: Boolean?,
   @DoNotStrip
   @Keep
-  val forceType: ExternalForcedType?
+  val forceType: ExternalForcedType?,
+  @DoNotStrip
+  @Keep
+  val offlineDownloadId: String?
 ) {
   /* primary constructor */
 
@@ -76,6 +79,7 @@ data class NativeVideoConfig(
       && Objects.deepEquals(this.startPosition, other.startPosition)
       && Objects.deepEquals(this.initializeOnCreation, other.initializeOnCreation)
       && Objects.deepEquals(this.forceType, other.forceType)
+      && Objects.deepEquals(this.offlineDownloadId, other.offlineDownloadId)
   }
 
   override fun hashCode(): Int {
@@ -92,7 +96,8 @@ data class NativeVideoConfig(
       useIvInjectDataSource,
       startPosition,
       initializeOnCreation,
-      forceType
+      forceType,
+      offlineDownloadId
     ).contentDeepHashCode()
   }
 
@@ -104,8 +109,8 @@ data class NativeVideoConfig(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(uri: String, externalSubtitles: Array<NativeExternalSubtitle>?, drm: NativeDrmParams?, headers: Map<String, String>?, bufferConfig: BufferConfig?, metadata: CustomVideoMetadata?, externalAudios: Array<ExternalAudio>?, initialSubtitleDelay: Long?, forceOkhttp: Boolean?, useIvInjectDataSource: Boolean?, startPosition: Long?, initializeOnCreation: Boolean?, forceType: ExternalForcedType?): NativeVideoConfig {
-      return NativeVideoConfig(uri, externalSubtitles, drm, headers, bufferConfig, metadata, externalAudios, initialSubtitleDelay, forceOkhttp, useIvInjectDataSource, startPosition, initializeOnCreation, forceType)
+    private fun fromCpp(uri: String, externalSubtitles: Array<NativeExternalSubtitle>?, drm: NativeDrmParams?, headers: Map<String, String>?, bufferConfig: BufferConfig?, metadata: CustomVideoMetadata?, externalAudios: Array<ExternalAudio>?, initialSubtitleDelay: Long?, forceOkhttp: Boolean?, useIvInjectDataSource: Boolean?, startPosition: Long?, initializeOnCreation: Boolean?, forceType: ExternalForcedType?, offlineDownloadId: String?): NativeVideoConfig {
+      return NativeVideoConfig(uri, externalSubtitles, drm, headers, bufferConfig, metadata, externalAudios, initialSubtitleDelay, forceOkhttp, useIvInjectDataSource, startPosition, initializeOnCreation, forceType, offlineDownloadId)
     }
   }
 }

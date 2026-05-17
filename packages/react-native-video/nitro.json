@@ -37,6 +37,12 @@
         "language": "kotlin",
         "implementationClassName": "HybridVideoViewViewManagerFactory"
       }
+    },
+    "VideoDownloadManagerFactory": {
+      "android": {
+        "language": "kotlin",
+        "implementationClassName": "HybridVideoDownloadManagerFactory"
+      }
     }
   }
 }

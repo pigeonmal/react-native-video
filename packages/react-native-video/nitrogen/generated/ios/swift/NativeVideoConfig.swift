@@ -18,7 +18,7 @@ public extension NativeVideoConfig {
   /**
    * Create a new instance of `NativeVideoConfig`.
    */
-  init(uri: String, externalSubtitles: [NativeExternalSubtitle]?, drm: NativeDrmParams?, headers: Dictionary<String, String>?, bufferConfig: BufferConfig?, metadata: CustomVideoMetadata?, externalAudios: [ExternalAudio]?, initialSubtitleDelay: Int64?, forceOkhttp: Bool?, useIvInjectDataSource: Bool?, startPosition: Int64?, initializeOnCreation: Bool?, forceType: ExternalForcedType?) {
+  init(uri: String, externalSubtitles: [NativeExternalSubtitle]?, drm: NativeDrmParams?, headers: Dictionary<String, String>?, bufferConfig: BufferConfig?, metadata: CustomVideoMetadata?, externalAudios: [ExternalAudio]?, initialSubtitleDelay: Int64?, forceOkhttp: Bool?, useIvInjectDataSource: Bool?, startPosition: Int64?, initializeOnCreation: Bool?, forceType: ExternalForcedType?, offlineDownloadId: String?) {
     self.init(std.string(uri), { () -> bridge.std__optional_std__vector_NativeExternalSubtitle__ in
       if let __unwrappedValue = externalSubtitles {
         return bridge.create_std__optional_std__vector_NativeExternalSubtitle__({ () -> bridge.std__vector_NativeExternalSubtitle_ in
@@ -106,6 +106,12 @@ public extension NativeVideoConfig {
     }(), { () -> bridge.std__optional_ExternalForcedType_ in
       if let __unwrappedValue = forceType {
         return bridge.create_std__optional_ExternalForcedType_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_std__string_ in
+      if let __unwrappedValue = offlineDownloadId {
+        return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
       } else {
         return .init()
       }
@@ -225,5 +231,17 @@ public extension NativeVideoConfig {
   @inline(__always)
   var forceType: ExternalForcedType? {
     return self.__forceType.value
+  }
+  
+  @inline(__always)
+  var offlineDownloadId: String? {
+    return { () -> String? in
+      if bridge.has_value_std__optional_std__string_(self.__offlineDownloadId) {
+        let __unwrapped = bridge.get_std__optional_std__string_(self.__offlineDownloadId)
+        return String(__unwrapped)
+      } else {
+        return nil
+      }
+    }()
   }
 }

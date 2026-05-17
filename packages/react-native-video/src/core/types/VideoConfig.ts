@@ -71,6 +71,11 @@ export type VideoConfig = {
   initializeOnCreation?: boolean;
   /** when uri doesn't provide explicit extension, you can force a specific type */
   forceType?: ExternalForcedType;
+  /**
+   * Optional stable id used by the download manager to map an online source to an offline download entry.
+   * @platform Android
+   */
+  offlineDownloadId?: string;
 };
 
 // @internal

@@ -15,6 +15,9 @@
 #include <fbjni/fbjni.h>
 #include <NitroModules/HybridObjectRegistry.hpp>
 
+#include "JHybridVideoDownloadManagerSpec.hpp"
+#include "JFunc_std__shared_ptr_Promise_std__shared_ptr_Promise_std__string_____OnGetLicensePayload.hpp"
+#include "JHybridVideoDownloadManagerFactorySpec.hpp"
 #include "JHybridVideoPlayerSpec.hpp"
 #include "JHybridVideoPlayerFactorySpec.hpp"
 #include "JHybridVideoPlayerEventEmitterSpec.hpp"
@@ -32,7 +35,6 @@
 #include "JFunc_void_std__vector_std__string_.hpp"
 #include "JFunc_void_onVolumeChangeData.hpp"
 #include "JHybridVideoPlayerSourceSpec.hpp"
-#include "JFunc_std__shared_ptr_Promise_std__shared_ptr_Promise_std__string_____OnGetLicensePayload.hpp"
 #include "JHybridVideoPlayerSourceFactorySpec.hpp"
 #include "JHybridVideoViewViewManagerSpec.hpp"
 #include "JHybridVideoViewViewManagerFactorySpec.hpp"
@@ -70,12 +72,23 @@ struct JHybridVideoViewViewManagerFactorySpecImpl: public jni::JavaClass<JHybrid
     return javaPart->getJHybridVideoViewViewManagerFactorySpec();
   }
 };
+struct JHybridVideoDownloadManagerFactorySpecImpl: public jni::JavaClass<JHybridVideoDownloadManagerFactorySpecImpl, JHybridVideoDownloadManagerFactorySpec::JavaPart> {
+  static constexpr auto kJavaDescriptor = "Lcom/margelo/nitro/video/HybridVideoDownloadManagerFactory;";
+  static std::shared_ptr<JHybridVideoDownloadManagerFactorySpec> create() {
+    static const auto constructorFn = javaClassStatic()->getConstructor<JHybridVideoDownloadManagerFactorySpecImpl::javaobject()>();
+    jni::local_ref<JHybridVideoDownloadManagerFactorySpec::JavaPart> javaPart = javaClassStatic()->newObject(constructorFn);
+    return javaPart->getJHybridVideoDownloadManagerFactorySpec();
+  }
+};
 
 void registerAllNatives() {
   using namespace margelo::nitro;
   using namespace margelo::nitro::video;
 
   // Register native JNI methods
+  margelo::nitro::video::JHybridVideoDownloadManagerSpec::CxxPart::registerNatives();
+  margelo::nitro::video::JFunc_std__shared_ptr_Promise_std__shared_ptr_Promise_std__string_____OnGetLicensePayload_cxx::registerNatives();
+  margelo::nitro::video::JHybridVideoDownloadManagerFactorySpec::CxxPart::registerNatives();
   margelo::nitro::video::JHybridVideoPlayerSpec::CxxPart::registerNatives();
   margelo::nitro::video::JHybridVideoPlayerFactorySpec::CxxPart::registerNatives();
   margelo::nitro::video::JHybridVideoPlayerEventEmitterSpec::CxxPart::registerNatives();
@@ -93,7 +106,6 @@ void registerAllNatives() {
   margelo::nitro::video::JFunc_void_std__vector_std__string__cxx::registerNatives();
   margelo::nitro::video::JFunc_void_onVolumeChangeData_cxx::registerNatives();
   margelo::nitro::video::JHybridVideoPlayerSourceSpec::CxxPart::registerNatives();
-  margelo::nitro::video::JFunc_std__shared_ptr_Promise_std__shared_ptr_Promise_std__string_____OnGetLicensePayload_cxx::registerNatives();
   margelo::nitro::video::JHybridVideoPlayerSourceFactorySpec::CxxPart::registerNatives();
   margelo::nitro::video::JHybridVideoViewViewManagerSpec::CxxPart::registerNatives();
   margelo::nitro::video::JHybridVideoViewViewManagerFactorySpec::CxxPart::registerNatives();
@@ -115,6 +127,12 @@ void registerAllNatives() {
     "VideoViewViewManagerFactory",
     []() -> std::shared_ptr<HybridObject> {
       return JHybridVideoViewViewManagerFactorySpecImpl::create();
+    }
+  );
+  HybridObjectRegistry::registerHybridObjectConstructor(
+    "VideoDownloadManagerFactory",
+    []() -> std::shared_ptr<HybridObject> {
+      return JHybridVideoDownloadManagerFactorySpecImpl::create();
     }
   );
 }

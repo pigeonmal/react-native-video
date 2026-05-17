@@ -233,6 +233,7 @@ dependencies {
 
   // Common functionality for loading data
   implementation "androidx.media3:media3-datasource:$media3_version"
+  implementation "androidx.media3:media3-database:$media3_version"
 
   implementation "androidx.media3:media3-datasource-okhttp:$media3_version"
 
@@ -260,4 +261,3 @@ if (isNewArchitectureEnabled()) {
     codegenJavaPackageName = "com.twg.video"
   }
 }
-

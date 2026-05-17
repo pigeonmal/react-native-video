@@ -3,6 +3,7 @@ package com.twg.video.core.player
 import android.content.Context
 import androidx.annotation.OptIn
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.okhttp.OkHttpDataSource
 import com.facebook.react.bridge.ReactContext
@@ -13,20 +14,21 @@ import com.margelo.nitro.video.HybridVideoPlayerSourceSpec
 import okhttp3.JavaNetCookieJar
 import androidx.media3.datasource.cronet.CronetDataSource
 import com.margelo.nitro.nitrofetch.NitroFetch
-import java.util.concurrent.Executors
+import com.twg.video.core.download.VideoDownloadStore
 
 const val DEFAULT_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0" 
 
-fun buildBaseDataSourceFactory(context: Context, source: HybridVideoPlayerSourceSpec): DefaultDataSource.Factory {
+fun buildBaseDataSourceFactory(context: Context, source: HybridVideoPlayerSourceSpec): DataSource.Factory {
   return if (source.uri.startsWith("http")) {
-  DefaultDataSource.Factory(
-    context,
-    if (source.config.forceOkhttp == true) {
-      buildHttpDataSourceFactory(context, source)
-    } else {
-      buildCronetHttpDataSourceFactory(source)
-    }
-  )
+    val upstreamFactory = DefaultDataSource.Factory(
+      context,
+      if (source.config.forceOkhttp == true) {
+        buildHttpDataSourceFactory(context, source)
+      } else {
+        buildCronetHttpDataSourceFactory(source)
+      },
+    )
+    VideoDownloadStore.createPlaybackDataSourceFactory(upstreamFactory)
   } else {
     DefaultDataSource.Factory(context)
   }

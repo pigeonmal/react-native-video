@@ -72,10 +72,11 @@ namespace margelo::nitro::video {
     std::optional<int64_t> startPosition     SWIFT_PRIVATE;
     std::optional<bool> initializeOnCreation     SWIFT_PRIVATE;
     std::optional<ExternalForcedType> forceType     SWIFT_PRIVATE;
+    std::optional<std::string> offlineDownloadId     SWIFT_PRIVATE;
 
   public:
     NativeVideoConfig() = default;
-    explicit NativeVideoConfig(std::string uri, std::optional<std::vector<NativeExternalSubtitle>> externalSubtitles, std::optional<NativeDrmParams> drm, std::optional<std::unordered_map<std::string, std::string>> headers, std::optional<BufferConfig> bufferConfig, std::optional<CustomVideoMetadata> metadata, std::optional<std::vector<ExternalAudio>> externalAudios, std::optional<int64_t> initialSubtitleDelay, std::optional<bool> forceOkhttp, std::optional<bool> useIvInjectDataSource, std::optional<int64_t> startPosition, std::optional<bool> initializeOnCreation, std::optional<ExternalForcedType> forceType): uri(uri), externalSubtitles(externalSubtitles), drm(drm), headers(headers), bufferConfig(bufferConfig), metadata(metadata), externalAudios(externalAudios), initialSubtitleDelay(initialSubtitleDelay), forceOkhttp(forceOkhttp), useIvInjectDataSource(useIvInjectDataSource), startPosition(startPosition), initializeOnCreation(initializeOnCreation), forceType(forceType) {}
+    explicit NativeVideoConfig(std::string uri, std::optional<std::vector<NativeExternalSubtitle>> externalSubtitles, std::optional<NativeDrmParams> drm, std::optional<std::unordered_map<std::string, std::string>> headers, std::optional<BufferConfig> bufferConfig, std::optional<CustomVideoMetadata> metadata, std::optional<std::vector<ExternalAudio>> externalAudios, std::optional<int64_t> initialSubtitleDelay, std::optional<bool> forceOkhttp, std::optional<bool> useIvInjectDataSource, std::optional<int64_t> startPosition, std::optional<bool> initializeOnCreation, std::optional<ExternalForcedType> forceType, std::optional<std::string> offlineDownloadId): uri(uri), externalSubtitles(externalSubtitles), drm(drm), headers(headers), bufferConfig(bufferConfig), metadata(metadata), externalAudios(externalAudios), initialSubtitleDelay(initialSubtitleDelay), forceOkhttp(forceOkhttp), useIvInjectDataSource(useIvInjectDataSource), startPosition(startPosition), initializeOnCreation(initializeOnCreation), forceType(forceType), offlineDownloadId(offlineDownloadId) {}
 
   public:
     // NativeVideoConfig is not equatable because these properties are not equatable: drm
@@ -103,7 +104,8 @@ namespace margelo::nitro {
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "useIvInjectDataSource"))),
         JSIConverter<std::optional<int64_t>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "startPosition"))),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "initializeOnCreation"))),
-        JSIConverter<std::optional<margelo::nitro::video::ExternalForcedType>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "forceType")))
+        JSIConverter<std::optional<margelo::nitro::video::ExternalForcedType>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "forceType"))),
+        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "offlineDownloadId")))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::video::NativeVideoConfig& arg) {
@@ -121,6 +123,7 @@ namespace margelo::nitro {
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "startPosition"), JSIConverter<std::optional<int64_t>>::toJSI(runtime, arg.startPosition));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "initializeOnCreation"), JSIConverter<std::optional<bool>>::toJSI(runtime, arg.initializeOnCreation));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "forceType"), JSIConverter<std::optional<margelo::nitro::video::ExternalForcedType>>::toJSI(runtime, arg.forceType));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "offlineDownloadId"), JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.offlineDownloadId));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -144,6 +147,7 @@ namespace margelo::nitro {
       if (!JSIConverter<std::optional<int64_t>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "startPosition")))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "initializeOnCreation")))) return false;
       if (!JSIConverter<std::optional<margelo::nitro::video::ExternalForcedType>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "forceType")))) return false;
+      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "offlineDownloadId")))) return false;
       return true;
     }
   };

@@ -1,6 +1,8 @@
 export type LibraryError =
   | "library/deallocated"
-  | "library/application-context-not-found";
+  | "library/application-context-not-found"
+  | "library/method-not-supported"
+  | "library/drm-plugin-not-found";
 
 export type PlayerError =
   | "player/released"
@@ -23,10 +25,16 @@ export type VideoViewError =
 
 export type UnknownError = "unknown/unknown";
 
+export type DownloadError =
+  | "download/not-found"
+  | "download/invalid-config"
+  | "download/subtitle-failed";
+
 export type VideoErrorCode =
   | LibraryError
   | PlayerError
   | SourceError
+  | DownloadError
   | VideoViewError
   | UnknownError;
 
@@ -68,7 +76,7 @@ export class VideoError<TCode extends VideoErrorCode> extends Error {
 export class VideoComponentError extends VideoError<VideoViewError> {}
 
 export class VideoRuntimeError extends VideoError<
-  LibraryError | PlayerError | SourceError | UnknownError
+  LibraryError | PlayerError | SourceError | DownloadError | UnknownError
 > {}
 
 /**

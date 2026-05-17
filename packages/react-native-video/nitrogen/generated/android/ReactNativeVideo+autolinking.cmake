@@ -33,6 +33,8 @@ target_sources(
   # Autolinking Setup
   ../nitrogen/generated/android/ReactNativeVideoOnLoad.cpp
   # Shared Nitrogen C++ sources
+  ../nitrogen/generated/shared/c++/HybridVideoDownloadManagerSpec.cpp
+  ../nitrogen/generated/shared/c++/HybridVideoDownloadManagerFactorySpec.cpp
   ../nitrogen/generated/shared/c++/HybridVideoPlayerSpec.cpp
   ../nitrogen/generated/shared/c++/HybridVideoPlayerFactorySpec.cpp
   ../nitrogen/generated/shared/c++/HybridVideoPlayerEventEmitterSpec.cpp
@@ -41,6 +43,8 @@ target_sources(
   ../nitrogen/generated/shared/c++/HybridVideoViewViewManagerSpec.cpp
   ../nitrogen/generated/shared/c++/HybridVideoViewViewManagerFactorySpec.cpp
   # Android-specific Nitrogen C++ sources
+  ../nitrogen/generated/android/c++/JHybridVideoDownloadManagerSpec.cpp
+  ../nitrogen/generated/android/c++/JHybridVideoDownloadManagerFactorySpec.cpp
   ../nitrogen/generated/android/c++/JHybridVideoPlayerSpec.cpp
   ../nitrogen/generated/android/c++/JVariant_NullType_HybridVideoPlayerSourceSpec.cpp
   ../nitrogen/generated/android/c++/JHybridVideoPlayerFactorySpec.cpp

@@ -103,3 +103,21 @@ sealed class VideoViewError(code: String, message: String) : VideoError(code, me
 
 // Unknown error
 class UnknownError : VideoError("unknown/unknown", "Unknown error")
+
+// Download related errors
+sealed class DownloadError(code: String, message: String) : VideoError(code, message) {
+  class NotFound(downloadId: String) : DownloadError(
+    "download/not-found",
+    "Download with id '$downloadId' was not found",
+  )
+
+  class InvalidConfig(reason: String) : DownloadError(
+    "download/invalid-config",
+    "Invalid download configuration: $reason",
+  )
+
+  class SubtitleFailed(uri: String, reason: String) : DownloadError(
+    "download/subtitle-failed",
+    "Failed to download subtitle '$uri': $reason",
+  )
+}
