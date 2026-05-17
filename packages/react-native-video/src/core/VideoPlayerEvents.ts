@@ -1,13 +1,11 @@
-import type {
-  ListenerSubscription,
-  VideoPlayerEventEmitter,
-} from "../spec/nitro/VideoPlayerEventEmitter.nitro";
+import type { VideoPlayerEventEmitter } from '../spec/nitro/VideoPlayerEventEmitter.nitro';
 import {
   ALL_PLAYER_EVENTS,
   type JSVideoPlayerEvents,
+  type ListenerSubscription,
   type AllPlayerEvents as PlayerEvents,
-} from "./types/Events";
-import { VideoRuntimeError } from "./types/VideoError";
+} from './types/Events';
+import { VideoRuntimeError } from './types/VideoError';
 
 export class VideoPlayerEvents {
   protected eventEmitter: VideoPlayerEventEmitter;
@@ -44,14 +42,14 @@ export class VideoPlayerEvents {
   ): ListenerSubscription {
     switch (event) {
       // ----------------- JS Events -----------------
-      case "onError":
+      case 'onError':
         this.jsEventListeners.onError ??= new Set();
         this.jsEventListeners.onError.add(
-          callback as JSVideoPlayerEvents["onError"],
+          callback as JSVideoPlayerEvents['onError'],
         );
         const nativeCallback = (message: string) =>
-          (callback as JSVideoPlayerEvents["onError"])(
-            new VideoRuntimeError("player/playback-exception", message),
+          (callback as JSVideoPlayerEvents['onError'])(
+            new VideoRuntimeError('player/playback-exception', message),
           );
 
         const removeNative =
@@ -59,83 +57,83 @@ export class VideoPlayerEvents {
         return {
           remove: () => {
             this.jsEventListeners.onError?.delete(
-              callback as JSVideoPlayerEvents["onError"],
+              callback as JSVideoPlayerEvents['onError'],
             );
             removeNative.remove();
           },
         };
       // ----------------- Native Events -----------------
-      case "onAudioBecomingNoisy":
+      case 'onAudioBecomingNoisy':
         return this.eventEmitter.addOnAudioBecomingNoisyListener(
-          callback as PlayerEvents["onAudioBecomingNoisy"],
+          callback as PlayerEvents['onAudioBecomingNoisy'],
         );
-      case "onAudioFocusChange":
+      case 'onAudioFocusChange':
         return this.eventEmitter.addOnAudioFocusChangeListener(
-          callback as PlayerEvents["onAudioFocusChange"],
+          callback as PlayerEvents['onAudioFocusChange'],
         );
-      case "onBandwidthUpdate":
+      case 'onBandwidthUpdate':
         return this.eventEmitter.addOnBandwidthUpdateListener(
-          callback as PlayerEvents["onBandwidthUpdate"],
+          callback as PlayerEvents['onBandwidthUpdate'],
         );
-      case "onBuffer":
+      case 'onBuffer':
         return this.eventEmitter.addOnBufferListener(
-          callback as PlayerEvents["onBuffer"],
+          callback as PlayerEvents['onBuffer'],
         );
-      case "onControlsVisibleChange":
+      case 'onControlsVisibleChange':
         return this.eventEmitter.addOnControlsVisibleChangeListener(
-          callback as PlayerEvents["onControlsVisibleChange"],
+          callback as PlayerEvents['onControlsVisibleChange'],
         );
-      case "onEnd":
+      case 'onEnd':
         return this.eventEmitter.addOnEndListener(
-          callback as PlayerEvents["onEnd"],
+          callback as PlayerEvents['onEnd'],
         );
-      case "onExternalPlaybackChange":
+      case 'onExternalPlaybackChange':
         return this.eventEmitter.addOnExternalPlaybackChangeListener(
-          callback as PlayerEvents["onExternalPlaybackChange"],
+          callback as PlayerEvents['onExternalPlaybackChange'],
         );
-      case "onLoad":
+      case 'onLoad':
         return this.eventEmitter.addOnLoadListener(
-          callback as PlayerEvents["onLoad"],
+          callback as PlayerEvents['onLoad'],
         );
-      case "onLoadStart":
+      case 'onLoadStart':
         return this.eventEmitter.addOnLoadStartListener(
-          callback as PlayerEvents["onLoadStart"],
+          callback as PlayerEvents['onLoadStart'],
         );
-      case "onPlaybackStateChange":
+      case 'onPlaybackStateChange':
         return this.eventEmitter.addOnPlaybackStateChangeListener(
-          callback as PlayerEvents["onPlaybackStateChange"],
+          callback as PlayerEvents['onPlaybackStateChange'],
         );
-      case "onPlaybackRateChange":
+      case 'onPlaybackRateChange':
         return this.eventEmitter.addOnPlaybackRateChangeListener(
-          callback as PlayerEvents["onPlaybackRateChange"],
+          callback as PlayerEvents['onPlaybackRateChange'],
         );
-      case "onProgress":
+      case 'onProgress':
         return this.eventEmitter.addOnProgressListener(
-          callback as PlayerEvents["onProgress"],
+          callback as PlayerEvents['onProgress'],
         );
-      case "onReadyToDisplay":
+      case 'onReadyToDisplay':
         return this.eventEmitter.addOnReadyToDisplayListener(
-          callback as PlayerEvents["onReadyToDisplay"],
+          callback as PlayerEvents['onReadyToDisplay'],
         );
-      case "onSeek":
+      case 'onSeek':
         return this.eventEmitter.addOnSeekListener(
-          callback as PlayerEvents["onSeek"],
+          callback as PlayerEvents['onSeek'],
         );
-      case "onTimedMetadata":
+      case 'onTimedMetadata':
         return this.eventEmitter.addOnTimedMetadataListener(
-          callback as PlayerEvents["onTimedMetadata"],
+          callback as PlayerEvents['onTimedMetadata'],
         );
-      case "onTextTrackDataChanged":
+      case 'onTextTrackDataChanged':
         return this.eventEmitter.addOnTextTrackDataChangedListener(
-          callback as PlayerEvents["onTextTrackDataChanged"],
+          callback as PlayerEvents['onTextTrackDataChanged'],
         );
-      case "onVolumeChange":
+      case 'onVolumeChange':
         return this.eventEmitter.addOnVolumeChangeListener(
-          callback as PlayerEvents["onVolumeChange"],
+          callback as PlayerEvents['onVolumeChange'],
         );
-      case "onStatusChange":
+      case 'onStatusChange':
         return this.eventEmitter.addOnStatusChangeListener(
-          callback as PlayerEvents["onStatusChange"],
+          callback as PlayerEvents['onStatusChange'],
         );
       default:
         throw new Error(`[React Native Video] Unsupported event: ${event}`);

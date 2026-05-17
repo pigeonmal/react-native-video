@@ -1,8 +1,12 @@
-import type { VideoPlayerSource } from "../../spec/nitro/VideoPlayerSource.nitro";
-import type { AllPlayerTracks } from "./PlayerTrack";
-import type { VideoRuntimeError } from "./VideoError";
-import type { VideoOrientation } from "./VideoOrientation";
-import type { VideoPlayerStatus } from "./VideoPlayerStatus";
+import type { VideoPlayerSource } from '../../spec/nitro/VideoPlayerSource.nitro';
+import type { AllPlayerTracks } from './PlayerTrack';
+import type { VideoRuntimeError } from './VideoError';
+import type { VideoOrientation } from './VideoOrientation';
+import type { VideoPlayerStatus } from './VideoPlayerStatus';
+
+export interface ListenerSubscription {
+  remove(): void;
+}
 
 export interface VideoPlayerEvents {
   /**
@@ -168,7 +172,7 @@ export interface onLoadData {
   allPlayerTracks: AllPlayerTracks;
 }
 
-export type SourceType = "local" | "network";
+export type SourceType = 'local' | 'network';
 
 export interface onLoadStartData {
   /**
@@ -237,8 +241,8 @@ type CheckAllAndOnly<T, A extends readonly (keyof T)[]> =
     ? // Extra keys?
       Exclude<A[number], keyof T> extends never
       ? A
-      : ["Extra keys", Exclude<A[number], keyof T>]
-    : ["Missing keys", Exclude<keyof T, A[number]>];
+      : ['Extra keys', Exclude<A[number], keyof T>]
+    : ['Missing keys', Exclude<keyof T, A[number]>];
 
 function allKeysOf<T>() {
   return <A extends readonly (keyof T)[]>(...arr: A): CheckAllAndOnly<T, A> => {
@@ -248,33 +252,33 @@ function allKeysOf<T>() {
 
 export const ALL_PLAYER_EVENTS: (keyof AllPlayerEvents)[] =
   allKeysOf<AllPlayerEvents>()(
-    "onAudioBecomingNoisy",
-    "onAudioFocusChange",
-    "onBandwidthUpdate",
-    "onBuffer",
-    "onControlsVisibleChange",
-    "onEnd",
-    "onError",
-    "onExternalPlaybackChange",
-    "onLoad",
-    "onLoadStart",
-    "onPlaybackStateChange",
-    "onPlaybackRateChange",
-    "onProgress",
-    "onReadyToDisplay",
-    "onSeek",
-    "onTimedMetadata",
-    "onTextTrackDataChanged",
-    "onVolumeChange",
-    "onStatusChange",
+    'onAudioBecomingNoisy',
+    'onAudioFocusChange',
+    'onBandwidthUpdate',
+    'onBuffer',
+    'onControlsVisibleChange',
+    'onEnd',
+    'onError',
+    'onExternalPlaybackChange',
+    'onLoad',
+    'onLoadStart',
+    'onPlaybackStateChange',
+    'onPlaybackRateChange',
+    'onProgress',
+    'onReadyToDisplay',
+    'onSeek',
+    'onTimedMetadata',
+    'onTextTrackDataChanged',
+    'onVolumeChange',
+    'onStatusChange',
   );
 
 export const ALL_VIEW_EVENTS: (keyof VideoViewEvents)[] =
   allKeysOf<VideoViewEvents>()(
-    "onPictureInPictureChange",
-    "onFullscreenChange",
-    "willEnterFullscreen",
-    "willExitFullscreen",
-    "willEnterPictureInPicture",
-    "willExitPictureInPicture",
+    'onPictureInPictureChange',
+    'onFullscreenChange',
+    'willEnterFullscreen',
+    'willExitFullscreen',
+    'willEnterPictureInPicture',
+    'willExitPictureInPicture',
   );

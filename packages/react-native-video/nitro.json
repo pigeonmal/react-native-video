@@ -37,6 +37,16 @@
         "language": "kotlin",
         "implementationClassName": "HybridVideoViewViewManagerFactory"
       }
+    },
+    "VideoDownloader": {
+      "ios": {
+        "language": "swift",
+        "implementationClassName": "HybridVideoDownloader"
+      },
+      "android": {
+        "language": "kotlin",
+        "implementationClassName": "HybridVideoDownloader"
+      }
     }
   }
 }

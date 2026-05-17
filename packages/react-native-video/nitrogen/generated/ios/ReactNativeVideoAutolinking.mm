@@ -13,6 +13,7 @@
 #include "HybridVideoPlayerFactorySpecSwift.hpp"
 #include "HybridVideoPlayerSourceFactorySpecSwift.hpp"
 #include "HybridVideoViewViewManagerFactorySpecSwift.hpp"
+#include "HybridVideoDownloaderSpecSwift.hpp"
 
 @interface ReactNativeVideoAutolinking : NSObject
 @end
@@ -41,6 +42,13 @@
     "VideoViewViewManagerFactory",
     []() -> std::shared_ptr<HybridObject> {
       std::shared_ptr<HybridVideoViewViewManagerFactorySpec> hybridObject = ReactNativeVideo::ReactNativeVideoAutolinking::createVideoViewViewManagerFactory();
+      return hybridObject;
+    }
+  );
+  HybridObjectRegistry::registerHybridObjectConstructor(
+    "VideoDownloader",
+    []() -> std::shared_ptr<HybridObject> {
+      std::shared_ptr<HybridVideoDownloaderSpec> hybridObject = ReactNativeVideo::ReactNativeVideoAutolinking::createVideoDownloader();
       return hybridObject;
     }
   );

@@ -47,4 +47,16 @@ public final class ReactNativeVideoAutolinking {
   public static func isVideoViewViewManagerFactoryRecyclable() -> Bool {
     return HybridVideoViewViewManagerFactory.self is any RecyclableView.Type
   }
+  
+  public static func createVideoDownloader() -> bridge.std__shared_ptr_HybridVideoDownloaderSpec_ {
+    let hybridObject = HybridVideoDownloader()
+    return { () -> bridge.std__shared_ptr_HybridVideoDownloaderSpec_ in
+      let __cxxWrapped = hybridObject.getCxxWrapper()
+      return __cxxWrapped.getCxxPart()
+    }()
+  }
+  
+  public static func isVideoDownloaderRecyclable() -> Bool {
+    return HybridVideoDownloader.self is any RecyclableView.Type
+  }
 }

@@ -1,24 +1,21 @@
-import type { HybridObject } from "react-native-nitro-modules";
+import type { HybridObject } from 'react-native-nitro-modules';
 import type {
   BandwidthData,
+  ListenerSubscription,
   onLoadData,
   onLoadStartData,
   onPlaybackStateChangeData,
   onProgressData,
   onVolumeChangeData,
   TimedMetadata,
-} from "../../core/types/Events";
-import type { VideoPlayerStatus } from "../../core/types/VideoPlayerStatus";
+} from '../../core/types/Events';
+import type { VideoPlayerStatus } from '../../core/types/VideoPlayerStatus';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { VideoPlayerEvents } from "../../core/types/Events";
-
-export interface ListenerSubscription {
-  remove(): void;
-}
+import type { VideoPlayerEvents } from '../../core/types/Events';
 
 export interface VideoPlayerEventEmitter
-  extends HybridObject<{ ios: "swift"; android: "kotlin" }> {
+  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
   /**
    * Adds a listener for the `onAudioBecomingNoisy` event.
    * @see {@link VideoPlayerEvents.onAudioBecomingNoisy}

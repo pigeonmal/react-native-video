@@ -1,13 +1,13 @@
-import type { HybridObject } from "react-native-nitro-modules";
-import type { ResizeMode } from "../../core/types/ResizeMode";
-import type { VideoPlayer } from "./VideoPlayer.nitro";
-import type { ListenerSubscription } from "./VideoPlayerEventEmitter.nitro";
+import type { HybridObject } from 'react-native-nitro-modules';
+import type { ListenerSubscription } from '../../core/types/Events';
+import type { ResizeMode } from '../../core/types/ResizeMode';
+import type { VideoPlayer } from './VideoPlayer.nitro';
 
-export type SurfaceType = "surface" | "texture";
+export type SurfaceType = 'surface' | 'texture';
 
 // @internal
 export interface VideoViewViewManager
-  extends HybridObject<{ ios: "swift"; android: "kotlin" }> {
+  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
   player?: VideoPlayer;
   controls: boolean;
   pictureInPicture: boolean;
@@ -87,6 +87,6 @@ export interface VideoViewViewManager
 
 // @internal
 export interface VideoViewViewManagerFactory
-  extends HybridObject<{ ios: "swift"; android: "kotlin" }> {
+  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
   createViewManager(nitroId: number): VideoViewViewManager;
 }

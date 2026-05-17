@@ -15,10 +15,12 @@
 #include <fbjni/fbjni.h>
 #include <NitroModules/HybridObjectRegistry.hpp>
 
+#include "JHybridVideoDownloaderSpec.hpp"
+#include "JFunc_void.hpp"
+#include "JFunc_void_DownloadProgress.hpp"
 #include "JHybridVideoPlayerSpec.hpp"
 #include "JHybridVideoPlayerFactorySpec.hpp"
 #include "JHybridVideoPlayerEventEmitterSpec.hpp"
-#include "JFunc_void.hpp"
 #include "JFunc_void_bool.hpp"
 #include "JFunc_void_BandwidthData.hpp"
 #include "JFunc_void_onLoadData.hpp"
@@ -70,16 +72,26 @@ struct JHybridVideoViewViewManagerFactorySpecImpl: public jni::JavaClass<JHybrid
     return javaPart->getJHybridVideoViewViewManagerFactorySpec();
   }
 };
+struct JHybridVideoDownloaderSpecImpl: public jni::JavaClass<JHybridVideoDownloaderSpecImpl, JHybridVideoDownloaderSpec::JavaPart> {
+  static constexpr auto kJavaDescriptor = "Lcom/margelo/nitro/video/HybridVideoDownloader;";
+  static std::shared_ptr<JHybridVideoDownloaderSpec> create() {
+    static const auto constructorFn = javaClassStatic()->getConstructor<JHybridVideoDownloaderSpecImpl::javaobject()>();
+    jni::local_ref<JHybridVideoDownloaderSpec::JavaPart> javaPart = javaClassStatic()->newObject(constructorFn);
+    return javaPart->getJHybridVideoDownloaderSpec();
+  }
+};
 
 void registerAllNatives() {
   using namespace margelo::nitro;
   using namespace margelo::nitro::video;
 
   // Register native JNI methods
+  margelo::nitro::video::JHybridVideoDownloaderSpec::CxxPart::registerNatives();
+  margelo::nitro::video::JFunc_void_cxx::registerNatives();
+  margelo::nitro::video::JFunc_void_DownloadProgress_cxx::registerNatives();
   margelo::nitro::video::JHybridVideoPlayerSpec::CxxPart::registerNatives();
   margelo::nitro::video::JHybridVideoPlayerFactorySpec::CxxPart::registerNatives();
   margelo::nitro::video::JHybridVideoPlayerEventEmitterSpec::CxxPart::registerNatives();
-  margelo::nitro::video::JFunc_void_cxx::registerNatives();
   margelo::nitro::video::JFunc_void_bool_cxx::registerNatives();
   margelo::nitro::video::JFunc_void_BandwidthData_cxx::registerNatives();
   margelo::nitro::video::JFunc_void_onLoadData_cxx::registerNatives();
@@ -115,6 +127,12 @@ void registerAllNatives() {
     "VideoViewViewManagerFactory",
     []() -> std::shared_ptr<HybridObject> {
       return JHybridVideoViewViewManagerFactorySpecImpl::create();
+    }
+  );
+  HybridObjectRegistry::registerHybridObjectConstructor(
+    "VideoDownloader",
+    []() -> std::shared_ptr<HybridObject> {
+      return JHybridVideoDownloaderSpecImpl::create();
     }
   );
 }
